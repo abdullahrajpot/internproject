@@ -3,7 +3,7 @@ import App from '../App'; // Root layout with Header
 import Home from './Frontend/Home';
 import About from './Frontend/About';
 
-const router = createBrowserRouter([
+const Router = createBrowserRouter([
   {
     path: '/',
     element: <App />, // This includes the Header
@@ -14,4 +14,4 @@ const router = createBrowserRouter([
   }
 ]);
 
-export default router;
+export default Router;
