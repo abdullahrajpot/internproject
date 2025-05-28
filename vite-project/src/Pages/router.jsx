@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App'; // Root layout with Header
-import Home from '../Pages/Frontend/Home';
-import About from '../Pages/Frontend/About';
+import Home from './Frontend/Home';
+import About from './Frontend/About';
 
 const router = createBrowserRouter([
   {
