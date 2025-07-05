@@ -29,10 +29,14 @@ const Header = () => {
         {/* Auth Buttons */}
         <div className="hidden lg:flex space-x-4">
           <button className="px-4 py-2 border border-orange-500 text-orange-500 rounded hover:bg-orange-500 hover:text-black transition">
-            Sign In
+            <Link to='/auth'>
+              Sign In
+            </Link>
           </button>
           <button className="px-4 py-2 bg-orange-500 text-black font-semibold rounded hover:bg-orange-600 transition">
-            Sign Up
+           <Link to='/auth/register'>
+              Sign Up
+            </Link>
           </button>
         </div>
       </div>
