@@ -199,50 +199,31 @@ export default function HeroSection() {
             </button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-4 sm:px-8">
             {services.map((service, index) => (
               <div
                 key={index}
-                className="relative bg-[#1a1a1a] hover:bg-[#222222] transition-all duration-500 rounded-3xl p-8 group border border-gray-800/30 hover:border-gray-700/50 transform hover:-translate-y-2 hover:shadow-2xl min-h-[320px] flex flex-col"
+                className="relative bg-[#121212] hover:bg-[#181818] transition duration-500 rounded-2xl p-6 group border border-gray-800 hover:border-gray-700 transform hover:-translate-y-2 hover:shadow-lg flex flex-col"
               >
-                {/* 3D Icon */}
+                {/* Icon */}
                 <div className="mb-6 flex justify-start">
-                  <div className="relative w-24 h-24 flex items-center justify-center">
-                    {/* 3D Icon Effect */}
-                    <div className="relative">
-                      {/* Shadow/Base layer */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-gray-600 to-gray-800 rounded-2xl transform translate-x-1 translate-y-1 opacity-30"></div>
-                      
-                      {/* Main icon container */}
-                      <div className="relative w-20 h-20 bg-gradient-to-br from-gray-200 to-gray-400 rounded-2xl flex items-center justify-center shadow-xl transform group-hover:scale-105 transition-transform duration-300">
-                        <div className="text-3xl text-gray-800 transform group-hover:rotate-3 transition-transform duration-300">
-                          {service.icon}
-                        </div>
-                      </div>
-
-                      {/* Highlight effect */}
-                      <div className="absolute top-2 left-2 w-16 h-8 bg-gradient-to-br from-white/20 to-transparent rounded-xl"></div>
-                    </div>
+                  <div className="w-16 h-16 bg-gradient-to-br from-gray-300 to-gray-100 rounded-xl shadow-md flex items-center justify-center group-hover:scale-105 transform transition duration-300">
+                    <div className="text-2xl text-gray-800">{service.icon}</div>
                   </div>
                 </div>
 
-                {/* Content */}
-                <div className="flex-1 flex flex-col justify-between text-left">
-                  <div>
-                    <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-orange-400 transition-colors duration-300">
-                      {service.title}
-                    </h3>
-                    <p className="text-gray-400 text-sm leading-relaxed group-hover:text-gray-300 transition-colors duration-300 line-clamp-4">
-                      {service.description}
-                    </p>
-                  </div>
+                {/* Text Content */}
+                <div className="flex-1 text-left">
+                  <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-orange-400 transition duration-300">
+                    {service.title}
+                  </h3>
+                  <p className="text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition duration-300">
+                    {service.description}
+                  </p>
                 </div>
 
-                {/* Subtle gradient overlay on hover */}
-                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-orange-500/0 via-transparent to-orange-600/0 group-hover:from-orange-500/5 group-hover:to-orange-600/5 transition-all duration-500 pointer-events-none"></div>
-                
-                {/* Glow effect on hover */}
-                <div className="absolute -inset-0.5 rounded-3xl bg-gradient-to-br from-orange-500/0 to-orange-600/0 group-hover:from-orange-500/20 group-hover:to-orange-600/20 opacity-0 group-hover:opacity-100 transition-all duration-500 -z-10 blur-sm"></div>
+                {/* Glow Effect (Subtle) */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-orange-500/0 to-orange-600/0 group-hover:from-orange-500/10 group-hover:to-orange-600/10 opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none blur-md -z-10"></div>
               </div>
             ))}
           </div>
@@ -255,11 +236,11 @@ export default function HeroSection() {
         <div className="absolute -top-32 -left-32 w-96 h-96 bg-orange-500 rounded-full opacity-20 blur-3xl animate-pulse-slow"></div>
         <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-orange-500 rounded-full opacity-20 blur-3xl animate-pulse-slow"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-orange-400 rounded-full opacity-10 blur-3xl animate-float"></div>
-        
+
         {/* Additional floating elements */}
         <div className="absolute top-32 left-20 w-48 h-48 bg-orange-600 rounded-full opacity-15 blur-2xl animate-float-delayed"></div>
         <div className="absolute bottom-40 right-32 w-32 h-32 bg-orange-400 rounded-full opacity-25 blur-xl animate-float-reverse"></div>
-        
+
         {/* Floating Geometric Shapes */}
         <div className="absolute top-20 right-20 opacity-10">
           <div className="animate-float-delayed">
@@ -274,7 +255,7 @@ export default function HeroSection() {
             </svg>
           </div>
         </div>
-        
+
         <div className="absolute bottom-32 left-16 opacity-10">
           <div className="animate-float-reverse">
             <svg width="80" height="80" viewBox="0 0 80 80">
@@ -290,7 +271,7 @@ export default function HeroSection() {
             </svg>
           </div>
         </div>
-        
+
         <div className="max-w-5xl mx-auto relative z-10">
           {/* Header */}
           <div className={`text-center mb-16 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
@@ -310,11 +291,10 @@ export default function HeroSection() {
           {/* FAQ Items */}
           <div className="space-y-4 mb-16">
             {faqs.map((faq, index) => (
-              <div 
+              <div
                 key={index}
-                className={`bg-[#1a1a1a] border border-gray-800/30 rounded-2xl overflow-hidden transition-all duration-500 hover:border-gray-700/50 hover:shadow-2xl transform hover:-translate-y-1 ${
-                  openFAQ === index ? 'border-orange-500/30 shadow-orange-500/10 shadow-xl bg-[#1f1f1f]' : ''
-                } ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
+                className={`bg-[#1a1a1a] border border-gray-800/30 rounded-2xl overflow-hidden transition-all duration-500 hover:border-gray-700/50 hover:shadow-2xl transform hover:-translate-y-1 ${openFAQ === index ? 'border-orange-500/30 shadow-orange-500/10 shadow-xl bg-[#1f1f1f]' : ''
+                  } ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
                 style={{ animationDelay: `${(index + 1) * 150}ms` }}
               >
                 {/* Question Header */}
@@ -323,45 +303,40 @@ export default function HeroSection() {
                   className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-gray-800/30 transition-all duration-300 group"
                 >
                   <div className="flex items-center gap-4 flex-1">
-                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl transition-all duration-300 transform group-hover:scale-105 ${
-                      openFAQ === index 
-                        ? 'bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg shadow-orange-500/25' 
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl transition-all duration-300 transform group-hover:scale-105 ${openFAQ === index
+                        ? 'bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg shadow-orange-500/25'
                         : 'bg-gradient-to-br from-gray-700 to-gray-900 group-hover:from-gray-600 group-hover:to-gray-800'
-                    }`}>
+                      }`}>
                       <span className="filter drop-shadow-sm">{faq.icon}</span>
                     </div>
-                    <h3 className={`text-xl font-semibold transition-colors duration-300 ${
-                      openFAQ === index ? 'text-orange-400' : 'text-white group-hover:text-orange-400'
-                    }`}>
+                    <h3 className={`text-xl font-semibold transition-colors duration-300 ${openFAQ === index ? 'text-orange-400' : 'text-white group-hover:text-orange-400'
+                      }`}>
                       {faq.question}
                     </h3>
                   </div>
-                  
+
                   <div className="flex items-center gap-3 ml-4">
                     {openFAQ === index ? (
                       <span className="text-sm text-orange-400 font-medium">Close</span>
                     ) : (
                       <span className="text-sm text-gray-400 font-medium group-hover:text-orange-400 transition-colors">Open</span>
                     )}
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 transform ${
-                      openFAQ === index 
-                        ? 'bg-orange-500 rotate-180 shadow-lg shadow-orange-500/25' 
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 transform ${openFAQ === index
+                        ? 'bg-orange-500 rotate-180 shadow-lg shadow-orange-500/25'
                         : 'bg-gray-800 group-hover:bg-gray-700 group-hover:scale-105'
-                    }`}>
-                      <ChevronDown className={`w-4 h-4 transition-colors duration-300 ${
-                        openFAQ === index ? 'text-white' : 'text-gray-400 group-hover:text-orange-400'
-                      }`} />
+                      }`}>
+                      <ChevronDown className={`w-4 h-4 transition-colors duration-300 ${openFAQ === index ? 'text-white' : 'text-gray-400 group-hover:text-orange-400'
+                        }`} />
                     </div>
                   </div>
                 </button>
 
                 {/* Answer Content */}
-                <div 
-                  className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                    openFAQ === index 
-                      ? 'max-h-96 opacity-100' 
+                <div
+                  className={`overflow-hidden transition-all duration-500 ease-in-out ${openFAQ === index
+                      ? 'max-h-96 opacity-100'
                       : 'max-h-0 opacity-0'
-                  }`}
+                    }`}
                 >
                   <div className="px-8 pb-6">
                     <div className="ml-16 border-l-2 border-orange-500/20 pl-6 relative">
@@ -389,10 +364,10 @@ export default function HeroSection() {
               <div className="absolute bottom-4 right-4 w-16 h-16 border-2 border-orange-500 rounded-full animate-pulse"></div>
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 border border-orange-500/30 rounded-full animate-spin-slow"></div>
             </div>
-            
+
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 via-transparent to-orange-600/5"></div>
-            
+
             <div className="relative z-10">
               <h3 className="text-2xl font-bold mb-4 text-white">Still have questions?</h3>
               <p className="text-gray-300 mb-6 max-w-lg mx-auto">
