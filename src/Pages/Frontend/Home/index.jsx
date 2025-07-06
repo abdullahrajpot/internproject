@@ -160,15 +160,16 @@ export default function HeroSection() {
             </span>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4 text-orange-500">
-            Why Choose Our Internship Platform
+          <h2 className="text-3xl sm:text-4xl font-bold text-white text-center">
+            Why Choose <span className="text-orange-500">Our Internship Platform</span>
           </h2>
 
-          <p className="text-gray-300 mb-10">
-            Our mission is to bridge the gap between learning and doing — by helping students gain practical, career-ready skills through internships.
+          <p className="text-gray-300 max-w-xl mx-auto text-center text-base sm:text-lg mt-4 leading-relaxed">
+            We bridge the gap between learning and doing by helping students gain practical, career-ready skills through internships.
           </p>
 
-          <div className="overflow-hidden rounded-xl shadow-xl mb-10">
+
+          <div className="overflow-hidden rounded-2xl shadow-lg mb-10">
             <img
               src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8dGVjaG5vbG9neXxlbnwwfHwwfHx8MA%3D%3D"
               alt="Why Choose Us"
@@ -176,10 +177,13 @@ export default function HeroSection() {
             />
           </div>
 
-          <p className="text-gray-400 max-w-2xl mx-auto mb-8 leading-relaxed">
-            We believe talent shouldn't go unnoticed — our mission is to bridge the gap between academic learning and the working world. By partnering with top organizations and mentors, we help students and graduates gain meaningful experience, grow their confidence, and kickstart their careers.
+          <p className="text-gray-400 text-center max-w-3xl mx-auto mt-8 leading-relaxed text-base sm:text-lg">
+            We believe talent shouldn't go unnoticed — our mission is to connect academic learning with the professional world.
+            <br />
+            Through partnerships with top mentors and organizations, we help students gain real-world experience, grow their confidence, and launch their careers.
+            <br />
+            <br />
           </p>
-
           <a
             href="#"
             className="inline-block bg-orange-600 hover:bg-orange-700 text-white font-medium px-6 py-3 rounded-full shadow-md transition-transform transform hover:scale-105"
@@ -251,6 +255,7 @@ export default function HeroSection() {
                   <stop stopColor="#f97316" />
                   <stop offset="1" stopColor="#f97316" stopOpacity="0" />
                 </linearGradient>
+
               </defs>
             </svg>
           </div>
@@ -304,8 +309,8 @@ export default function HeroSection() {
                 >
                   <div className="flex items-center gap-4 flex-1">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl transition-all duration-300 transform group-hover:scale-105 ${openFAQ === index
-                        ? 'bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg shadow-orange-500/25'
-                        : 'bg-gradient-to-br from-gray-700 to-gray-900 group-hover:from-gray-600 group-hover:to-gray-800'
+                      ? 'bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg shadow-orange-500/25'
+                      : 'bg-gradient-to-br from-gray-700 to-gray-900 group-hover:from-gray-600 group-hover:to-gray-800'
                       }`}>
                       <span className="filter drop-shadow-sm">{faq.icon}</span>
                     </div>
@@ -322,8 +327,8 @@ export default function HeroSection() {
                       <span className="text-sm text-gray-400 font-medium group-hover:text-orange-400 transition-colors">Open</span>
                     )}
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 transform ${openFAQ === index
-                        ? 'bg-orange-500 rotate-180 shadow-lg shadow-orange-500/25'
-                        : 'bg-gray-800 group-hover:bg-gray-700 group-hover:scale-105'
+                      ? 'bg-orange-500 rotate-180 shadow-lg shadow-orange-500/25'
+                      : 'bg-gray-800 group-hover:bg-gray-700 group-hover:scale-105'
                       }`}>
                       <ChevronDown className={`w-4 h-4 transition-colors duration-300 ${openFAQ === index ? 'text-white' : 'text-gray-400 group-hover:text-orange-400'
                         }`} />
@@ -334,8 +339,8 @@ export default function HeroSection() {
                 {/* Answer Content */}
                 <div
                   className={`overflow-hidden transition-all duration-500 ease-in-out ${openFAQ === index
-                      ? 'max-h-96 opacity-100'
-                      : 'max-h-0 opacity-0'
+                    ? 'max-h-96 opacity-100'
+                    : 'max-h-0 opacity-0'
                     }`}
                 >
                   <div className="px-8 pb-6">

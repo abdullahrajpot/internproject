@@ -1,42 +1,62 @@
-import React from 'react'
-import { Input } from 'antd'
-import { Link } from 'react-router-dom'
-import { CloseOutlined,LeftOutlined,MailOutlined } from '@ant-design/icons';
+import React from 'react';
+import { Input } from 'antd';
+import { Link } from 'react-router-dom';
+import { CloseOutlined, LeftOutlined, MailOutlined } from '@ant-design/icons';
 
-
-export default function Login() {
+export default function ForgotPassword() {
   return (
-    <div style={{ backgroundColor: ' #111827', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <form className='border border-gray-500 text-gray-700 py-5 px-10 ' style={{ backgroundColor: '#fff', height: '500px', borderRadius: "20px", width: '350px', position: "relative" }}>
+    <div className="relative h-screen w-full flex justify-center items-center bg-[#111827] overflow-hidden">
+    
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-orange-500 rounded-full opacity-20 blur-3xl pointer-events-none"></div>
+      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-orange-500 rounded-full opacity-20 blur-3xl pointer-events-none"></div>
 
-
-        <Link style={{ position: 'absolute', top: '15px', left: '20px', fontSize: '16px', color: 'parrot' }} to='/auth'>
+      <form className="relative border border-gray-300 text-gray-700 py-6 px-8 bg-white rounded-2xl w-[350px] shadow-lg">
+        <Link
+          to="/auth"
+          className="absolute top-4 left-5 text-gray-600 text-lg hover:text-orange-500 transition"
+        >
           <LeftOutlined />
         </Link>
-
-        <Link to='/' style={{ position: 'absolute', top: '15px', right: '20px', fontSize: '16px', color: "parrot" }}>
+        <Link
+          to="/"
+          className="absolute top-4 right-5 text-gray-600 text-lg hover:text-orange-500 transition"
+        >
           <CloseOutlined />
         </Link>
 
+      <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
+          Forgot Password
+        </h1>
 
-        <div className="mb-3">
-          <h1 className="text-4xl text-center py-5 font-bold mb-3">Forgot Password</h1>
+        <div className="mb-6">
+          <label htmlFor="email" className="text-sm font-medium block mb-1">
+            Email address
+          </label>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            style={{ height: '40px', borderRadius: '12px' }}
+            suffix={<MailOutlined style={{ color: '#aaa' }} />}
+          />
         </div>
 
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">Email address</label>
-          <Input type="email" name='email' id="email" aria-describedby="emailHelp" suffix={<MailOutlined style={{ color: '#aaa' }} />}  style={{ height: "45px", borderRadius: "15px" }} />
-        </div>
-
-        <div className='text-center py-4'>
-          <button className="bg-orange-500 hover:bg-orange-600 text-white px-28 py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-orange-500/25 hover:shadow-xl">
+        <div className="text-center">
+          <button
+            type="submit"
+            className="bg-orange-500 hover:bg-orange-600 text-white w-full py-3 rounded-full font-semibold transition-transform duration-300 hover:scale-105 shadow-md"
+          >
             Send
           </button>
         </div>
-        <div style={{ position: "absolute", bottom: "20px", left: "50%", transform: "translateX(-50%)", width: "100%", textAlign: "center" }}>
-          <p className='text-center text-sm '>Don't have an account? <Link to='/auth/register' style={{ color: 'black' }}>Register</Link></p>
-        </div>
+
+        <p className="text-sm text-center text-gray-600 mt-6">
+          Don't have an account?{' '}
+          <Link to="/auth/register" className="text-orange-500 font-medium">
+            Register
+          </Link>
+        </p>
       </form>
     </div>
-  )
+  );
 }

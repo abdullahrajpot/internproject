@@ -1,60 +1,104 @@
 import React from 'react'
 import { Input } from 'antd'
 import { Link } from 'react-router-dom'
-import { LeftOutlined ,CloseOutlined,UserOutlined,MailOutlined } from '@ant-design/icons';
+import {
+  LeftOutlined,
+  CloseOutlined,
+  UserOutlined,
+  MailOutlined
+} from '@ant-design/icons'
 
 export default function Register() {
   return (
-    <div style={{ backgroundColor: ' #111827', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <form className='border border-gray-500 text-gray-700 py-5 px-10 ' style={{ backgroundColor: '#fff', height: '500px', borderRadius: "20px", width: '350px', position: "relative" }}>
+    <div className="relative h-screen w-full flex justify-center items-center bg-[#111827] overflow-hidden">
 
-        <Link style={{ position: 'absolute', top: '15px', left: '20px', fontSize: '16px', color: 'parrot' }} to='/auth'>
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-orange-500 rounded-full opacity-20 blur-3xl pointer-events-none"></div>
+      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-orange-500 rounded-full opacity-20 blur-3xl pointer-events-none"></div>
+
+      <form className="relative border border-gray-300 text-gray-700 py-6 px-8 bg-white rounded-2xl w-[350px] shadow-lg">
+        <Link
+          to="/auth"
+          className="absolute top-4 left-5 text-gray-600 text-lg hover:text-orange-500 transition"
+        >
           <LeftOutlined />
         </Link>
-
-        <Link to='/' style={{ position: 'absolute', top: '15px', right: '20px', fontSize: '16px', color: "parrot" }}>
+        <Link
+          to="/"
+          className="absolute top-4 right-5 text-gray-600 text-lg hover:text-orange-500 transition"
+        >
           <CloseOutlined />
         </Link>
 
+        <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">
+          Register
+        </h1>
 
-        <div className="mb-3">
-          <h1 className="text-4xl text-center py-5 font-bold mb-3">Register</h1>
+        <div className="mb-4">
+          <label htmlFor="name" className="text-sm font-medium block mb-1">
+            Name
+          </label>
+          <Input
+            id="name"
+            name="name"
+            type="text"
+            style={{ height: '40px', borderRadius: '12px' }}
+            suffix={<UserOutlined style={{ color: '#aaa' }} />}
+          />
         </div>
 
-
-        <div className="mb-3">
-          <label htmlFor="name" className="form-label">Name</label>
-          <Input type="text" name='name' id="name" style={{ height: "35px", borderRadius: "15px" }} suffix={<UserOutlined style={{ color: '#aaa' }} />} />
+        <div className="mb-4">
+          <label htmlFor="email" className="text-sm font-medium block mb-1">
+            Email address
+          </label>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            style={{ height: '40px', borderRadius: '12px' }}
+            suffix={<MailOutlined style={{ color: '#aaa' }} />}
+          />
         </div>
 
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">Email address</label>
-          <Input type="email" name='email' id="email" aria-describedby="emailHelp" style={{ height: "35px", borderRadius: "15px" }} suffix={<MailOutlined style={{ color: '#aaa' }} />}  />
+        <div className="mb-4">
+          <label htmlFor="password" className="text-sm font-medium block mb-1">
+            Password
+          </label>
+          <Input.Password
+            id="password"
+            name="password"
+            style={{ height: '40px', borderRadius: '12px' }}
+          />
         </div>
 
-        <div className="mb-3" style={{ position: "relative" }}>
-          <label htmlFor="password" className="form-label">Password</label>
-          <Input.Password type="password" name='password' id="password" style={{ height: "35px", borderRadius: "15px" }} />
+        <div className="mb-6">
+          <label
+            htmlFor="confirmPassword"
+            className="text-sm font-medium block mb-1"
+          >
+            Confirm Password
+          </label>
+          <Input.Password
+            id="confirmPassword"
+            name="confirmPassword"
+            style={{ height: '40px', borderRadius: '12px' }}
+          />
         </div>
 
-
-        <div className="mb-3">
-          <label htmlFor="confirmPassword" className="form-label">Cofirm Password</label>
-          <Input.Password type="confirmPassword" name='confirmPassword' id="confirmPassword" style={{ height: "35px", borderRadius: "15px" }} />
-        </div>
-
-        <div className='text-center'>
-          <button className="bg-orange-500 hover:bg-orange-600 text-white px-28 py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-orange-500/25 hover:shadow-xl">
-            Login
+        <div className="text-center">
+          <button
+            type="submit"
+            className="bg-orange-500 hover:bg-orange-600 text-white w-full py-3 rounded-full font-semibold transition-transform duration-300 hover:scale-105 shadow-md"
+          >
+            Register
           </button>
         </div>
 
-        <div style={{
-          position: "absolute", bottom: "20px", left: "50%", transform: "translateX(-50%)",
-          width: "100%", textAlign: "center"
-        }}>
-          <p className='small text-center text-sm'>Already have an account? <Link to='/auth' style={{ color: 'black' }}>Login</Link></p>
-        </div>
+        <p className="text-sm text-center text-gray-600 mt-6">
+          Already have an account?{' '}
+          <Link to="/auth" className="text-orange-500 font-medium">
+            Login
+          </Link>
+        </p>
       </form>
     </div>
   )
