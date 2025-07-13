@@ -4,12 +4,14 @@ import { Outlet } from 'react-router-dom'
 import Header from '../../components/Header'
 import Home from './Home'
 import About from './About'
+import Footer from '../../components/Footer'
 
 const Frontend = () => {
   return (
     <>
       <Header />
       <Outlet />
+      <Footer/>
     </>
   )
 }
