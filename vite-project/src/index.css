@@ -90,3 +90,222 @@ html {
 // main {
 //     flex: 1 0 auto;
 // } */
+
+
+
+.landing-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px;
+  background-color: #111827; /* Dark background for white text */
+}
+
+.text-content {
+  color: white;
+  max-width: 50%;
+}
+
+.text-content h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.text-content p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.strategy-button {
+  background-color: #ff7f50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.strategy-button:hover {
+  background-color: #ff5722;
+}
+
+.image-content {
+  perspective: 1000px;
+}
+
+.rotating-image {
+  width: 600px;
+  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1); /* Ultra smooth */
+  will-change: transform;
+}
+
+@media (max-width: 768px) {
+  .landing-container {
+    flex-direction: column;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .text-content {
+    max-width: 100%;
+  }
+
+  .text-content h1 {
+    font-size: 2rem;
+  }
+
+  .text-content p {
+    font-size: 1rem;
+  }
+
+  .strategy-button {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  /* 🔴 Hide image on smaller screens */
+  .image-content {
+    display: none;
+  }
+}
+
+
+.stats-dark-wrapper {
+  position: relative;
+  background: linear-gradient(to bottom right, #111827, #000000, #111827); /* Dark gradient */
+  min-height: 100vh;
+  padding: 4rem 2rem;
+  overflow: hidden;
+}
+
+/* Background floating blobs */
+.animated-blobs .blob {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.2;
+}
+
+.blob1 {
+  top: 10%;
+  left: 10%;
+  width: 80px;
+  height: 80px;
+  background-color: #fb923c;
+  animation: pulse 3s infinite;
+}
+
+.blob2 {
+  top: 20%;
+  right: 20%;
+  width: 64px;
+  height: 64px;
+  background-color: #f87171;
+  animation: bounce 5s infinite;
+}
+
+.blob3 {
+  bottom: 10%;
+  left: 25%;
+  width: 48px;
+  height: 48px;
+  background-color: #fdba74;
+  animation: ping 4s infinite;
+}
+
+.blob4 {
+  bottom: 20%;
+  right: 30%;
+  width: 96px;
+  height: 96px;
+  background-color: #fecaca;
+  animation: pulse 6s infinite;
+}
+
+/* Stats cards */
+.stats-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.stat-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 2rem 3rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  cursor: default;
+  width: 220px;
+  color: #fcd34d;
+  backdrop-filter: blur(4px);
+  animation: fade-in-up 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.stat-card:hover {
+  transform: scale(0.96);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
+}
+
+.icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Reuse your animations or keep them here */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}

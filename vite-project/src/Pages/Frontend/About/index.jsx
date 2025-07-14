@@ -92,7 +92,7 @@ const AboutUs = () => {
       <div className="relative overflow-hidden bg-gradient-to-br from-black via-red-900/20 to-black">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-500/5 to-transparent"></div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 text-center">
-          <p className="text-orange-500 text-lg font-medium mb-4 animate-fade-in">About Us</p>
+          {/* <p className="text-orange-500 text-lg font-medium mb-4 animate-fade-in">About Us</p> */}
           <h1 className="text-4xl md:text-6xl font-bold mb-8 bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent animate-pulse-glow">
             Bringing Your Vision to Life<br />
             <span className="text-3xl md:text-5xl">with Expertise and Dedication</span>

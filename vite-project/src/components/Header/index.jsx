@@ -30,6 +30,12 @@ const Header = () => {
           >
             Internships
           </Link>
+          <Link
+            to="/services"
+            className="hover:text-orange-400 transition-colors font-medium"
+          >
+            Services
+          </Link>
         </nav>
 
         {/* Auth Buttons */}
