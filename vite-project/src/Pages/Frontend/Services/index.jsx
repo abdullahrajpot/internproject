@@ -1,12 +1,18 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { CaretRightOutlined } from '@ant-design/icons';
 import bannerImage from '../../../assests/services.png'
 import chatbotImage from '../../../assests/chatbot.png'
 import webDevImage from '../../../assests/webDev.png'
 import analyticImage from '../../../assests/analytic.png'
+import { useLocation } from 'react-router-dom';
 
 function Services() {
     const [rotation, setRotation] = useState({ x: 0, y: 0 });
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [pathname]);
 
     const handleMouseMove = (e) => {
         const bounds = e.currentTarget.getBoundingClientRect();

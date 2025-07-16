@@ -8,6 +8,7 @@ import Register from './Auth/Register';
 import ForgotPassword from './Auth/ForgotPassword';
 import Internship from './Frontend/Internship';
 import Services from './Frontend/Services';
+import ResetPassword from './Auth/ResetPassword';
 
 
 const Router = createBrowserRouter([
@@ -27,7 +28,8 @@ const Router = createBrowserRouter([
     children: [
       { index: true, element: <Login /> },
       { path: 'register', element: <Register /> },
-      { path: "forgot-password", element: <ForgotPassword /> }
+      { path: "forgot-password", element: <ForgotPassword /> },
+      { path: "reset-password", element: <ResetPassword /> }
     ]
   }
 ]);

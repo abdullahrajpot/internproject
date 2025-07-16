@@ -1,9 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronUp, Users, Award, Target, Lightbulb, Shield, Star, TrendingUp } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 
 const AboutUs = () => {
   const [isVisible, setIsVisible] = useState({});
   const observerRef = useRef(null);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   useEffect(() => {
     observerRef.current = new IntersectionObserver(
@@ -65,8 +71,8 @@ const AboutUs = () => {
       </div>
       <div className={`${reverse ? 'lg:col-start-1' : ''}`}>
         <div className="relative overflow-hidden rounded-2xl shadow-2xl group">
-          <img 
-            src={imageSrc} 
+          <img
+            src={imageSrc}
             alt={title}
             className="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-110"
             onError={(e) => {
@@ -103,7 +109,7 @@ const AboutUs = () => {
       <div className="max-w-7xl mx-auto px-6">
         {/* Hero Section */}
         <div className="relative my-16 h-[500px] rounded-3xl overflow-hidden bg-gradient-to-br from-orange-500 to-red-500">
-          <img 
+          <img
             src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1926&q=80"
             alt="Dynamic business team collaboration"
             className="absolute inset-0 w-full h-full object-cover opacity-85 transition-transform duration-500 hover:scale-105"
@@ -125,12 +131,11 @@ const AboutUs = () => {
         </div>
 
         {/* Stats Section */}
-        <div 
+        <div
           id="stats"
           data-animate
-          className={`my-20 p-16 bg-gradient-to-br from-orange-500/10 to-transparent rounded-3xl backdrop-blur-sm border border-orange-500/20 transition-all duration-700 ${
-            isVisible.stats ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}
+          className={`my-20 p-16 bg-gradient-to-br from-orange-500/10 to-transparent rounded-3xl backdrop-blur-sm border border-orange-500/20 transition-all duration-700 ${isVisible.stats ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
         >
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
             <StatItem number="100+" label="Projects Completed" icon={Target} />
@@ -143,12 +148,11 @@ const AboutUs = () => {
 
         {/* Journey Section */}
         <div className="my-20">
-          <div 
+          <div
             id="journey-title"
             data-animate
-            className={`text-center mb-16 transition-all duration-700 ${
-              isVisible['journey-title'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
+            className={`text-center mb-16 transition-all duration-700 ${isVisible['journey-title'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              }`}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-orange-500 mb-4">
               The VisionCrafters Journey Story
@@ -157,12 +161,11 @@ const AboutUs = () => {
           </div>
 
           <div className="space-y-20">
-            <div 
+            <div
               id="journey-1"
               data-animate
-              className={`transition-all duration-700 delay-200 ${
-                isVisible['journey-1'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
+              className={`transition-all duration-700 delay-200 ${isVisible['journey-1'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                }`}
             >
               <JourneySection
                 title="Inception Vision"
@@ -171,12 +174,11 @@ const AboutUs = () => {
               />
             </div>
 
-            <div 
+            <div
               id="journey-2"
               data-animate
-              className={`transition-all duration-700 delay-300 ${
-                isVisible['journey-2'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
+              className={`transition-all duration-700 delay-300 ${isVisible['journey-2'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                }`}
             >
               <JourneySection
                 title="Evolutionary Journey"
@@ -186,12 +188,11 @@ const AboutUs = () => {
               />
             </div>
 
-            <div 
+            <div
               id="journey-3"
               data-animate
-              className={`transition-all duration-700 delay-400 ${
-                isVisible['journey-3'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
+              className={`transition-all duration-700 delay-400 ${isVisible['journey-3'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                }`}
             >
               <JourneySection
                 title="Commitment to Excellence"
@@ -200,12 +201,11 @@ const AboutUs = () => {
               />
             </div>
 
-            <div 
+            <div
               id="journey-4"
               data-animate
-              className={`transition-all duration-700 delay-500 ${
-                isVisible['journey-4'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
+              className={`transition-all duration-700 delay-500 ${isVisible['journey-4'] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+                }`}
             >
               <JourneySection
                 title="Client-Centric Approach"
@@ -218,12 +218,11 @@ const AboutUs = () => {
         </div>
 
         {/* Values Section */}
-        <div 
+        <div
           id="values"
           data-animate
-          className={`my-20 p-16 bg-gradient-to-br from-orange-500/5 to-black/80 rounded-3xl transition-all duration-700 ${
-            isVisible.values ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-          }`}
+          className={`my-20 p-16 bg-gradient-to-br from-orange-500/5 to-black/80 rounded-3xl transition-all duration-700 ${isVisible.values ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+            }`}
         >
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-orange-500 mb-4">Our Core Values</h2>

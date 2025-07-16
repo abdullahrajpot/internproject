@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Briefcase, Code, Palette, Database, Globe, Smartphone, Brain, Rocket } from 'lucide-react';
 import { sendApplicationEmail } from '../../services/emailService';
+import {useLocation} from "react-router-dom"
 
 const Internship = () => {
   const [selectedDomain, setSelectedDomain] = useState(null);
@@ -16,6 +17,11 @@ const Internship = () => {
     motivation: '',
     portfolio: ''
   });
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   const domains = [
     {
@@ -107,10 +113,10 @@ const Internship = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       const result = await sendApplicationEmail(formData, selectedDomain);
-      
+
       if (result.success) {
         alert(result.message);
       } else {
@@ -119,7 +125,7 @@ const Internship = () => {
     } catch (error) {
       alert('An error occurred while submitting your application. Please try again.');
     }
-    
+
     // Reset form
     setFormData({
       name: '',
@@ -154,7 +160,7 @@ const Internship = () => {
           <div className="absolute bottom-10 left-1/4 w-12 h-12 bg-orange-300 rounded-full opacity-25 animate-ping"></div>
           <div className="absolute bottom-20 right-1/3 w-24 h-24 bg-red-300 rounded-full opacity-20 animate-pulse"></div>
         </div>
-        
+
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className="animate-fade-in-up">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-orange-200 bg-clip-text text-transparent animate-float">
@@ -203,7 +209,7 @@ const Internship = () => {
             Select from our diverse range of internship opportunities and start your journey
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {domains.map((domain, index) => (
             <div
@@ -218,7 +224,7 @@ const Internship = () => {
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white rounded-full -translate-y-16 translate-x-16"></div>
                   <div className="absolute bottom-0 left-0 w-24 h-24 bg-white rounded-full translate-y-12 -translate-x-12"></div>
                 </div>
-                
+
                 <div className="relative z-10">
                   <div className="mb-6 flex items-center justify-center">
                     <span className="bg-white bg-opacity-90 p-3 rounded-2xl inline-block animate-float shadow-lg">
@@ -228,7 +234,7 @@ const Internship = () => {
                   <h3 className="text-2xl font-bold mb-4 group-hover:text-orange-200 transition-colors duration-300">{domain.name}</h3>
                   <p className="text-orange-100 text-sm mb-6 leading-relaxed">{domain.description}</p>
                 </div>
-                
+
                 <div className="mt-auto relative z-10">
                   <div className="flex flex-wrap gap-2 mb-4">
                     {domain.skills.slice(0, 3).map((skill, skillIndex) => (
@@ -252,7 +258,7 @@ const Internship = () => {
                     </span>
                   </div>
                 </div>
-                
+
                 {/* Hover Effect Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </div>

@@ -1,10 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
+import { useLocation } from "react-router-dom"
 
 export default function HeroSection() {
   const [isVisible, setIsVisible] = useState(false);
   const [openFAQ, setOpenFAQ] = useState(0); // Track which FAQ is open
   const videoRef = useRef(null);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   useEffect(() => {
     setIsVisible(true);
@@ -330,8 +336,8 @@ export default function HeroSection() {
                 >
                   <div className="flex items-center gap-4 flex-1">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl transition-all duration-300 transform group-hover:scale-105 ${openFAQ === index
-                        ? 'bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg shadow-orange-500/25'
-                        : 'bg-gradient-to-br from-gray-700 to-gray-900 group-hover:from-gray-600 group-hover:to-gray-800'
+                      ? 'bg-gradient-to-br from-orange-500 to-orange-600 shadow-lg shadow-orange-500/25'
+                      : 'bg-gradient-to-br from-gray-700 to-gray-900 group-hover:from-gray-600 group-hover:to-gray-800'
                       }`}>
                       <span className="filter drop-shadow-sm">{faq.icon}</span>
                     </div>
@@ -348,8 +354,8 @@ export default function HeroSection() {
                       <span className="text-sm text-gray-400 font-medium group-hover:text-orange-400 transition-colors">Open</span>
                     )}
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 transform ${openFAQ === index
-                        ? 'bg-orange-500 rotate-180 shadow-lg shadow-orange-500/25'
-                        : 'bg-gray-800 group-hover:bg-gray-700 group-hover:scale-105'
+                      ? 'bg-orange-500 rotate-180 shadow-lg shadow-orange-500/25'
+                      : 'bg-gray-800 group-hover:bg-gray-700 group-hover:scale-105'
                       }`}>
                       <ChevronDown className={`w-4 h-4 transition-colors duration-300 ${openFAQ === index ? 'text-white' : 'text-gray-400 group-hover:text-orange-400'
                         }`} />
@@ -360,8 +366,8 @@ export default function HeroSection() {
                 {/* Answer Content */}
                 <div
                   className={`overflow-hidden transition-all duration-500 ease-in-out ${openFAQ === index
-                      ? 'max-h-96 opacity-100'
-                      : 'max-h-0 opacity-0'
+                    ? 'max-h-96 opacity-100'
+                    : 'max-h-0 opacity-0'
                     }`}
                 >
                   <div className="px-8 pb-6">

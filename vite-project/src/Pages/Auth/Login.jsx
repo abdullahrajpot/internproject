@@ -5,7 +5,6 @@ import { CloseOutlined, UserOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import { useAuth } from '../../Contexts/AuthContext';
 import { toast } from "react-toastify";
-// import { useAuth } from '../context/AuthContext';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -19,7 +18,7 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post("http://localhost:5000/api/auth/login", {
+      const { data } = await axios.post("http://localhost:5173/api/auth/login", {
         email: form.email,
         password: form.password
       });
@@ -34,6 +33,10 @@ export default function Login() {
 
   return (
     <div className="relative h-screen w-full flex justify-center items-center bg-[#111827] overflow-hidden">
+
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-orange-500 rounded-full opacity-20 blur-3xl pointer-events-none"></div>
+      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-orange-500 rounded-full opacity-20 blur-3xl pointer-events-none"></div>
+
       <form onSubmit={handleSubmit} className="relative border border-gray-300 text-gray-700 py-6 px-8 bg-white rounded-2xl w-[350px] shadow-lg">
         <Link to="/" className="absolute top-4 right-5 text-gray-600 text-lg">
           <CloseOutlined />
@@ -45,8 +48,9 @@ export default function Login() {
           <Input name="email" type="email" value={form.email} onChange={handleChange} suffix={<UserOutlined />} />
         </div>
 
-        <div className="mb-6">
+        <div className="mb-6 relative">
           <label htmlFor="password">Password</label>
+          <Link to="/auth/forgot-password" className="absolute right-0 top-0 text-sm">Forgot Password</Link>
           <Input.Password name="password" value={form.password} onChange={handleChange} />
         </div>
 

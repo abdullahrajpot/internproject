@@ -14,7 +14,7 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     console.log("registered")
     // Validation
     if (!form.name || !form.email || !form.password || !form.confirmPassword) {
@@ -35,7 +35,7 @@ export default function Register() {
     setLoading(true);
 
     try {
-      const { data } = await axios.post("http://localhost:5000/api/auth/register", {
+      const { data } = await axios.post("http://localhost:5173/api/auth/register", {
         name: form.name,
         email: form.email,
         password: form.password
@@ -57,16 +57,21 @@ export default function Register() {
 
   return (
     <div className="relative h-screen w-full flex justify-center items-center bg-[#111827] overflow-hidden">
+
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-orange-500 rounded-full opacity-20 blur-3xl pointer-events-none"></div>
+      <div className="absolute -bottom-32 -right-32 w-96 h-96 bg-orange-500 rounded-full opacity-20 blur-3xl pointer-events-none"></div>
+
+
       <form onSubmit={handleSubmit} className="relative border border-gray-300 text-gray-700 py-6 px-8 bg-white rounded-2xl w-[350px] shadow-lg">
         <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">Register</h1>
 
         <div className="mb-4">
           <label htmlFor="name">Name</label>
-          <Input 
-            name="name" 
-            type="text" 
-            value={form.name} 
-            onChange={handleChange} 
+          <Input
+            name="name"
+            type="text"
+            value={form.name}
+            onChange={handleChange}
             suffix={<UserOutlined />}
             required
           />
@@ -74,11 +79,11 @@ export default function Register() {
 
         <div className="mb-4">
           <label htmlFor="email">Email</label>
-          <Input 
-            name="email" 
-            type="email" 
-            value={form.email} 
-            onChange={handleChange} 
+          <Input
+            name="email"
+            type="email"
+            value={form.email}
+            onChange={handleChange}
             suffix={<MailOutlined />}
             required
           />
@@ -86,9 +91,9 @@ export default function Register() {
 
         <div className="mb-4">
           <label htmlFor="password">Password</label>
-          <Input.Password 
-            name="password" 
-            value={form.password} 
+          <Input.Password
+            name="password"
+            value={form.password}
             onChange={handleChange}
             required
           />
@@ -96,16 +101,16 @@ export default function Register() {
 
         <div className="mb-6">
           <label htmlFor="confirmPassword">Confirm Password</label>
-          <Input.Password 
-            name="confirmPassword" 
-            value={form.confirmPassword} 
+          <Input.Password
+            name="confirmPassword"
+            value={form.confirmPassword}
             onChange={handleChange}
             required
           />
         </div>
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className="bg-orange-500 text-white py-2 w-full rounded-full disabled:opacity-50"
           disabled={loading}
         >
