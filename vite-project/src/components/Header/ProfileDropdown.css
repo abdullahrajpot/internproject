@@ -1,0 +1,25 @@
+.dropdown-enter {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.98);
+}
+.dropdown-enter-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition: opacity 200ms, transform 200ms;
+}
+.dropdown-exit {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.dropdown-exit-active {
+  opacity: 0;
+  transform: translateY(-10px) scale(0.98);
+  transition: opacity 200ms, transform 200ms;
+}
+.animate-fadeIn {
+  animation: fadeIn 0.2s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+} 
