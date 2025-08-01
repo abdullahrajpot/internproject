@@ -13,7 +13,7 @@ import Roadmap from './Frontend/Roadmap';
 import RoadmapDetail from './Frontend/RoadmapDetail';
 import StepResources from './Frontend/RoadmapDetail/StepResources';
 import DashboardRoutes from './DashBoard';
-import ProtectedRoute from '../Components/ProtectedRoute';
+import ProtectedRoute from '../components/ProtectedRoute';
 import InternDashboardRoutes from './InternDashboard';
 import Profile from './Frontend/Profile';
 
