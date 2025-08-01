@@ -25,9 +25,15 @@ app.get("/", (req, res) => {
 
 // Import routes
 const authRoutes = require('./routes/Auth');
+const taskRoutes = require('./routes/Task');
 
 // Mount routes correctly - the route file already has '/register'
 app.use('/api/auth', authRoutes);
+app.use('/api/task', taskRoutes);
+
+//download file
+const path = require('path');
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

@@ -6,6 +6,7 @@ import Router from './Pages/route';
 import { AuthProvider } from './Contexts/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { UserProvider } from './Contexts/UserContext';
 
 
 // import router from './Pages';
@@ -13,9 +14,12 @@ import 'react-toastify/dist/ReactToastify.css';
 
 createRoot(document.getElementById('root')).render(
   <AuthProvider>
+    <UserProvider>
+
   <StrictMode>
 <ToastContainer position="top-right" autoClose={3000} />
     <RouterProvider router={Router} />
   </StrictMode>
+    </UserProvider>
   </AuthProvider>
 );

@@ -12,7 +12,6 @@ export const emailConfig = {
 
 export const sendApplicationEmail = async (formData, selectedDomain) => {
   try {
-    // This function will be implemented once EmailJS is properly configured
     const templateParams = {
       to_name: 'Recruitment Team',
       from_name: formData.name,
@@ -42,19 +41,38 @@ export const sendApplicationEmail = async (formData, selectedDomain) => {
       `
     };
 
-    // Uncomment and configure once EmailJS is set up:
     const response = await emailjs.send(
       emailConfig.serviceId,
       emailConfig.templateId,
       templateParams,
       emailConfig.userId
     );
-    
-    // For now, just return success
     return { success: true, message: 'Application submitted successfully!' };
   } catch (error) {
     console.error('Email sending failed:', error);
     return { success: false, message: 'Failed to send application. Please try again.' };
+  }
+};
+
+export const sendServiceOrderEmail = async (formData, selectedService) => {
+  try {
+    const templateParams = {
+      to_name: 'Client Team',
+      from_name: formData.name,
+      from_email: formData.email,
+      phone: formData.phone,
+      service: selectedService.title,
+      message: formData.message,
+    };
+    const response = await emailjs.send(
+      emailConfig.serviceId,
+      emailConfig.templateId,
+      templateParams,
+      emailConfig.userId
+    );
+    return { success: true, message: 'Order sent successfully!' };
+  } catch (error) {
+    return { success: false, message: 'Failed to send order. Please try again.' };
   }
 };
 

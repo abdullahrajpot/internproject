@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom"
 import AnimatedDivider from '../AnimatedDivider';
 import { motion } from "framer-motion";
 import Typewriter from 'typewriter-effect';
+import LeftIcons from '../LeftSideIcons';
 import {
   ClipboardList,
   Briefcase,
@@ -47,38 +48,12 @@ export default function HeroSection() {
     }
   }, []);
 
-  const imageData = [
-  {
-    url: "https://avatars.githubusercontent.com/u/157162403?v=4",
-    name: "Abdullah",
-    roles: ["Frontend Developer", "React Specialist", "UI Enthusiast"],
-  },
-  {
-    url: "https://avatars.githubusercontent.com/u/160607807?v=4",
-    name: "Adeel",
-    roles: ["Backend Developer", "Node.js Expert", "API Architect"],
-  },
-  {
-    url: "https://avatars.githubusercontent.com/u/141444564?v=4",
-    name: "Sarah",
-    roles: ["Full Stack Engineer", "DevOps Enthusiast"],
-  },
-  {
-    url: "https://avatars.githubusercontent.com/u/160710670?v=4",
-    name: "Maria",
-    roles: ["UI/UX Designer", "Figma Expert", "Creative Strategist"],
-  },
+  const imageUrls = [
+  "https://img.freepik.com/free-vector/internship-job-illustration_23-2148722413.jpg",
+  "https://i.pinimg.com/736x/0c/c2/25/0cc225973870ef500c1a07a8a8b260fa.jpg",
+  "https://img.freepik.com/premium-vector/internship-job-concept-illustration_23-2148754784.jpg",
+  "https://static.vecteezy.com/system/resources/previews/011/637/858/original/internship-flat-style-illustration-design-free-vector.jpg"
 ];
-
-  const [showTyping, setShowTyping] = useState(false);
-
-  useEffect(() => {
-    const totalDelay = (imageData.length - 1) * 0.3 + 0.9;
-    const timeout = setTimeout(() => {
-      setShowTyping(true);
-    }, totalDelay * 1000);
-    return () => clearTimeout(timeout);
-  }, []);
 
   const services = [
   {
@@ -166,7 +141,7 @@ export default function HeroSection() {
 
   return (
     <div className="relative text-white">
-    <div className="relative h-auto overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden">
   {/* Video Background */}
   <div className="absolute inset-0">
     <video
@@ -186,7 +161,11 @@ export default function HeroSection() {
   </div>
 
   {/* Content Layout: Stack on mobile, side-by-side on larger screens */}
-  <div className="relative z-10 flex flex-col-reverse sm:flex-row items-center justify-center">
+  <div className="relative z-10 flex flex-col-reverse sm:flex-row items-center justify-between min-h-screen px-4 sm:px-10">
+    {/* LeftIcons: show below text on mobile, left side on larger screens */}
+    <div className="w-full sm:w-1/2 flex items-center justify-center min-h-[250px] sm:min-h-screen">
+      <LeftIcons />
+    </div>
 
     {/* Hero Text */}
     <div
@@ -195,8 +174,8 @@ export default function HeroSection() {
       }`}
     >
       <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-white leading-tight">
-        <span className="block mt-13 text-center">Kickstart Your Career</span>
-        <span className="block text-orange-500 mt-2 text-center">
+        <span className="block mt-4 ">Kickstart Your Career</span>
+        <span className="block text-orange-500 mt-2">
           <Typewriter
             options={{
               strings: [
@@ -214,13 +193,13 @@ export default function HeroSection() {
         </span>
       </h1>
 
-      <p className="text-center sm:text-lg md:text-xl text-gray-300 mt-3 sm:mt-6 mb-6 sm:mb-8 leading-relaxed">
+      <p className="text-base sm:text-lg md:text-xl text-gray-300 mt-3 sm:mt-6 mb-6 sm:mb-8 leading-relaxed">
         Find internships, follow curated roadmaps,
         <br className="hidden sm:inline" />
         and learn from free YouTube courses — all in one place.
       </p>
 
-      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center sm:justify-center p-2 mb-15">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center sm:justify-end">
         <button className="bg-orange-500 hover:bg-orange-600 text-white px-5 sm:px-6 py-3 rounded-full font-medium transition-all transform hover:scale-105">
           Get Started
         </button>
@@ -231,7 +210,7 @@ export default function HeroSection() {
     </div>
   </div>
 </div>
-      <AnimatedDivider color="#ea580c"/>
+      <AnimatedDivider color="#ea580c" />
 
       {/* About Section */}
       <section className="relative text-white py-20 px-6 sm:px-12 overflow-hidden">
@@ -251,47 +230,23 @@ export default function HeroSection() {
             We bridge the gap between learning and doing by helping students gain practical, career-ready skills through internships.
           </p>
 
-          <h2 className="text-3xl sm:text-4xl font-bold text-white text-center mt-4 mb-10">
-            Platform <span className="text-orange-500">Owners</span>
-          </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mt-6 px-4">
-        {imageData.map((data, index) => (
-        <motion.div
-          key={index}
-          className="overflow-hidden w-full flex flex-col items-center"
-          initial={{ opacity: 0, y: 60 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, delay: index * 0.3 }}
-          viewport={{ once: true, amount: 0.3 }}
-        >
-          <img
-            src={data.url}
-            alt={`Owner ${index + 1}`}
-            className="w-45 h-45 rounded-full object-cover"
-          />
-
-          {showTyping && (
-          <div className="mt-4 text-center text-lg text-white font-bold">
-            <Typewriter
-              options={{
-                autoStart: true,
-                delay: 50,
-                deleteSpeed: 30,
-                loop: true,
-                html: true,
-                strings: [
-                `My name is <span class="text-orange-500">${data.name}</span>.`,
-                ...data.roles.map(
-                  (role) => `I specialize in <span class="text-orange-500">${role}</span>.`
-                ),
-              ],
-              }}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6 px-4">
+        {imageUrls.map((url, index) => (
+          <motion.div
+            key={index}
+            className="overflow-hidden rounded-full w-45 h-45 mx-auto"
+            initial={{ opacity: 0, y: 60 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: index * 0.3 }}
+            viewport={{ once: true, amount: 0.3 }}
+          >
+            <img
+              src={url}
+              alt={`Tech Banner ${index + 1}`}
+              className="w-full h-auto object-cover"
             />
-          </div>
-        )}
-        </motion.div>
-      ))}
+          </motion.div>
+        ))}
       </div>
 
           <p className="text-gray-400 text-center max-w-3xl mx-auto mt-8 leading-relaxed text-base sm:text-lg">

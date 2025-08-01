@@ -4,12 +4,22 @@ import bannerImage from '../../../assests/services.png'
 import chatbotImage from '../../../assests/chatbot.png'
 import webDevImage from '../../../assests/webDev.png'
 import analyticImage from '../../../assests/analytic.png'
+import mobileAppImage from '../../../assests/mobileApp.png'
+import testingImage from '../../../assests/testing.png'
 import { useLocation } from 'react-router-dom';
+import { sendServiceOrderEmail } from '../../../services/emailService';
 
 function Services() {
     const [rotation, setRotation] = useState({ x: 0, y: 0 });
     const { pathname } = useLocation();
-
+    const [selectedService, setSelectedService] = useState(null);
+    const [showOrderForm, setShowOrderForm] = useState(false);
+    const [orderForm, setOrderForm] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        message: ''
+    });
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [pathname]);
@@ -33,11 +43,38 @@ function Services() {
         setRotation({ x: 0, y: 0 });
     };
 
+    const handleOrderInputChange = (e) => {
+        const { name, value } = e.target;
+        setOrderForm(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleOrderSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const result = await sendServiceOrderEmail(orderForm, selectedService);
+            alert(result.message);
+        } catch (error) {
+            alert('An error occurred while sending your order. Please try again.');
+        }
+        setOrderForm({ name: '', email: '', phone: '', message: '' });
+        setShowOrderForm(false);
+        setSelectedService(null);
+    };
+
+    const openOrderForm = (service) => {
+        setSelectedService(service);
+        setShowOrderForm(true);
+    };
+    const closeOrderForm = () => {
+        setShowOrderForm(false);
+        setSelectedService(null);
+    };
+
     const stats = [
-        { icon: "https://s.w.org/images/core/emoji/15.1.0/svg/1f680.svg", value: "200+", label: "Projects Delivered" },
-        { icon: "https://s.w.org/images/core/emoji/15.1.0/svg/1f30d.svg", value: "10+", label: "Countries Represented" },
-        { icon: "https://s.w.org/images/core/emoji/15.1.0/svg/1f91d.svg", value: "50+", label: "Clients Served" },
-        { icon: "https://s.w.org/images/core/emoji/15.1.0/svg/1f465.svg", value: "100+", label: "Team Members" },
+        { icon: "https://s.w.org/images/core/emoji/15.1.0/svg/1f680.svg", value: "10+", label: "Projects Delivered" },
+        { icon: "https://s.w.org/images/core/emoji/15.1.0/svg/1f30d.svg", value: "5+", label: "Countries Represented" },
+        { icon: "https://s.w.org/images/core/emoji/15.1.0/svg/1f91d.svg", value: "5+", label: "Clients Served" },
+        { icon: "https://s.w.org/images/core/emoji/15.1.0/svg/1f465.svg", value: "4+", label: "Team Members" },
         { icon: "https://s.w.org/images/core/emoji/15.1.0/svg/1f4ac.svg", value: "24/7", label: "Support Available" },
     ];
 
@@ -47,6 +84,12 @@ function Services() {
             description: "Custom, responsive websites that look great and perform even better. Built for startups, creators, and businesses ready to scale.",
             button: "Get Started Today",
             image: webDevImage,
+        },
+        {
+            title: "Mobile app Development",
+            description: "Custom mobile app development for Android and iOS to bring your ideas to life with seamless performance and modern UI/UX.",
+            button: "Lets Build",
+            image: mobileAppImage,
         },
         {
             title: "Chatbot Development",
@@ -59,6 +102,12 @@ function Services() {
             description: "Transform your raw data into rich, interactive dashboards with actionable insights using Power BI. Drive smarter decisions for growth.",
             button: "Unlock Insights",
             image: analyticImage,
+        },
+        {
+            title: "Software Testing",
+            description: "Comprehensive software testing services to ensure quality, performance, and bug-free user experiences.",
+            button: "Test To Deliver",
+            image: testingImage,
         },
     ];
 
@@ -141,8 +190,9 @@ function Services() {
                                     <p className="text-gray-300 text-center flex-grow">{service.description}</p>
                                 </div>
 
-                                <button className="bg-orange-600 hover:bg-orange-700 transition-colors duration-300 w-full max-w-xs text-center px-6 py-2 rounded-full font-medium mt-6 self-center">
-                                    {service.button}
+                                <button className="bg-orange-600 hover:bg-orange-700 transition-colors duration-300 w-full max-w-xs text-center px-6 py-2 rounded-full font-medium mt-6 self-center"
+                                    onClick={() => openOrderForm(service)}>
+                                    Request Service
                                 </button>
                             </div>
                         ))}
@@ -150,7 +200,93 @@ function Services() {
                 </div>
             </section>
 
-
+            {/* Order Modal */}
+            {showOrderForm && selectedService && (
+                <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50 backdrop-blur-sm">
+                    <div className="bg-gradient-to-br from-gray-900 to-black rounded-3xl max-w-md w-full max-h-[90vh] overflow-y-auto border border-orange-500/20 shadow-2xl">
+                        <div className="p-8">
+                            <div className="flex justify-between items-center mb-8">
+                                <div>
+                                    <h2 className="text-2xl font-bold text-white mb-2">
+                                        Request: {selectedService.title}
+                                    </h2>
+                                    <span className="text-orange-300 text-sm">Fill out the form to request this service</span>
+                                </div>
+                                <button
+                                    onClick={closeOrderForm}
+                                    className="text-gray-400 hover:text-orange-400 text-3xl transition-colors duration-300 hover:scale-110"
+                                >
+                                    ×
+                                </button>
+                            </div>
+                            <form onSubmit={handleOrderSubmit} className="space-y-6">
+                                <div>
+                                    <label className="block text-sm font-medium text-orange-300 mb-2">Full Name *</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={orderForm.name}
+                                        onChange={handleOrderInputChange}
+                                        required
+                                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 hover:border-orange-400"
+                                        placeholder="Enter your full name"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-orange-300 mb-2">Email *</label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        value={orderForm.email}
+                                        onChange={handleOrderInputChange}
+                                        required
+                                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 hover:border-orange-400"
+                                        placeholder="Enter your email"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-orange-300 mb-2">Phone</label>
+                                    <input
+                                        type="tel"
+                                        name="phone"
+                                        value={orderForm.phone}
+                                        onChange={handleOrderInputChange}
+                                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 hover:border-orange-400"
+                                        placeholder="Enter your phone number"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-orange-300 mb-2">Message *</label>
+                                    <textarea
+                                        name="message"
+                                        value={orderForm.message}
+                                        onChange={handleOrderInputChange}
+                                        required
+                                        rows="4"
+                                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-400 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 hover:border-orange-400 resize-none"
+                                        placeholder="Describe your requirements, goals, or any questions you have"
+                                    />
+                                </div>
+                                <div className="flex gap-4 pt-2">
+                                    <button
+                                        type="submit"
+                                        className="flex-1 bg-gradient-to-r from-orange-500 to-red-500 text-white py-3 px-6 rounded-xl font-semibold hover:from-orange-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-orange-500/25"
+                                    >
+                                        Send Request
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={closeOrderForm}
+                                        className="flex-1 bg-gray-800 text-gray-300 py-3 px-6 rounded-xl font-semibold hover:bg-gray-700 hover:text-white transition-all duration-300 border border-gray-700 hover:border-gray-600"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <section className="bg-[#111827] text-white py-16 px-6">
                 <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">

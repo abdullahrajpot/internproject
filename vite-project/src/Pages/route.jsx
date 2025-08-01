@@ -9,7 +9,13 @@ import ForgotPassword from './Auth/ForgotPassword';
 import Internship from './Frontend/Internship';
 import Services from './Frontend/Services';
 import ResetPassword from './Auth/ResetPassword';
-
+import Roadmap from './Frontend/Roadmap';
+import RoadmapDetail from './Frontend/RoadmapDetail';
+import StepResources from './Frontend/RoadmapDetail/StepResources';
+import DashboardRoutes from './DashBoard';
+import ProtectedRoute from '../Components/ProtectedRoute';
+import InternDashboardRoutes from './InternDashboard';
+import Profile from './Frontend/Profile';
 
 const Router = createBrowserRouter([
   {
@@ -19,7 +25,15 @@ const Router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: 'about', element: <About /> },
       { path: 'internship', element: <Internship /> },
-      { path: 'services', element: <Services /> }
+      { path: 'services', element: <Services /> },
+      { path: 'roadmap', element: <Roadmap/> },
+      { path: 'roadmap/:id', element: <RoadmapDetail/> },
+      { path: 'roadmap/:roadmapId/step/:stepId', element: <StepResources/> },
+      { path: 'profile', element: (
+        <ProtectedRoute allowedRoles={['admin', 'intern', 'user']}>
+          <Profile />
+        </ProtectedRoute>
+      ) },
     ]
   },
   {
@@ -31,6 +45,22 @@ const Router = createBrowserRouter([
       { path: "forgot-password", element: <ForgotPassword /> },
       { path: "reset-password", element: <ResetPassword /> }
     ]
+  },
+  {
+    path: '/dashboard/*',
+    element: (
+      <ProtectedRoute allowedRoles={['admin']}>
+        <DashboardRoutes />
+      </ProtectedRoute>
+    )
+  }
+  , {
+    path: '/interndashboard/*',
+    element: (
+      <ProtectedRoute allowedRoles={['intern']}>
+        <InternDashboardRoutes />
+      </ProtectedRoute>
+    )
   }
 ]);
 

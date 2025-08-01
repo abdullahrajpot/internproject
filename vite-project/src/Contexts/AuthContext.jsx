@@ -25,6 +25,12 @@ export function AuthProvider({ children }) {
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(user));
     dispatch({ type: "LOGIN", payload: { user } });
+
+    if (user.role === "admin") {
+      window.location.href = "/dashboard"; // Admin
+    } else {
+      window.location.href = "/"; // Regular user
+    }
   };
 
   const logout = () => {
@@ -32,6 +38,8 @@ export function AuthProvider({ children }) {
     localStorage.removeItem("user");
     dispatch({ type: "LOGOUT" });
     window.toastify("Logged out successfully", "success");
+
+
   };
 
   useEffect(() => {
