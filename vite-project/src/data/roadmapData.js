@@ -15,36 +15,37 @@ export const roadmapData = {
     totalSteps: 8,
     steps: [
       { id: 1, title: "HTML Fundamentals", description: "Learn the basics of HTML and how to structure web pages", type: "foundation", resources: 3, estimatedTime: "1-2 weeks", topics: ["HTML tags", "Semantic HTML", "Forms", "Accessibility"], resources: [
-        { title: "HTML Crash Course", url: "https://www.youtube.com/embed/UB1O30fR-EE" },
-        { title: "Semantic HTML Explained", url: "https://www.youtube.com/embed/qz0aGYrrlhU" }
+        { title: "HTML Crash Course Playlist", url: "https://www.youtube.com/embed/videoseries?list=PLu71SKxNbfoDBNF5s-WH6aLbthSEIMhMI" },
+        { title: "HTML5 in 1 Shot Explained", url: "https://www.youtube.com/embed/HD13eq_Pmp8" }
       ] },
       { id: 2, title: "CSS Styling", description: "Master styling, layouts, and responsive design", type: "foundation", resources: 4, estimatedTime: "2-3 weeks", topics: ["CSS selectors", "Box model", "Flexbox", "Grid", "Responsive design"], resources: [
-        { title: "CSS Crash Course", url: "https://www.youtube.com/embed/yfoY53QXEnI" },
-        { title: "Flexbox in 20 Minutes", url: "https://www.youtube.com/embed/JJSoEo8JSnc" }
+        { title: "CSS RoadMap Guide Course", url: "https://www.youtube.com/embed/aLzfFJb8rWo" },
+        { title: "CSS Crash Course", url: "https://www.youtube.com/embed/WuiB5TAQOAM" }
       ] },
       { id: 3, title: "JavaScript Basics", description: "Learn programming fundamentals and DOM manipulation", type: "core", resources: 6, estimatedTime: "4-6 weeks", topics: ["Variables", "Functions", "Arrays", "Objects", "DOM manipulation", "Events"], resources: [
-        { title: "JavaScript Tutorial for Beginners", url: "https://www.youtube.com/embed/W6NZfCO5SIk" },
-        { title: "DOM Manipulation", url: "https://www.youtube.com/embed/0ik6X4DJKCc" }
+        { title: "JavaScript Playlist for Beginners", url: "https://www.youtube.com/embed/videoseries?list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37" },
+        { title: "Javascript Playlist in 1 Shot", url: "https://www.youtube.com/embed/videoseries?list=PLHzs8hOU-sf5_9JNubPJpgMvTQSlaeRCe" }
       ] },
       { id: 4, title: "Version Control", description: "Learn Git and GitHub for code management", type: "tool", resources: 2, estimatedTime: "1-2 weeks", topics: ["Git basics", "GitHub", "Branching", "Collaboration"], resources: [
-        { title: "Git & GitHub Crash Course", url: "https://www.youtube.com/embed/SWYqp7iY_Tc" }
+        { title: "Git & GitHub Crash Course in Hindi", url: "https://www.youtube.com/embed/q8EevlEpQ2A" },
+        { title: "Git & GitHub Crash Course in Hindi", url: "https://www.youtube.com/embed/gwWKnnCMQ5c" }
       ] },
       { id: 5, title: "CSS Frameworks", description: "Explore frameworks like Tailwind CSS or Bootstrap", type: "enhancement", resources: 3, estimatedTime: "2-3 weeks", topics: ["Tailwind CSS", "Bootstrap", "Component libraries"], resources: [
-        { title: "Tailwind CSS Crash Course", url: "https://www.youtube.com/embed/UBOj6rqRUME" },
-        { title: "Bootstrap 5 Crash Course", url: "https://www.youtube.com/embed/4sosXZsdy-s" }
+        { title: "Tailwind CSS Crash Course", url: "https://www.youtube.com/embed/_9mTJ84uL1Q" },
+        { title: "Bootstrap 5 Crash Course", url: "https://www.youtube.com/embed/-qfEOE4vtxE" }
       ] },
       { id: 6, title: "JavaScript Frameworks", description: "Choose and learn React, Vue, or Angular", type: "core", resources: 8, estimatedTime: "6-8 weeks", topics: ["React basics", "Components", "State management", "Hooks", "Routing"], resources: [
-        { title: "React JS Crash Course", url: "https://www.youtube.com/embed/w7ejDZ8SWv8" },
-        { title: "Vue JS Crash Course", url: "https://www.youtube.com/embed/FXpIoQ_rT_c" },
-        { title: "Angular Crash Course", url: "https://www.youtube.com/embed/Fdf5aTYRW0E" }
+        { title: "React JS Crash Course", url: "https://www.youtube.com/embed/videoseries?list=PLu71SKxNbfoDqgPchmvIsL4hTnJIrtige" },
+        { title: "Vue JS Crash Course", url: "https://www.youtube.com/embed/videoseries?list=PLRAV69dS1uWTpHQgiV4rZFlnuS8XDl71A" },
+        { title: "Angular Crash Course", url: "https://www.youtube.com/embed/0LhBvp8qpro" }
       ] },
       { id: 7, title: "Build Tools", description: "Learn about bundlers like Webpack, Vite, or Parcel", type: "tool", resources: 3, estimatedTime: "2-3 weeks", topics: ["Vite", "Webpack", "Package managers", "Development tools"], resources: [
         { title: "Webpack Crash Course", url: "https://www.youtube.com/embed/IZGNcSuwBZs" },
-        { title: "Vite in 100 Seconds", url: "https://www.youtube.com/embed/2x6bJ8Tt2xk" }
+        { title: "Vite in 100 Seconds", url: "https://www.youtube.com/embed/KCrXgy8qtjM" }
       ] },
       { id: 8, title: "Deployment", description: "Learn CI/CD, hosting platforms, and deployment strategies", type: "final", resources: 4, estimatedTime: "2-3 weeks", topics: ["Netlify", "Vercel", "GitHub Pages", "Domain setup"], resources: [
         { title: "Deploy React App to Netlify", url: "https://www.youtube.com/embed/8YPXv7xKh2w" },
-        { title: "Deploy React App to Vercel", url: "https://www.youtube.com/embed/2n3KssK0L6A" }
+        { title: "Deploy React App to Vercel", url: "https://www.youtube.com/embed/hAuyNf0Uk-w" }
       ] }
     ]
   },
