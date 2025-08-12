@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Filter, Bookmark, BookmarkCheck, Code, Server, Smartphone, Database, Cloud, Zap, Users, Brain, Shield } from 'lucide-react';
 import { getAllRoadmaps } from '../../../data/roadmapData';
+import { useAuth } from '../../../Contexts/AuthContext';
 
 // Icon mapping
 const iconMap = {
@@ -18,6 +19,7 @@ const iconMap = {
 
 const Roadmap = () => {
   const navigate = useNavigate();
+  const {isAuthenticated} = useAuth();;
   const [selectedCategory, setSelectedCategory] = useState('All Roadmaps');
   const [searchTerm, setSearchTerm] = useState('');
   const [bookmarkedItems, setBookmarkedItems] = useState(new Set());
@@ -56,6 +58,11 @@ const Roadmap = () => {
   };
 
   const handleRoadmapClick = (roadmapId) => {
+    if (!isAuthenticated) {
+      navigate('/auth');
+      return;
+    }
+
     navigate(`/roadmap/${roadmapId}`);
   };
 

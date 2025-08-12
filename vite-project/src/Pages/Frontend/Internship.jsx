@@ -1,9 +1,13 @@
 import React, { useState,useEffect } from 'react';
 import { Briefcase, Code, Palette, Database, Globe, Smartphone, Brain, Rocket } from 'lucide-react';
 import { sendApplicationEmail } from '../../services/emailService';
-import {useLocation} from "react-router-dom"
+import {useLocation, useNavigate} from "react-router-dom"
+import { useAuth } from '../../Contexts/AuthContext';
+import { toast } from 'react-toastify';
 
 const Internship = () => {
+  const {isAuthenticated} = useAuth();
+  const navigate = useNavigate();
   const [selectedDomain, setSelectedDomain] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -99,8 +103,16 @@ const Internship = () => {
   ];
 
   const handleCardClick = (domain) => {
-    setSelectedDomain(domain);
-    setShowForm(true);
+
+if (!isAuthenticated){
+  toast.error('Please log in to apply for internhsip');
+  navigate ('/auth');
+  return;
+}else{
+
+  setSelectedDomain(domain);
+  setShowForm(true);
+}
   };
 
   const handleInputChange = (e) => {

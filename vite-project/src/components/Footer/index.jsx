@@ -1,12 +1,12 @@
 import React from 'react';
-import { Mail, Phone, MapPin, Calendar, FileText, Users, Building, Clock, Facebook, Twitter, Linkedin } from 'lucide-react';
+import { Home, Mail, Phone, MapPin, Calendar, FileText, Building, Clock, Facebook, Twitter, Linkedin, Info, Briefcase } from 'lucide-react';
 
 export default function Footer() {
   return (
     <footer className="bg-[#0a1f3d] text-gray-300 border-t border-[#123055]">
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          
+
           {/* Platform Info */}
           <div className="space-y-4">
             <h3 className="text-2xl font-bold text-white">InternHub</h3>
@@ -30,10 +30,12 @@ export default function Footer() {
           <div>
             <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:text-cyan-400 flex items-center"><Users className="w-4 h-4 mr-2" />Browse Internships</a></li>
-              <li><a href="#" className="hover:text-cyan-400 flex items-center"><Building className="w-4 h-4 mr-2" />Companies</a></li>
-              <li><a href="#" className="hover:text-cyan-400 flex items-center"><FileText className="w-4 h-4 mr-2" />Application Status</a></li>
-              <li><a href="#" className="hover:text-cyan-400 flex items-center"><Calendar className="w-4 h-4 mr-2" />Academic Calendar</a></li>
+              <li><a href="/" className="hover:text-cyan-400 flex items-center"><Home className="w-4 h-4 mr-2" />Home</a></li>
+              <li><a href="/about" className="hover:text-cyan-400 flex items-center"><Info className="w-4 h-4 mr-2" />About</a></li>
+              <li><a href="/services" className="hover:text-cyan-400 flex items-center"><Building className="w-4 h-4 mr-2" />Services</a></li>
+              <li><a href="internship" className="hover:text-cyan-400 flex items-center"><Briefcase className="w-4 h-4 mr-2" />Browse Internships</a></li>
+              <li><a href="/roadmap" className="hover:text-cyan-400 flex items-center"><Calendar className="w-4 h-4 mr-2" />Roadmap</a></li>
+              <li><a href="#" className="hover:text-cyan-400 flex items-center"><Phone className="w-4 h-4 mr-2" />ContactUs</a></li>
             </ul>
           </div>
 
@@ -54,7 +56,7 @@ export default function Footer() {
             <h4 className="text-lg font-semibold text-white mb-4">Contact Us</h4>
             <div className="space-y-3 text-sm text-gray-400">
               <div className="flex items-center"><Mail className="w-4 h-4 mr-3 text-cyan-400" />info@internhub.edu</div>
-              <div className="flex items-center"><Phone className="w-4 h-4 mr-3 text-cyan-400" />+92 300 1234567</div>
+              <div className="flex items-center"><Phone className="w-4 h-4 mr-3 text-cyan-400" />+92 300 7965044</div>
               <div className="flex items-start"><MapPin className="w-4 h-4 mr-3 mt-1 text-cyan-400" />University Campus, Faisalabad, Punjab, Pakistan</div>
               <div className="flex items-center"><Clock className="w-4 h-4 mr-3 text-cyan-400" />Mon - Fri: 9:00 AM - 5:00 PM</div>
             </div>

@@ -29,7 +29,7 @@ const upload = multer({ storage, fileFilter });
 // Assign a new task to an intern with file upload
 router.post("/assign", upload.single("file"), async (req, res) => {
   try {
-    const { title, deadline, assignedDate, assignedTo } = req.body;
+    const { title,description, deadline, assignedDate, assignedTo } = req.body;
     let filePath = req.file ? req.file.path : undefined;
 
     // Find the user by email or id
@@ -45,6 +45,7 @@ router.post("/assign", upload.single("file"), async (req, res) => {
 
     const task = new Task({
       title,
+      description,
       deadline,
       assignedDate: assignedDate || Date.now(),
       file: filePath,
@@ -73,6 +74,7 @@ router.get("/assigned", async (req, res) => {
     const formattedTasks = tasks.map(task => ({
       _id: task._id,
       title: task.title,
+      description: task.description,
       deadline: task.deadline ? task.deadline.toISOString().slice(0, 10) : '',
       assignedDate: task.assignedDate ? task.assignedDate.toISOString().slice(0, 10) : '',
       file: task.file,
