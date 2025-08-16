@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search, Filter, Bookmark, BookmarkCheck, Code, Server, Smartphone, Database, Cloud, Zap, Users, Brain, Shield } from 'lucide-react';
 import { getAllRoadmaps } from '../../../data/roadmapData';
-
 // Icon mapping
 const iconMap = {
   Code: Code,
@@ -22,6 +21,11 @@ const Roadmap = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [bookmarkedItems, setBookmarkedItems] = useState(new Set());
   const [filteredRoadmaps, setFilteredRoadmaps] = useState([]);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   // Get roadmap data from the data file
   const roadmaps = getAllRoadmaps();
@@ -89,15 +93,17 @@ const Roadmap = () => {
             <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
               Browse the ever-growing list of up-to-date, community driven roadmaps
             </p>
-            
+
             {/* Action Buttons */}
             <div className="flex flex-wrap justify-center gap-4 mb-8">
-              <button className="px-8 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full font-semibold hover:from-orange-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl">
-                Draw your own roadmap
-              </button>
-              <button className="px-8 py-3 bg-gray-700 text-white rounded-full font-semibold hover:bg-gray-600 transition-all duration-300 border border-gray-600">
+              <Link to='/roadmap-generator'>
+                <button className="px-8 py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white rounded-full font-semibold hover:from-orange-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl">
+                  Generate Roadmap with AI
+                </button>
+              </Link>
+              {/* <button className="px-8 py-3 bg-gray-700 text-white rounded-full font-semibold hover:bg-gray-600 transition-all duration-300 border border-gray-600">
                 Generate Roadmaps with AI
-              </button>
+              </button> */}
             </div>
 
             {/* Search Bar */}
@@ -125,17 +131,16 @@ const Roadmap = () => {
                 <Filter className="w-5 h-5 text-orange-500" />
                 <h3 className="text-lg font-semibold">Filter by Category</h3>
               </div>
-              
+
               <div className="space-y-2">
                 {categories.map((category) => (
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
-                    className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 ${
-                      selectedCategory === category
-                        ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg'
-                        : 'text-gray-300 hover:bg-gray-700 hover:text-white'
-                    }`}
+                    className={`w-full text-left px-4 py-3 rounded-lg transition-all duration-200 ${selectedCategory === category
+                      ? 'bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg'
+                      : 'text-gray-300 hover:bg-gray-700 hover:text-white'
+                      }`}
                   >
                     {category}
                   </button>
@@ -156,7 +161,7 @@ const Roadmap = () => {
                 <div
                   key={roadmap.id}
                   onClick={() => handleRoadmapClick(roadmap.id)}
-                  className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-orange-500/50 transition-all duration-300 group hover:shadow-xl hover:shadow-orange-500/10 cursor-pointer"
+                  className="bg-gray-800 rounded-xl p-6 border border-gray-700 hover:border-orange-500/50 transition-all duration-300 group hover:shadow-xl hover:shadow-orange-500/10 cursor-pointer flex flex-col"
                 >
                   {/* Header */}
                   <div className="flex items-start justify-between mb-4">
@@ -212,8 +217,11 @@ const Roadmap = () => {
                     )}
                   </div>
 
+                  {/* Spacer to push button to bottom */}
+                  <div className="flex-grow"></div>
+
                   {/* Action Button */}
-                  <button 
+                  <button
                     onClick={(e) => {
                       e.stopPropagation();
                       handleRoadmapClick(roadmap.id);
@@ -223,6 +231,7 @@ const Roadmap = () => {
                     Start Learning
                   </button>
                 </div>
+
               ))}
             </div>
 

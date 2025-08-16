@@ -16,6 +16,7 @@ import DashboardRoutes from './DashBoard';
 import ProtectedRoute from '../components/ProtectedRoute';
 import InternDashboardRoutes from './InternDashboard';
 import Profile from './Frontend/Profile';
+import RoadmapGenerator from './Frontend/RoadmapGenerator';
 
 const Router = createBrowserRouter([
   {
@@ -28,6 +29,7 @@ const Router = createBrowserRouter([
       { path: 'services', element: <Services /> },
       { path: 'roadmap', element: <Roadmap/> },
       { path: 'roadmap/:id', element: <RoadmapDetail/> },
+      { path: 'roadmap-generator', element: <RoadmapGenerator /> },
       { path: 'roadmap/:roadmapId/step/:stepId', element: <StepResources/> },
       { path: 'profile', element: (
         <ProtectedRoute allowedRoles={['admin', 'intern', 'user']}>
