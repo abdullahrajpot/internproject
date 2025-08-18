@@ -9,7 +9,9 @@ export default function AssignTask() {
   const { users, loading, error: userError, getUsersByRole } = useUsers() || {};
   const internees = getUsersByRole ? getUsersByRole('intern') : [];
   const [form, setForm] = useState({
+
     title: '',
+    description: '',
     deadline: '',
     assignedDate: new Date().toISOString().slice(0, 10),
     file: null,
@@ -49,13 +51,14 @@ export default function AssignTask() {
     try {
       const formData = new FormData();
       formData.append('title', form.title);
+      formData.append('description', form.description);
       formData.append('deadline', form.deadline);
       formData.append('assignedDate', form.assignedDate);
       formData.append('file', form.file);
       formData.append('assignedTo', form.internId);
       await axios.post('http://localhost:5000/api/task/assign', formData);
       setSuccess('Task assigned successfully!');
-      setForm({ title: '', deadline: '', assignedDate: new Date().toISOString().slice(0, 10), file: null, internId: '' });
+      setForm({ title: '', description: '', deadline: '', assignedDate: new Date().toISOString().slice(0, 10), file: null, internId: '' });
     } catch (err) {
       setError('Failed to assign task.');
     }
@@ -75,7 +78,7 @@ export default function AssignTask() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-10">
+    <div className="max-w-5xl mx-auto mt-10">
       {/* Card Layout for Form */}
       <div className="bg-white rounded-2xl shadow-lg p-8 mb-10 border border-gray-100">
         <div className="flex items-center gap-3 mb-6">
@@ -92,6 +95,15 @@ export default function AssignTask() {
               <input type="text" name="title" value={form.title} onChange={handleChange} required className="w-full border rounded px-3 py-2" />
             </div>
           </div>
+
+          <div>
+            <label className="block font-semibold mb-1">Task Description</label>
+            <div className="flex items-center gap-2">
+              <FaTasks className="text-gray-400" />
+              <input type="text" name="description" value={form.description} onChange={handleChange} required className="w-full border rounded px-3 py-2 " />
+            </div>
+          </div>
+
           <div>
             <label className="block font-semibold mb-1">Deadline</label>
             <div className="flex items-center gap-2">
@@ -151,6 +163,7 @@ export default function AssignTask() {
               <thead>
                 <tr className="bg-gray-100 text-gray-700 text-lg font-bold">
                   <th className="py-3 px-6 text-left">Title</th>
+                  <th className="py-3 px-6 text-left">Description</th>
                   <th className="py-3 px-6 text-left">Deadline</th>
                   <th className="py-3 px-6 text-left">Assigned Date</th>
                   <th className="py-3 px-6 text-left">Assigned To</th>
@@ -164,6 +177,8 @@ export default function AssignTask() {
                     `border-t ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'} hover:bg-green-50 transition`
                   }>
                     <td className="py-3 px-6 text-left">{task.title}</td>
+                    <td className="py-1 px-6 text-left line-clamp-2">{task.description}</td>
+
                     <td className="py-3 px-6 text-left">{task.deadline ? new Date(task.deadline).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '-'}</td>
                     <td className="py-3 px-6 text-left">{task.assignedDate ? new Date(task.assignedDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '-'}</td>
                     <td className="py-3 px-6 text-left">{task.assignedTo?.name || '-'}</td>

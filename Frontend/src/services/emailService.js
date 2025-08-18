@@ -2,8 +2,8 @@
 // You'll need to install emailjs-com: npm install emailjs-com
 // Then configure your EmailJS account and replace the placeholders below
 
-// import emailjs from 'emailjs-com';
-import emailjs from '@emailjs/browser'; // New import for emailjs-com
+import emailjs from 'emailjs-com';
+// import emailjs from '@emailjs/browser'; // New import for emailjs-com
 
 
 export const emailConfig = {

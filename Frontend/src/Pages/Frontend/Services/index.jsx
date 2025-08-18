@@ -6,10 +6,14 @@ import webDevImage from '../../../assests/webDev.png'
 import analyticImage from '../../../assests/analytic.png'
 import mobileAppImage from '../../../assests/mobileApp.png'
 import testingImage from '../../../assests/testing.png'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { sendServiceOrderEmail } from '../../../services/emailService';
+import { toast } from 'react-toastify';
+import { useAuth } from '../../../Contexts/AuthContext';
 
 function Services() {
+    const {isAuthenticated} = useAuth();
+    const navigate = useNavigate();
     const [rotation, setRotation] = useState({ x: 0, y: 0 });
     const { pathname } = useLocation();
     const [selectedService, setSelectedService] = useState(null);
@@ -62,6 +66,11 @@ function Services() {
     };
 
     const openOrderForm = (service) => {
+              if (!isAuthenticated){
+            toast.error('Please log in to request a service');
+      navigate('/auth');
+    return;    
+    }
         setSelectedService(service);
         setShowOrderForm(true);
     };
