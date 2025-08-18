@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+body, html {
+  overflow-x: hidden;   /* clip anything that spills out */
+}
 /* Custom Animations for Internship Page */
 @keyframes fade-in-up {
   from {
@@ -97,7 +100,7 @@ html {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 40px;
+  padding: 40px 28px;
   background-color: #111827; /* Dark background for white text */
 }
 
@@ -136,9 +139,10 @@ html {
 }
 
 .rotating-image {
-  width: 600px;
-  transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1); /* Ultra smooth */
-  will-change: transform;
+  width: 100%;          /* shrink if necessary */
+  max-width: 600px;     /* never exceed 600 px */
+  height: auto;
+  display: block;       /* removes extra space under the image */
 }
 
 @media (max-width: 768px) {

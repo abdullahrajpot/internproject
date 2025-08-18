@@ -221,12 +221,12 @@ const AboutUs = () => {
         <div
           id="values"
           data-animate
-          className={`my-20 p-16 bg-gradient-to-br from-orange-500/5 to-black/80 rounded-3xl transition-all duration-700 ${isVisible.values ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          className={`my-20 p-6 bg-gradient-to-br from-orange-500/5 to-black/80 rounded-3xl transition-all duration-700 ${isVisible.values ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}
         >
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-orange-500 mb-4">Our Core Values</h2>
-            <div className="w-24 h-1 bg-gradient-to-r from-orange-500 to-red-500 mx-auto rounded-full"></div>
+            <div className="w-28 h-1 bg-gradient-to-r from-orange-500 to-red-500 mx-auto rounded-full"></div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <ValueCard
