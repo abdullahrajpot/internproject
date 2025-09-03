@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { CaretRightOutlined } from '@ant-design/icons';
 import bannerImage from '../../../assests/services.png'
 import chatbotImage from '../../../assests/chatbot.png'
@@ -144,7 +144,9 @@ function Services() {
                     <p>
                         From startup-ready websites to intelligent chatbots and business dashboards — we build what your brand needs to grow.
                     </p>
-                    <button className="strategy-button">Get Strategy Call <CaretRightOutlined /></button>
+                    <a href="https://wa.me/923286990514" target="_blank" rel="noopener noreferrer" >
+                        <button className="strategy-button">Get Strategy Call <CaretRightOutlined /></button>
+                    </a>
                 </div>
                 <div className="image-content" onMouseMove={handleMouseMove} onMouseLeave={resetRotation}>
                     <img src={bannerImage} alt="Digital Strategy Visual" className="rotating-image" style={{ transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)` }} />
@@ -174,7 +176,7 @@ function Services() {
                 </div>
             </div>
 
-            <section className="bg-[#111827] py-16 px-4">
+            <section className="bg-[#111827] py-16 px-8">
                 <div className="max-w-6xl mx-auto text-center">
                     <h3 className="text-orange-400 uppercase text-sm font-semibold mb-2">
                         What We're Great At

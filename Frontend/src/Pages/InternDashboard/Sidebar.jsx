@@ -36,10 +36,10 @@ export default function Sidebar() {
       isActive: pathname === '/interndashboard/tasks'
     },
     { 
-      path: '/interndashboard/reports', 
+      path: '/interndashboard/Reports', 
       label: 'Reporting', 
       icon: <FaChartBar size={18} />,
-      isActive: pathname === '/interndashboard/reports'
+      isActive: pathname === '/interndashboard/Reports'
     },
     { 
       path: '/interndashboard/calendar', 
