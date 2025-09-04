@@ -1,13 +1,13 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../Contexts/AuthContext';
-import { 
-  FaHome, 
-  FaTasks, 
-  FaChartBar, 
-  FaCalendarAlt, 
-  FaFileAlt, 
-  FaCog, 
+import {
+  FaHome,
+  FaTasks,
+  FaChartBar,
+  FaCalendarAlt,
+  FaFileAlt,
+  FaCog,
   FaQuestionCircle,
   FaSignOutAlt,
   FaGraduationCap
@@ -23,39 +23,39 @@ export default function Sidebar() {
   };
 
   const menuItems = [
-    { 
-      path: '/interndashboard', 
-      label: 'Dashboard', 
+    {
+      path: '/interndashboard',
+      label: 'Dashboard',
       icon: <FaHome size={18} />,
       isActive: pathname === '/interndashboard'
     },
-    { 
-      path: '/interndashboard/tasks', 
-      label: 'My Tasks', 
+    {
+      path: '/interndashboard/tasks',
+      label: 'My Tasks',
       icon: <FaTasks size={18} />,
       isActive: pathname === '/interndashboard/tasks'
     },
-    { 
-      path: '/interndashboard/Reports', 
-      label: 'Reporting', 
+    {
+      path: '/interndashboard/Reports',
+      label: 'Reporting',
       icon: <FaChartBar size={18} />,
       isActive: pathname === '/interndashboard/Reports'
     },
-    { 
-      path: '/interndashboard/calendar', 
-      label: 'Calendar', 
+    {
+      path: '/interndashboard/calender',
+      label: 'Calender',
       icon: <FaCalendarAlt size={18} />,
-      isActive: pathname === '/interndashboard/calendar'
+      isActive: pathname === '/interndashboard/calender'
     },
     ...(user?.role === 'intern' ? [{
-      path: '/interndashboard/lms', 
-      label: 'LMS', 
+      path: '/interndashboard/lms',
+      label: 'LMS',
       icon: <FaGraduationCap size={18} />,
       isActive: pathname === '/interndashboard/lms'
     }] : []),
-    { 
-      path: '/interndashboard/documents', 
-      label: 'Documents', 
+    {
+      path: '/interndashboard/documents',
+      label: 'Documents',
       icon: <FaFileAlt size={18} />,
       isActive: pathname === '/interndashboard/documents'
     }
@@ -97,15 +97,13 @@ export default function Sidebar() {
             <Link
               key={index}
               to={item.path}
-              className={`group flex items-center space-x-4 px-4 py-3 rounded-xl transition-all duration-200 ease-in-out ${
-                item.isActive
-                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg transform scale-105'
-                  : 'text-slate-300 hover:text-white hover:bg-slate-700/50 hover:transform hover:scale-102'
-              }`}
+              className={`group flex items-center space-x-4 px-4 py-3 rounded-xl transition-all duration-200 ease-in-out ${item.isActive
+                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg transform scale-105'
+                : 'text-slate-300 hover:text-white hover:bg-slate-700/50 hover:transform hover:scale-102'
+                }`}
             >
-              <div className={`transition-colors duration-200 ${
-                item.isActive ? 'text-white' : 'text-slate-400 group-hover:text-white'
-              }`}>
+              <div className={`transition-colors duration-200 ${item.isActive ? 'text-white' : 'text-slate-400 group-hover:text-white'
+                }`}>
                 {item.icon}
               </div>
               <span className="font-medium text-sm">
@@ -127,11 +125,10 @@ export default function Sidebar() {
         <div className="space-y-2">
           <Link
             to="/interndashboard/settings"
-            className={`group flex items-center space-x-4 px-4 py-3 rounded-xl transition-all duration-200 ease-in-out ${
-              pathname === '/interndashboard/settings'
-                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
-            }`}
+            className={`group flex items-center space-x-4 px-4 py-3 rounded-xl transition-all duration-200 ease-in-out ${pathname === '/interndashboard/settings'
+              ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+              : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+              }`}
           >
             <FaCog size={18} className="text-slate-400 group-hover:text-white" />
             <span className="font-medium text-sm">Settings</span>
@@ -139,11 +136,10 @@ export default function Sidebar() {
 
           <Link
             to="/interndashboard/support"
-            className={`group flex items-center space-x-4 px-4 py-3 rounded-xl transition-all duration-200 ease-in-out ${
-              pathname === '/interndashboard/support'
-                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
-            }`}
+            className={`group flex items-center space-x-4 px-4 py-3 rounded-xl transition-all duration-200 ease-in-out ${pathname === '/interndashboard/support'
+              ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+              : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+              }`}
           >
             <FaQuestionCircle size={18} className="text-slate-400 group-hover:text-white" />
             <span className="font-medium text-sm">Support</span>

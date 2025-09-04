@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../Contexts/AuthContext';
 import { useUsers } from '../../Contexts/UserContext';
-import { FaTasks, FaTrash, FaFileAlt, FaUser, FaCalendarAlt, FaPlus } from 'react-icons/fa';
+import { FaTasks, FaTrash, FaFileAlt, FaUser, FaCalendarAlt, FaPlus, FaClock } from 'react-icons/fa';
 
 export default function AssignTask() {
   const { user } = useAuth();
   const { users, loading, error: userError, getUsersByRole } = useUsers() || {};
   const internees = getUsersByRole ? getUsersByRole('intern') : [];
   const [form, setForm] = useState({
-
     title: '',
     description: '',
     deadline: '',
@@ -58,7 +57,14 @@ export default function AssignTask() {
       formData.append('assignedTo', form.internId);
       await axios.post('http://localhost:5000/api/task/assign', formData);
       setSuccess('Task assigned successfully!');
-      setForm({ title: '', description: '', deadline: '', assignedDate: new Date().toISOString().slice(0, 10), file: null, internId: '' });
+      setForm({ 
+        title: '', 
+        description: '', 
+        deadline: '', 
+        assignedDate: new Date().toISOString().slice(0, 10), 
+        file: null, 
+        internId: '' 
+      });
     } catch (err) {
       setError('Failed to assign task.');
     }
@@ -105,11 +111,59 @@ export default function AssignTask() {
           </div>
 
           <div>
-            <label className="block font-semibold mb-1">Deadline</label>
-            <div className="flex items-center gap-2">
+            <label className="block font-semibold mb-1">Deadline Date & Time</label>
+            <div className="flex items-center gap-2 mb-2">
               <FaCalendarAlt className="text-gray-400" />
-              <input type="date" name="deadline" value={form.deadline} onChange={handleChange} required className="w-full border rounded px-3 py-2" />
+              <input 
+                type="datetime-local" 
+                name="deadline" 
+                value={form.deadline} 
+                onChange={handleChange} 
+                required 
+                className="w-full border rounded px-3 py-2" 
+                min={new Date().toISOString().slice(0, 16)}
+              />
             </div>
+            <div className="flex gap-2 mb-2">
+              <button
+                type="button"
+                onClick={() => {
+                  const tomorrow9AM = new Date();
+                  tomorrow9AM.setDate(tomorrow9AM.getDate() + 1);
+                  tomorrow9AM.setHours(9, 0, 0, 0);
+                  setForm(f => ({ ...f, deadline: tomorrow9AM.toISOString().slice(0, 16) }));
+                }}
+                className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded hover:bg-blue-200 transition"
+              >
+                Tomorrow 9 AM
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const nextWeek = new Date();
+                  nextWeek.setDate(nextWeek.getDate() + 7);
+                  nextWeek.setHours(17, 0, 0, 0);
+                  setForm(f => ({ ...f, deadline: nextWeek.toISOString().slice(0, 16) }));
+                }}
+                className="text-xs bg-green-100 text-green-600 px-2 py-1 rounded hover:bg-green-200 transition"
+              >
+                Next Week 5 PM
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const endOfWeek = new Date();
+                  const daysUntilFriday = (5 - endOfWeek.getDay() + 7) % 7 || 7;
+                  endOfWeek.setDate(endOfWeek.getDate() + daysUntilFriday);
+                  endOfWeek.setHours(17, 0, 0, 0);
+                  setForm(f => ({ ...f, deadline: endOfWeek.toISOString().slice(0, 16) }));
+                }}
+                className="text-xs bg-orange-100 text-orange-600 px-2 py-1 rounded hover:bg-orange-200 transition"
+              >
+                End of Week
+              </button>
+            </div>
+            <p className="text-xs text-gray-500">Select both date and time for precise scheduling in calendar</p>
           </div>
           <div>
             <label className="block font-semibold mb-1">Assigned Date</label>
@@ -179,7 +233,14 @@ export default function AssignTask() {
                     <td className="py-3 px-6 text-left">{task.title}</td>
                     <td className="py-1 px-6 text-left line-clamp-2">{task.description}</td>
 
-                    <td className="py-3 px-6 text-left">{task.deadline ? new Date(task.deadline).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '-'}</td>
+                    <td className="py-3 px-6 text-left">
+                      {task.deadline ? (
+                        <div>
+                          <div className="font-medium">{new Date(task.deadline).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</div>
+                          <div className="text-sm text-gray-500">{new Date(task.deadline).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+                        </div>
+                      ) : '-'}
+                    </td>
                     <td className="py-3 px-6 text-left">{task.assignedDate ? new Date(task.assignedDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '-'}</td>
                     <td className="py-3 px-6 text-left">{task.assignedTo?.name || '-'}</td>
                     <td className="py-3 px-6 text-left">

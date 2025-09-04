@@ -60,6 +60,7 @@ router.post("/assign", upload.single("file"), async (req, res) => {
 });
 
 // Get all assigned tasks with user name and formatted dates, and update status if deadline passed
+// Get all assigned tasks with user name and formatted dates, and update status if deadline passed
 router.get("/assigned", async (req, res) => {
   try {
     const tasks = await Task.find().populate("assignedTo", "name email");
@@ -70,13 +71,13 @@ router.get("/assigned", async (req, res) => {
         await task.save();
       }
     }
-    // Format the response
+    // Format the response - KEEP THE FULL DATETIME, DON'T SLICE IT
     const formattedTasks = tasks.map(task => ({
       _id: task._id,
       title: task.title,
       description: task.description,
-      deadline: task.deadline ? task.deadline.toISOString().slice(0, 10) : '',
-      assignedDate: task.assignedDate ? task.assignedDate.toISOString().slice(0, 10) : '',
+      deadline: task.deadline ? task.deadline.toISOString() : '', // Keep full datetime
+      assignedDate: task.assignedDate ? task.assignedDate.toISOString().slice(0, 10) : '', // Only date for assignedDate is fine
       file: task.file,
       status: task.status,
       assignedTo: task.assignedTo ? {
