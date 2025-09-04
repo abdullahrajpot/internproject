@@ -4,6 +4,7 @@ import { FaTasks, FaCheckCircle, FaSpinner, FaClock, FaBell, FaSearch, FaChevron
 import axios from "axios";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
+
 export default function InternDashboard() {
   const { user } = useAuth();
   const [tasks, setTasks] = useState([]);
@@ -12,6 +13,7 @@ export default function InternDashboard() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedDateTasks, setSelectedDateTasks] = useState([]);
+
 
 
 
