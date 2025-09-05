@@ -26,10 +26,16 @@ app.get("/", (req, res) => {
 // Import routes
 const authRoutes = require('./routes/Auth');
 const taskRoutes = require('./routes/Task');
+const internProfileRoutes = require('./routes/InternProfile');
+const courseRoutes = require('./routes/Course');
+const userProgressRoutes = require('./routes/UserProgress');
 
 // Mount routes correctly - the route file already has '/register'
 app.use('/api/auth', authRoutes);
 app.use('/api/task', taskRoutes);
+app.use('/api/intern-profile', internProfileRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/progress', userProgressRoutes);
 
 //download file
 const path = require('path');

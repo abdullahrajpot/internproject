@@ -3,10 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Contexts/AuthContext";
 import { FaUser, FaBars, FaTimes } from "react-icons/fa";
 import { CSSTransition } from "react-transition-group";
+import { useProfile } from "../../hooks/useProfile";
+import ProfileAvatar from "../common/ProfileAvatar";
 import "./ProfileDropdown.css";
 
 const Header = () => {
   const { isAuthenticated, user, logout } = useAuth();
+  const { profileData } = useProfile();
   const role = user?.role;
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -101,13 +104,22 @@ const Header = () => {
             <>
               {/* Profile Avatar Dropdown */}
               <div className="relative" ref={dropdownRef}>
-                <button
-                  className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold text-lg shadow-lg hover:ring-4 hover:ring-orange-300 focus:outline-none transition-all duration-200"
-                  onClick={() => setDropdownOpen((v) => !v)}
-                  title="Profile"
-                >
-                  {user?.name?.[0]?.toUpperCase() || <FaUser />}
-                </button>
+                {user?.role === 'intern' && profileData ? (
+                  <ProfileAvatar
+                    profileData={profileData}
+                    size="medium"
+                    className="shadow-lg hover:ring-4 hover:ring-orange-300 focus:outline-none transition-all duration-200"
+                    onClick={() => setDropdownOpen((v) => !v)}
+                  />
+                ) : (
+                  <button
+                    className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold text-lg shadow-lg hover:ring-4 hover:ring-orange-300 focus:outline-none transition-all duration-200"
+                    onClick={() => setDropdownOpen((v) => !v)}
+                    title="Profile"
+                  >
+                    {user?.name?.[0]?.toUpperCase() || <FaUser />}
+                  </button>
+                )}
                 <CSSTransition
                   in={dropdownOpen}
                   timeout={200}

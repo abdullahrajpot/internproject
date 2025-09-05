@@ -1,0 +1,381 @@
+.invite-friends {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.invite-header {
+  text-align: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.invite-header h2 {
+  margin: 0 0 8px 0;
+  color: #1f2937;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.invite-header p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.notification {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.notification.success {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.notification.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.invite-methods {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.invite-section {
+  background: #f8fafc;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.invite-section h3 {
+  margin: 0 0 16px 0;
+  color: #374151;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.invite-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.email-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.email-input-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.email-input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.email-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.remove-email-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.remove-email-btn:hover {
+  background: #dc2626;
+}
+
+.add-email-btn {
+  background: none;
+  border: 1px dashed #3b82f6;
+  color: #3b82f6;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.add-email-btn:hover {
+  background: #eff6ff;
+}
+
+.message-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.message-section label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.message-section textarea {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.message-section textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.char-count {
+  font-size: 12px;
+  color: #6b7280;
+  text-align: right;
+}
+
+.send-invites-btn {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.send-invites-btn:hover {
+  background: #059669;
+}
+
+.send-invites-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.share-link-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.link-display {
+  display: flex;
+  gap: 8px;
+}
+
+.share-link-input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #f9fafb;
+  color: #6b7280;
+}
+
+.copy-link-btn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+
+.copy-link-btn:hover {
+  background: #2563eb;
+}
+
+.link-description {
+  margin: 0;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.social-share {
+  margin-top: 16px;
+}
+
+.social-share h4 {
+  margin: 0 0 12px 0;
+  color: #374151;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.social-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.social-btn {
+  background: white;
+  border: 1px solid #d1d5db;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.social-btn:hover {
+  background: #f3f4f6;
+  transform: translateY(-1px);
+}
+
+.social-btn.twitter:hover {
+  background: #dbeafe;
+  border-color: #3b82f6;
+}
+
+.social-btn.facebook:hover {
+  background: #dbeafe;
+  border-color: #1d4ed8;
+}
+
+.social-btn.linkedin:hover {
+  background: #dbeafe;
+  border-color: #0ea5e9;
+}
+
+.invite-benefits {
+  background: #f0f9ff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #bae6fd;
+}
+
+.invite-benefits h3 {
+  margin: 0 0 16px 0;
+  color: #0c4a6e;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.benefit-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.benefit-item h4 {
+  margin: 0 0 4px 0;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.benefit-item p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .invite-friends {
+    padding: 16px;
+    margin: 0 16px;
+  }
+  
+  .invite-methods {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .invite-section {
+    padding: 16px;
+  }
+  
+  .social-buttons {
+    justify-content: center;
+  }
+  
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .invite-friends {
+    padding: 12px;
+    margin: 0 8px;
+  }
+  
+  .link-display {
+    flex-direction: column;
+  }
+  
+  .social-buttons {
+    flex-direction: column;
+  }
+  
+  .benefit-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+}

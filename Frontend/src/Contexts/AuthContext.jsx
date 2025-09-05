@@ -46,8 +46,10 @@ export function AuthProvider({ children }) {
     // Auto-logout if token expires logic could go here
   }, []);
 
+  const token = localStorage.getItem('token');
+
   return (
-    <AuthContext.Provider value={{ ...state, login, logout }}>
+    <AuthContext.Provider value={{ ...state, login, logout, token }}>
       {children}
     </AuthContext.Provider>
   );
