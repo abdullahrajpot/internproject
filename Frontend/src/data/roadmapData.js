@@ -63,11 +63,9 @@ export const roadmapData = {
     totalSteps: 10,
     steps: [
       { id: 1, title: "Programming Fundamentals", description: "Learn basic programming concepts and logic", type: "foundation", resources: 4, estimatedTime: "2-3 weeks", topics: ["Variables", "Data types", "Control structures", "Functions"] , resources:[
-        { title: "Varibale,Datatype, Object", url: "https://www.youtube.com/embed/HGCDMJXS1cc?si=65xKg5SzzzDkFSBn" },
-        { title: "Control Structure", url: "https://www.youtube.com/embed/1R4NGtsj7hw?si=xNgI737cYEzcN1xk" },
-        {title:"Functions", url:"https://www.youtube.com/embed/Jtc3j4ZNZEQ?si=RAFjv2akhl9tOWGB"},
-        {title:"Loops", url:'https://www.youtube.com/embed/y32sWmu-RI4?si=gZdVaQWsyobIiey2'}
-
+        { title: "Variables in javascript", url: "https://www.youtube.com/embed/yY0bKZNYmJs?list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37" },
+        { title: "Datatypes in javascript", url: "https://www.youtube.com/embed/-9knnv97wSc?list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37" },
+        { title: "Control structure", url: "https://www.youtube.com/embed/0P_YvC6Gg0c?list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37" },
       ]},
       { id: 2, title: "JavaScript for Backend", description: "Master JavaScript for server-side development", type: "core", resources: 5, estimatedTime: "3-4 weeks", topics: ["ES6+ features", "Async programming", "Promises", "Modules"] },
       { id: 3, title: "Node.js Basics", description: "Learn Node.js runtime and npm package manager", type: "core", resources: 3, estimatedTime: "2-3 weeks", topics: ["Node.js setup", "npm", "File system", "Streams"] },
