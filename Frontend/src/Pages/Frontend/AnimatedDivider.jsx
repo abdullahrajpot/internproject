@@ -1,5 +1,6 @@
 // src/components/SubtleDivider.jsx
 import { motion } from "framer-motion";
+import React from "react";
 
 const AnimatedDivider = ({ color = "#d1d5db", height = "1px" }) => {
   return (

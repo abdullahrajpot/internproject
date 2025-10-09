@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Search, Filter, Bookmark, BookmarkCheck, Code, Server, Smartphone, Database, Cloud, Zap, Users, Brain, Shield } from 'lucide-react';
 import { getAllRoadmaps } from '../../../data/roadmapData';
+import { useAuth } from '../../../Contexts/AuthContext';
+
 // Icon mapping
 const iconMap = {
   Code: Code,

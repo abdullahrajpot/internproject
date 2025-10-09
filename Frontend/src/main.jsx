@@ -1,4 +1,5 @@
 
+import React from 'react';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
@@ -10,7 +11,7 @@ import { UserProvider } from './Contexts/UserContext';
 
 
 // import router from './Pages';
-// import './App.css';
+import './index.css';
 
 createRoot(document.getElementById('root')).render(
   <AuthProvider>
