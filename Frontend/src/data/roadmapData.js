@@ -112,9 +112,24 @@ export const roadmapData = {
     lastUpdated: "December 15, 2024",
     totalSteps: 10,
     steps: [
-      { id: 1, title: "Frontend Basics", description: "HTML, CSS, JavaScript essentials", type: "foundation", resources: 3, estimatedTime: "1-2 months", topics: ["HTML", "CSS", "JavaScript"] },
-      { id: 2, title: "Version Control", description: "Git and GitHub for collaboration", type: "tool", resources: 2, estimatedTime: "1 week", topics: ["Git", "GitHub", "Branching"] },
-      { id: 3, title: "Frontend Framework", description: "React fundamentals and advanced concepts", type: "core", resources: 4, estimatedTime: "2 months", topics: ["React", "Hooks", "State management", "Routing"] },
+      { id: 1, title: "Frontend Basics", description: "HTML, CSS, JavaScript essentials", type: "foundation", resources: 3, estimatedTime: "1-2 months", topics: ["HTML", "CSS", "JavaScript"] , resources:[
+      { title: "HTML, CSS, JS Playlist", url: "https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agq5TrH9XLIKQvv0iaF2X3w" },
+      { title: "Pure html css javascript projects playlist", url: "https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9aiQiOwthuSvinxoflmhRxM3" },
+      { title: "HTML + CSS (ENGLISH VERSION)", url: "https://www.youtube.com/embed/HGTJBPNC-Gw" },
+      { title: "Javascript in 1 shot", url: "https://www.youtube.com/embed/lfmg-EJ8gm4" },
+      ]},
+      { id: 2, title: "Version Control", description: "Git and GitHub for collaboration", type: "tool", resources: 2, estimatedTime: "1 week", topics: ["Git", "GitHub", "Branching"] , resources:[
+      { title: "Git & Github in 1 shot (HINDI VERSION)", url: "https://www.youtube.com/embed/q8EevlEpQ2A?start=2" },
+      { title: "Git & Github in 1 shot (ENGLISH VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PLRAV69dS1uWT4v4iK1h6qejyhGObFH9_o" },
+      { title: "Git & Github in 1 shot (HINDI VERSION) 2", url: "https://www.youtube.com/embed/gwWKnnCMQ5c" },
+      { title: "Git & Github in 1 shot (ENGLISH VERSION) 2", url: "https://www.youtube.com/embed/rH3zE7VlIMs" },
+      ]},
+      { id: 3, title: "Frontend Framework", description: "React fundamentals and advanced concepts", type: "core", resources: 4, estimatedTime: "2 months", topics: ["React", "Hooks", "State management", "Routing"] , resources:[
+      { title: "React in 1 shot (ENGLISH VERSION)", url: "https://www.youtube.com/embed/CgkZ7MvWUAA" },
+      { title: "React Monster Couse in 1 shot (ENGLISH VERSION)", url: "https://www.youtube.com/embed/M9O5AjEFzKw" },
+      { title: "React Playlist (HINDI VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agx66oZnT6IyhcMIbUMNMdt" },
+      { title: "React Playlist 2 (HINDI VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PLu71SKxNbfoDqgPchmvIsL4hTnJIrtige" },
+      ]},
       { id: 4, title: "Backend Basics", description: "Node.js and Express.js essentials", type: "core", resources: 3, estimatedTime: "1 month", topics: ["Node.js", "Express.js", "APIs"] },
       { id: 5, title: "Database Integration", description: "MongoDB and Mongoose", type: "core", resources: 3, estimatedTime: "2 weeks", topics: ["MongoDB", "Mongoose", "CRUD"] },
       { id: 6, title: "Authentication", description: "User authentication and authorization", type: "advanced", resources: 2, estimatedTime: "2 weeks", topics: ["JWT", "OAuth", "Session management"] },
