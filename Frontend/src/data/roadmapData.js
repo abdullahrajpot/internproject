@@ -46,7 +46,7 @@ export const roadmapData = {
       { id: 8, title: "Deployment", description: "Learn CI/CD, hosting platforms, and deployment strategies", type: "final", resources: 4, estimatedTime: "2-3 weeks", topics: ["Netlify", "Vercel", "GitHub Pages", "Domain setup"], resources: [
         { title: "Deploy React App to Netlify", url: "https://www.youtube.com/embed/8YPXv7xKh2w" },
         { title: "Deploy React App to Vercel", url: "https://www.youtube.com/embed/hAuyNf0Uk-w" }
-      ] }
+      ]}
     ]
   },
   2: {
@@ -152,7 +152,10 @@ export const roadmapData = {
       ]},
       { id: 6, title: "Authentication", description: "User authentication and authorization", type: "advanced", resources: 2, estimatedTime: "2 weeks", topics: ["JWT", "OAuth", "Session management"] },
       { id: 7, title: "Testing", description: "Testing frontend and backend code", type: "advanced", resources: 2, estimatedTime: "2 weeks", topics: ["Jest", "React Testing Library", "Supertest"] },
-      { id: 8, title: "Deployment", description: "Deploying full stack apps", type: "final", resources: 2, estimatedTime: "2 weeks", topics: ["Vercel", "Heroku", "Netlify"] },
+      { id: 8, title: "Deployment", description: "Deploying full stack apps", type: "final", resources: 2, estimatedTime: "2 weeks", topics: ["Vercel", "Heroku", "Netlify"] , resources: [
+        { title: "Deploy React App to Netlify", url: "https://www.youtube.com/embed/8YPXv7xKh2w" },
+        { title: "Deploy React App to Vercel", url: "https://www.youtube.com/embed/hAuyNf0Uk-w" }
+      ]},
       { id: 9, title: "DevOps Basics", description: "CI/CD and monitoring", type: "tool", resources: 2, estimatedTime: "2 weeks", topics: ["CI/CD", "GitHub Actions", "Monitoring"] },
       { id: 10, title: "Project", description: "Build a full stack project", type: "final", resources: 1, estimatedTime: "2 weeks", topics: ["Project planning", "Implementation", "Deployment"] }
     ]
@@ -170,13 +173,38 @@ export const roadmapData = {
     lastUpdated: "December 15, 2024",
     totalSteps: 8,
     steps: [
-      { id: 1, title: "JavaScript Refresher", description: "ES6+ and modern JS", type: "foundation", resources: 2, estimatedTime: "2 weeks", topics: ["ES6", "Async/Await", "Modules"] },
-      { id: 2, title: "Node.js & Express.js", description: "Backend with Node and Express", type: "core", resources: 3, estimatedTime: "1 month", topics: ["Node.js", "Express.js", "APIs"] },
-      { id: 3, title: "MongoDB", description: "NoSQL database with MongoDB", type: "core", resources: 2, estimatedTime: "2 weeks", topics: ["MongoDB", "Mongoose", "Aggregation"] },
-      { id: 4, title: "React", description: "Frontend with React", type: "core", resources: 3, estimatedTime: "1 month", topics: ["React", "Hooks", "State management"] },
+      { id: 1, title: "JavaScript Refresher", description: "ES6+ and modern JS", type: "foundation", resources: 2, estimatedTime: "2 weeks", topics: ["ES6", "Async/Await", "Modules"] , resources: [
+      { title: "JavaScript Playlist for Beginners", url: "https://www.youtube.com/embed/videoseries?list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37" },
+      { title: "Javascript Playlist in 1 Shot", url: "https://www.youtube.com/embed/videoseries?list=PLHzs8hOU-sf5_9JNubPJpgMvTQSlaeRCe" },
+      { title: "Javascript Playlist (ENGLISH VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PLZPZq0r_RZOO1zkgO4bIdfuLpizCeHYKv" },
+      { title: "Javascript Playlist in 1 shot (ENGLISH VERSION)", url: "https://www.youtube.com/embed/lfmg-EJ8gm4" },
+      ]},
+      { id: 2, title: "Node.js & Express.js", description: "Backend with Node and Express", type: "core", resources: 3, estimatedTime: "1 month", topics: ["Node.js", "Express.js", "APIs"], resources:[
+        { title: "Node.js playlist (HINDI)", url: "https://www.youtube.com/embed/videoseries?list=PLinedj3B30sDby4Al-i13hQJGQoRQDfPo" },
+        { title: "Node.js in 1 shot (HINDI)", url: "https://www.youtube.com/embed/BLl32FvcdVM" },
+        { title: "Node.js in 1 shot 2 (ENGLISH VERSION)", url: "https://www.youtube.com/embed/f2EqECiTBL8" },
+        { title: "Express.js playlist (ENGLISH VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PL_cUvD4qzbkwjmjy-KjbieZ8J9cGwxZpC" },
+        { title: "Express.js in 1 shot (HINDI / URDU)", url: "https://www.youtube.com/embed/pKJ4GGyDgJo" },
+        { title: "Ultimate node.js and express.js (ENGLISH)", url: "https://www.youtube.com/embed/Oe421EPjeBE" },
+        { title: "Ultimate node.js and express.js (HINDI / URDU)", url: "https://www.youtube.com/embed/videoseries?list=PL2PkZdv6p7Zmu51_FBoNDcv8Bk8bXODvH" },
+      ]},
+      { id: 3, title: "MongoDB", description: "NoSQL database with MongoDB", type: "core", resources: 2, estimatedTime: "2 weeks", topics: ["MongoDB", "Mongoose", "Aggregation"] , resources:[
+      { title: "Mongodb is 1 shot", url: "https://www.youtube.com/embed/J6mDkcqU_ZE" },
+      { title: "Mongodb playlist (ENGLISH VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PL4cUxeGkcC9h77dJ-QJlwGlZlTd4ecZOA" },
+      { title: "Mongodb Playlist 2 (HINDI / URDU | VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PLSwH4ViBDl2R1ufOfn-KV6NiOwaJ4OY8w" },
+      ]},
+      { id: 4, title: "React", description: "Frontend with React", type: "core", resources: 3, estimatedTime: "1 month", topics: ["React", "Hooks", "State management"] , resources:[
+      { title: "React in 1 shot (ENGLISH VERSION)", url: "https://www.youtube.com/embed/CgkZ7MvWUAA" },
+      { title: "React Monster Couse in 1 shot (ENGLISH VERSION)", url: "https://www.youtube.com/embed/M9O5AjEFzKw" },
+      { title: "React Playlist (HINDI VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agx66oZnT6IyhcMIbUMNMdt" },
+      { title: "React Playlist 2 (HINDI VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PLu71SKxNbfoDqgPchmvIsL4hTnJIrtige" },
+      ]},
       { id: 5, title: "Connecting MERN", description: "Integrate all four technologies", type: "advanced", resources: 2, estimatedTime: "2 weeks", topics: ["API integration", "CORS", "Authentication"] },
       { id: 6, title: "Testing", description: "Testing MERN apps", type: "advanced", resources: 2, estimatedTime: "2 weeks", topics: ["Jest", "Supertest", "React Testing Library"] },
-      { id: 7, title: "Deployment", description: "Deploying MERN stack apps", type: "final", resources: 2, estimatedTime: "2 weeks", topics: ["Heroku", "Vercel", "Netlify"] },
+      { id: 7, title: "Deployment", description: "Deploying MERN stack apps", type: "final", resources: 2, estimatedTime: "2 weeks", topics: ["Heroku", "Vercel", "Netlify"] , resources: [
+        { title: "Deploy React App to Netlify", url: "https://www.youtube.com/embed/8YPXv7xKh2w" },
+        { title: "Deploy React App to Vercel", url: "https://www.youtube.com/embed/hAuyNf0Uk-w" }
+      ]},
       { id: 8, title: "Capstone Project", description: "Build a MERN stack project", type: "final", resources: 1, estimatedTime: "2 weeks", topics: ["Project planning", "Implementation", "Deployment"] }
     ]
   },
