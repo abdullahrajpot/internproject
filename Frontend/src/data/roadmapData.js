@@ -67,8 +67,16 @@ export const roadmapData = {
         { title: "Datatypes in javascript", url: "https://www.youtube.com/embed/-9knnv97wSc?list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37" },
         { title: "Control structure", url: "https://www.youtube.com/embed/0P_YvC6Gg0c?list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37" },
       ]},
-      { id: 2, title: "JavaScript for Backend", description: "Master JavaScript for server-side development", type: "core", resources: 5, estimatedTime: "3-4 weeks", topics: ["ES6+ features", "Async programming", "Promises", "Modules"] },
-      { id: 3, title: "Node.js Basics", description: "Learn Node.js runtime and npm package manager", type: "core", resources: 3, estimatedTime: "2-3 weeks", topics: ["Node.js setup", "npm", "File system", "Streams"] },
+      { id: 2, title: "JavaScript for Backend", description: "Master JavaScript for server-side development", type: "core", resources: 5, estimatedTime: "3-4 weeks", topics: ["ES6+ features", "Async programming", "Promises", "Modules"] , resources:[
+        { title: "Backend Playlist step by step", url: "https://www.youtube.com/embed/videoseries?list=PLu71SKxNbfoBGh_8p_NS-ZAh6v7HhYqHW" },
+        { title: "Backend in 1 shot", url: "https://www.youtube.com/embed/7fjOw8ApZ1I" },
+        { title: "Backend Playlist 2", url: "https://www.youtube.com/embed/videoseries?list=PLijYLYqOtsbvA6PuDjPeq-d1SeDkSBzWs" },
+      ]},
+      { id: 3, title: "Node.js Basics", description: "Learn Node.js runtime and npm package manager", type: "core", resources: 3, estimatedTime: "2-3 weeks", topics: ["Node.js setup", "npm", "File system", "Streams"] , resources:[
+        { title: "Node.js playlist", url: "https://www.youtube.com/embed/videoseries?list=PLinedj3B30sDby4Al-i13hQJGQoRQDfPo" },
+        { title: "Node.js in 1 shot", url: "https://www.youtube.com/embed/BLl32FvcdVM" },
+        { title: "Node.js in 1 shot 2 (ENGLISH VERSION)", url: "https://www.youtube.com/embed/f2EqECiTBL8" },
+      ]},
       { id: 4, title: "Express.js Framework", description: "Build web applications with Express.js", type: "core", resources: 4, estimatedTime: "3-4 weeks", topics: ["Routing", "Middleware", "Error handling", "Static files"] },
       { id: 5, title: "Database Fundamentals", description: "Learn database concepts and SQL basics", type: "core", resources: 4, estimatedTime: "3-4 weeks", topics: ["Database types", "SQL basics", "CRUD operations", "Relationships"] },
       { id: 6, title: "MongoDB", description: "Work with NoSQL databases using MongoDB", type: "core", resources: 3, estimatedTime: "2-3 weeks", topics: ["MongoDB setup", "Mongoose ODM", "CRUD operations", "Aggregation"] },
