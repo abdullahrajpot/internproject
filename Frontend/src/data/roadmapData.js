@@ -46,7 +46,7 @@ export const roadmapData = {
       { id: 8, title: "Deployment", description: "Learn CI/CD, hosting platforms, and deployment strategies", type: "final", resources: 4, estimatedTime: "2-3 weeks", topics: ["Netlify", "Vercel", "GitHub Pages", "Domain setup"], resources: [
         { title: "Deploy React App to Netlify", url: "https://www.youtube.com/embed/8YPXv7xKh2w" },
         { title: "Deploy React App to Vercel", url: "https://www.youtube.com/embed/hAuyNf0Uk-w" }
-      ] }
+      ]}
     ]
   },
   2: {
@@ -63,17 +63,36 @@ export const roadmapData = {
     totalSteps: 10,
     steps: [
       { id: 1, title: "Programming Fundamentals", description: "Learn basic programming concepts and logic", type: "foundation", resources: 4, estimatedTime: "2-3 weeks", topics: ["Variables", "Data types", "Control structures", "Functions"] , resources:[
-        { title: "Varibale,Datatype, Object", url: "https://www.youtube.com/embed/HGCDMJXS1cc?si=65xKg5SzzzDkFSBn" },
-        { title: "Control Structure", url: "https://www.youtube.com/embed/1R4NGtsj7hw?si=xNgI737cYEzcN1xk" },
-        {title:"Functions", url:"https://www.youtube.com/embed/Jtc3j4ZNZEQ?si=RAFjv2akhl9tOWGB"},
-        {title:"Loops", url:'https://www.youtube.com/embed/y32sWmu-RI4?si=gZdVaQWsyobIiey2'}
-
+        { title: "Variables in javascript", url: "https://www.youtube.com/embed/yY0bKZNYmJs?list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37" },
+        { title: "Datatypes in javascript", url: "https://www.youtube.com/embed/-9knnv97wSc?list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37" },
+        { title: "Control structure", url: "https://www.youtube.com/embed/0P_YvC6Gg0c?list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37" },
       ]},
-      { id: 2, title: "JavaScript for Backend", description: "Master JavaScript for server-side development", type: "core", resources: 5, estimatedTime: "3-4 weeks", topics: ["ES6+ features", "Async programming", "Promises", "Modules"] },
-      { id: 3, title: "Node.js Basics", description: "Learn Node.js runtime and npm package manager", type: "core", resources: 3, estimatedTime: "2-3 weeks", topics: ["Node.js setup", "npm", "File system", "Streams"] },
-      { id: 4, title: "Express.js Framework", description: "Build web applications with Express.js", type: "core", resources: 4, estimatedTime: "3-4 weeks", topics: ["Routing", "Middleware", "Error handling", "Static files"] },
-      { id: 5, title: "Database Fundamentals", description: "Learn database concepts and SQL basics", type: "core", resources: 4, estimatedTime: "3-4 weeks", topics: ["Database types", "SQL basics", "CRUD operations", "Relationships"] },
-      { id: 6, title: "MongoDB", description: "Work with NoSQL databases using MongoDB", type: "core", resources: 3, estimatedTime: "2-3 weeks", topics: ["MongoDB setup", "Mongoose ODM", "CRUD operations", "Aggregation"] },
+      { id: 2, title: "JavaScript for Backend", description: "Master JavaScript for server-side development", type: "core", resources: 5, estimatedTime: "3-4 weeks", topics: ["ES6+ features", "Async programming", "Promises", "Modules"] , resources:[
+        { title: "Backend Playlist step by step", url: "https://www.youtube.com/embed/videoseries?list=PLu71SKxNbfoBGh_8p_NS-ZAh6v7HhYqHW" },
+        { title: "Backend in 1 shot", url: "https://www.youtube.com/embed/7fjOw8ApZ1I" },
+        { title: "Backend Playlist 2", url: "https://www.youtube.com/embed/videoseries?list=PLijYLYqOtsbvA6PuDjPeq-d1SeDkSBzWs" },
+      ]},
+      { id: 3, title: "Node.js Basics", description: "Learn Node.js runtime and npm package manager", type: "core", resources: 3, estimatedTime: "2-3 weeks", topics: ["Node.js setup", "npm", "File system", "Streams"] , resources:[
+        { title: "Node.js playlist", url: "https://www.youtube.com/embed/videoseries?list=PLinedj3B30sDby4Al-i13hQJGQoRQDfPo" },
+        { title: "Node.js in 1 shot", url: "https://www.youtube.com/embed/BLl32FvcdVM" },
+        { title: "Node.js in 1 shot 2 (ENGLISH VERSION)", url: "https://www.youtube.com/embed/f2EqECiTBL8" },
+      ]},
+      { id: 4, title: "Express.js Framework", description: "Build web applications with Express.js", type: "core", resources: 4, estimatedTime: "3-4 weeks", topics: ["Routing", "Middleware", "Error handling", "Static files"] , resources:[
+        { title: "Express.js playlist (ENGLISH VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PL_cUvD4qzbkwjmjy-KjbieZ8J9cGwxZpC" },
+        { title: "Express.js in 1 shot (HINDI / URDU)", url: "https://www.youtube.com/embed/pKJ4GGyDgJo" },
+        { title: "Ultimate node.js and express.js (ENGLISH)", url: "https://www.youtube.com/embed/Oe421EPjeBE" },
+        { title: "Ultimate node.js and express.js (HINDI / URDU)", url: "https://www.youtube.com/embed/videoseries?list=PL2PkZdv6p7Zmu51_FBoNDcv8Bk8bXODvH" },
+      ]},
+      { id: 5, title: "Database Fundamentals", description: "Learn database concepts and SQL basics", type: "core", resources: 4, estimatedTime: "3-4 weeks", topics: ["Database types", "SQL basics", "CRUD operations", "Relationships"] , resources:[
+        { title: "Database playlist", url: "https://www.youtube.com/embed/videoseries?list=PLDzeHZWIZsTpukecmA2p5rhHM14bl2dHU" },
+        { title: "Database in 1 shot (HINDI VERSION)", url: "https://www.youtube.com/embed/dl00fOOYLOM" },
+        { title: "Database in 1 shot (ENGLISH VERSION)", url: "https://www.youtube.com/embed/HXV3zeQKqGY" },
+      ]},
+      { id: 6, title: "MongoDB", description: "Work with NoSQL databases using MongoDB", type: "core", resources: 3, estimatedTime: "2-3 weeks", topics: ["MongoDB setup", "Mongoose ODM", "CRUD operations", "Aggregation"] , resources:[
+      { title: "Mongodb is 1 shot", url: "https://www.youtube.com/embed/J6mDkcqU_ZE" },
+      { title: "Mongodb playlist (ENGLISH VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PL4cUxeGkcC9h77dJ-QJlwGlZlTd4ecZOA" },
+      { title: "Mongodb Playlist 2 (HINDI / URDU | VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PLSwH4ViBDl2R1ufOfn-KV6NiOwaJ4OY8w" },
+      ]},
       { id: 7, title: "RESTful APIs", description: "Design and build RESTful APIs", type: "core", resources: 4, estimatedTime: "3-4 weeks", topics: ["HTTP methods", "API design", "Status codes", "Authentication"] },
       { id: 8, title: "Authentication & Authorization", description: "Implement user authentication and authorization", type: "advanced", resources: 3, estimatedTime: "2-3 weeks", topics: ["JWT", "Password hashing", "Session management", "OAuth"] },
       { id: 9, title: "Testing", description: "Write tests for your backend applications", type: "advanced", resources: 3, estimatedTime: "2-3 weeks", topics: ["Unit testing", "Integration testing", "Jest", "Supertest"] },
@@ -93,14 +112,50 @@ export const roadmapData = {
     lastUpdated: "December 15, 2024",
     totalSteps: 10,
     steps: [
-      { id: 1, title: "Frontend Basics", description: "HTML, CSS, JavaScript essentials", type: "foundation", resources: 3, estimatedTime: "1-2 months", topics: ["HTML", "CSS", "JavaScript"] },
-      { id: 2, title: "Version Control", description: "Git and GitHub for collaboration", type: "tool", resources: 2, estimatedTime: "1 week", topics: ["Git", "GitHub", "Branching"] },
-      { id: 3, title: "Frontend Framework", description: "React fundamentals and advanced concepts", type: "core", resources: 4, estimatedTime: "2 months", topics: ["React", "Hooks", "State management", "Routing"] },
-      { id: 4, title: "Backend Basics", description: "Node.js and Express.js essentials", type: "core", resources: 3, estimatedTime: "1 month", topics: ["Node.js", "Express.js", "APIs"] },
-      { id: 5, title: "Database Integration", description: "MongoDB and Mongoose", type: "core", resources: 3, estimatedTime: "2 weeks", topics: ["MongoDB", "Mongoose", "CRUD"] },
+      { id: 1, title: "Frontend Basics", description: "HTML, CSS, JavaScript essentials", type: "foundation", resources: 3, estimatedTime: "1-2 months", topics: ["HTML", "CSS", "JavaScript"] , resources:[
+      { title: "HTML, CSS, JS Playlist", url: "https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agq5TrH9XLIKQvv0iaF2X3w" },
+      { title: "Pure html css javascript projects playlist", url: "https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9aiQiOwthuSvinxoflmhRxM3" },
+      { title: "HTML + CSS (ENGLISH VERSION)", url: "https://www.youtube.com/embed/HGTJBPNC-Gw" },
+      { title: "Javascript in 1 shot", url: "https://www.youtube.com/embed/lfmg-EJ8gm4" },
+      ]},
+      { id: 2, title: "Version Control", description: "Git and GitHub for collaboration", type: "tool", resources: 2, estimatedTime: "1 week", topics: ["Git", "GitHub", "Branching"] , resources:[
+      { title: "Git & Github in 1 shot (HINDI VERSION)", url: "https://www.youtube.com/embed/q8EevlEpQ2A?start=2" },
+      { title: "Git & Github in 1 shot (ENGLISH VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PLRAV69dS1uWT4v4iK1h6qejyhGObFH9_o" },
+      { title: "Git & Github in 1 shot (HINDI VERSION) 2", url: "https://www.youtube.com/embed/gwWKnnCMQ5c" },
+      { title: "Git & Github in 1 shot (ENGLISH VERSION) 2", url: "https://www.youtube.com/embed/rH3zE7VlIMs" },
+      ]},
+      { id: 3, title: "Frontend Framework", description: "React fundamentals and advanced concepts", type: "core", resources: 4, estimatedTime: "2 months", topics: ["React", "Hooks", "State management", "Routing"] , resources:[
+      { title: "React in 1 shot (ENGLISH VERSION)", url: "https://www.youtube.com/embed/CgkZ7MvWUAA" },
+      { title: "React Monster Couse in 1 shot (ENGLISH VERSION)", url: "https://www.youtube.com/embed/M9O5AjEFzKw" },
+      { title: "React Playlist (HINDI VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agx66oZnT6IyhcMIbUMNMdt" },
+      { title: "React Playlist 2 (HINDI VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PLu71SKxNbfoDqgPchmvIsL4hTnJIrtige" },
+      ]},
+      { id: 4, title: "Backend Basics", description: "Node.js and Express.js essentials", type: "core", resources: 10, estimatedTime: "1 month", topics: ["Node.js", "Express.js", "APIs"] , resources:[
+      { title: "Backend Playlist step by step", url: "https://www.youtube.com/embed/videoseries?list=PLu71SKxNbfoBGh_8p_NS-ZAh6v7HhYqHW" },
+      { title: "Backend in 1 shot", url: "https://www.youtube.com/embed/7fjOw8ApZ1I" },
+      { title: "Backend Playlist 2", url: "https://www.youtube.com/embed/videoseries?list=PLijYLYqOtsbvA6PuDjPeq-d1SeDkSBzWs" }, 
+      { title: "Node.js playlist", url: "https://www.youtube.com/embed/videoseries?list=PLinedj3B30sDby4Al-i13hQJGQoRQDfPo" },
+      { title: "Node.js in 1 shot", url: "https://www.youtube.com/embed/BLl32FvcdVM" },
+      { title: "Node.js in 1 shot 2 (ENGLISH VERSION)", url: "https://www.youtube.com/embed/f2EqECiTBL8" },
+      { title: "Express.js playlist (ENGLISH VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PL_cUvD4qzbkwjmjy-KjbieZ8J9cGwxZpC" },
+      { title: "Express.js in 1 shot (HINDI / URDU)", url: "https://www.youtube.com/embed/pKJ4GGyDgJo" },
+      { title: "Ultimate node.js and express.js (ENGLISH)", url: "https://www.youtube.com/embed/Oe421EPjeBE" },
+      { title: "Ultimate node.js and express.js (HINDI / URDU)", url: "https://www.youtube.com/embed/videoseries?list=PL2PkZdv6p7Zmu51_FBoNDcv8Bk8bXODvH" },
+      ]},
+      { id: 5, title: "Database Integration", description: "MongoDB and Mongoose", type: "core", resources: 6, estimatedTime: "2 weeks", topics: ["MongoDB", "Mongoose", "CRUD"] , resources:[
+      { title: "Database playlist", url: "https://www.youtube.com/embed/videoseries?list=PLDzeHZWIZsTpukecmA2p5rhHM14bl2dHU" },
+      { title: "Database in 1 shot (HINDI VERSION)", url: "https://www.youtube.com/embed/dl00fOOYLOM" },
+      { title: "Database in 1 shot (ENGLISH VERSION)", url: "https://www.youtube.com/embed/HXV3zeQKqGY" },
+      { title: "Mongodb is 1 shot", url: "https://www.youtube.com/embed/J6mDkcqU_ZE" },
+      { title: "Mongodb playlist (ENGLISH VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PL4cUxeGkcC9h77dJ-QJlwGlZlTd4ecZOA" },
+      { title: "Mongodb Playlist 2 (HINDI / URDU | VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PLSwH4ViBDl2R1ufOfn-KV6NiOwaJ4OY8w" },
+      ]},
       { id: 6, title: "Authentication", description: "User authentication and authorization", type: "advanced", resources: 2, estimatedTime: "2 weeks", topics: ["JWT", "OAuth", "Session management"] },
       { id: 7, title: "Testing", description: "Testing frontend and backend code", type: "advanced", resources: 2, estimatedTime: "2 weeks", topics: ["Jest", "React Testing Library", "Supertest"] },
-      { id: 8, title: "Deployment", description: "Deploying full stack apps", type: "final", resources: 2, estimatedTime: "2 weeks", topics: ["Vercel", "Heroku", "Netlify"] },
+      { id: 8, title: "Deployment", description: "Deploying full stack apps", type: "final", resources: 2, estimatedTime: "2 weeks", topics: ["Vercel", "Heroku", "Netlify"] , resources: [
+        { title: "Deploy React App to Netlify", url: "https://www.youtube.com/embed/8YPXv7xKh2w" },
+        { title: "Deploy React App to Vercel", url: "https://www.youtube.com/embed/hAuyNf0Uk-w" }
+      ]},
       { id: 9, title: "DevOps Basics", description: "CI/CD and monitoring", type: "tool", resources: 2, estimatedTime: "2 weeks", topics: ["CI/CD", "GitHub Actions", "Monitoring"] },
       { id: 10, title: "Project", description: "Build a full stack project", type: "final", resources: 1, estimatedTime: "2 weeks", topics: ["Project planning", "Implementation", "Deployment"] }
     ]
@@ -118,13 +173,38 @@ export const roadmapData = {
     lastUpdated: "December 15, 2024",
     totalSteps: 8,
     steps: [
-      { id: 1, title: "JavaScript Refresher", description: "ES6+ and modern JS", type: "foundation", resources: 2, estimatedTime: "2 weeks", topics: ["ES6", "Async/Await", "Modules"] },
-      { id: 2, title: "Node.js & Express.js", description: "Backend with Node and Express", type: "core", resources: 3, estimatedTime: "1 month", topics: ["Node.js", "Express.js", "APIs"] },
-      { id: 3, title: "MongoDB", description: "NoSQL database with MongoDB", type: "core", resources: 2, estimatedTime: "2 weeks", topics: ["MongoDB", "Mongoose", "Aggregation"] },
-      { id: 4, title: "React", description: "Frontend with React", type: "core", resources: 3, estimatedTime: "1 month", topics: ["React", "Hooks", "State management"] },
+      { id: 1, title: "JavaScript Refresher", description: "ES6+ and modern JS", type: "foundation", resources: 2, estimatedTime: "2 weeks", topics: ["ES6", "Async/Await", "Modules"] , resources: [
+      { title: "JavaScript Playlist for Beginners", url: "https://www.youtube.com/embed/videoseries?list=PLu71SKxNbfoBuX3f4EOACle2y-tRC5Q37" },
+      { title: "Javascript Playlist in 1 Shot", url: "https://www.youtube.com/embed/videoseries?list=PLHzs8hOU-sf5_9JNubPJpgMvTQSlaeRCe" },
+      { title: "Javascript Playlist (ENGLISH VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PLZPZq0r_RZOO1zkgO4bIdfuLpizCeHYKv" },
+      { title: "Javascript Playlist in 1 shot (ENGLISH VERSION)", url: "https://www.youtube.com/embed/lfmg-EJ8gm4" },
+      ]},
+      { id: 2, title: "Node.js & Express.js", description: "Backend with Node and Express", type: "core", resources: 3, estimatedTime: "1 month", topics: ["Node.js", "Express.js", "APIs"], resources:[
+        { title: "Node.js playlist (HINDI)", url: "https://www.youtube.com/embed/videoseries?list=PLinedj3B30sDby4Al-i13hQJGQoRQDfPo" },
+        { title: "Node.js in 1 shot (HINDI)", url: "https://www.youtube.com/embed/BLl32FvcdVM" },
+        { title: "Node.js in 1 shot 2 (ENGLISH VERSION)", url: "https://www.youtube.com/embed/f2EqECiTBL8" },
+        { title: "Express.js playlist (ENGLISH VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PL_cUvD4qzbkwjmjy-KjbieZ8J9cGwxZpC" },
+        { title: "Express.js in 1 shot (HINDI / URDU)", url: "https://www.youtube.com/embed/pKJ4GGyDgJo" },
+        { title: "Ultimate node.js and express.js (ENGLISH)", url: "https://www.youtube.com/embed/Oe421EPjeBE" },
+        { title: "Ultimate node.js and express.js (HINDI / URDU)", url: "https://www.youtube.com/embed/videoseries?list=PL2PkZdv6p7Zmu51_FBoNDcv8Bk8bXODvH" },
+      ]},
+      { id: 3, title: "MongoDB", description: "NoSQL database with MongoDB", type: "core", resources: 2, estimatedTime: "2 weeks", topics: ["MongoDB", "Mongoose", "Aggregation"] , resources:[
+      { title: "Mongodb is 1 shot", url: "https://www.youtube.com/embed/J6mDkcqU_ZE" },
+      { title: "Mongodb playlist (ENGLISH VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PL4cUxeGkcC9h77dJ-QJlwGlZlTd4ecZOA" },
+      { title: "Mongodb Playlist 2 (HINDI / URDU | VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PLSwH4ViBDl2R1ufOfn-KV6NiOwaJ4OY8w" },
+      ]},
+      { id: 4, title: "React", description: "Frontend with React", type: "core", resources: 3, estimatedTime: "1 month", topics: ["React", "Hooks", "State management"] , resources:[
+      { title: "React in 1 shot (ENGLISH VERSION)", url: "https://www.youtube.com/embed/CgkZ7MvWUAA" },
+      { title: "React Monster Couse in 1 shot (ENGLISH VERSION)", url: "https://www.youtube.com/embed/M9O5AjEFzKw" },
+      { title: "React Playlist (HINDI VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PLu0W_9lII9agx66oZnT6IyhcMIbUMNMdt" },
+      { title: "React Playlist 2 (HINDI VERSION)", url: "https://www.youtube.com/embed/videoseries?list=PLu71SKxNbfoDqgPchmvIsL4hTnJIrtige" },
+      ]},
       { id: 5, title: "Connecting MERN", description: "Integrate all four technologies", type: "advanced", resources: 2, estimatedTime: "2 weeks", topics: ["API integration", "CORS", "Authentication"] },
       { id: 6, title: "Testing", description: "Testing MERN apps", type: "advanced", resources: 2, estimatedTime: "2 weeks", topics: ["Jest", "Supertest", "React Testing Library"] },
-      { id: 7, title: "Deployment", description: "Deploying MERN stack apps", type: "final", resources: 2, estimatedTime: "2 weeks", topics: ["Heroku", "Vercel", "Netlify"] },
+      { id: 7, title: "Deployment", description: "Deploying MERN stack apps", type: "final", resources: 2, estimatedTime: "2 weeks", topics: ["Heroku", "Vercel", "Netlify"] , resources: [
+        { title: "Deploy React App to Netlify", url: "https://www.youtube.com/embed/8YPXv7xKh2w" },
+        { title: "Deploy React App to Vercel", url: "https://www.youtube.com/embed/hAuyNf0Uk-w" }
+      ]},
       { id: 8, title: "Capstone Project", description: "Build a MERN stack project", type: "final", resources: 1, estimatedTime: "2 weeks", topics: ["Project planning", "Implementation", "Deployment"] }
     ]
   },

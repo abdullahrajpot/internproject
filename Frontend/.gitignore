@@ -24,7 +24,3 @@ dist-ssr
 *.sw?
 *.docx
 bun.lock
-
-node_modules/
-.vscode/
-uploads/

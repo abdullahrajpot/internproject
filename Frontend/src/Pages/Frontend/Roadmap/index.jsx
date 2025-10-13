@@ -5,6 +5,8 @@ import { useAuth } from '../../../Contexts/AuthContext';
 import { useUserProgress } from '../../../hooks/useUserProgress';
 import { getAllRoadmaps } from '../../../data/roadmapData';
 
+import { useAuth } from '../../../Contexts/AuthContext';
+
 // Icon mapping
 const iconMap = {
   Code: Code,
