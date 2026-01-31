@@ -4,6 +4,7 @@ import { sendApplicationEmail } from '../../services/emailService';
 import {useLocation, useNavigate} from "react-router-dom"
 import { useAuth } from '../../Contexts/AuthContext';
 import { toast } from 'react-toastify';
+import internhshipBgImage from "../../assests/internship-bg-image.jpg";
 
 const Internship = () => {
   const {isAuthenticated} = useAuth();
@@ -167,10 +168,11 @@ if (!isAuthenticated){
       <div className="bg-gradient-to-r from-orange-600 via-orange-500 to-red-600 text-white py-20 relative overflow-hidden">
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
-          <div className="absolute top-10 left-10 w-20 h-20 bg-orange-400 rounded-full opacity-20 animate-pulse"></div>
+          <img src={internhshipBgImage} alt="Internship Background" className="absolute inset-0 w-full h-full object-cover" />
+          {/* <div className="absolute top-10 left-10 w-20 h-20 bg-orange-400 rounded-full opacity-20 animate-pulse"></div>
           <div className="absolute top-20 right-20 w-16 h-16 bg-red-400 rounded-full opacity-30 animate-bounce"></div>
           <div className="absolute bottom-10 left-1/4 w-12 h-12 bg-orange-300 rounded-full opacity-25 animate-ping"></div>
-          <div className="absolute bottom-20 right-1/3 w-24 h-24 bg-red-300 rounded-full opacity-20 animate-pulse"></div>
+          <div className="absolute bottom-20 right-1/3 w-24 h-24 bg-red-300 rounded-full opacity-20 animate-pulse"></div> */}
         </div>
 
         <div className="container mx-auto px-4 text-center relative z-10">

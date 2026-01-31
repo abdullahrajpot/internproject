@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../Contexts/AuthContext";
 import { FaTasks, FaCheckCircle, FaSpinner, FaClock, FaBell, FaSearch, FaChevronLeft, FaChevronRight, FaVideo, FaUsers } from "react-icons/fa";
+import internhshipBgImage from "../../assests/internship-bg-image.jpg"; // Assuming this path
 import axios from "axios";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 
@@ -169,120 +170,134 @@ export default function InternDashboard() {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <div className="p-8">
+      <div className="p-4 sm:p-6 lg:p-8">
         {/* Main Header */}
-        <div className="flex justify-between items-start mb-8">
+        <div
+          className="relative flex flex-col sm:flex-row sm:justify-between sm:items-start mb-6 sm:mb-8 gap-4 p-6 sm:p-8 md:p-10 rounded-xl overflow-hidden shadow-lg"
+          style={{
+            backgroundImage: `url(${internhshipBgImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-700/80 to-purple-700/80 z-0"></div>
+          <div className="relative z-10 flex flex-col sm:flex-row sm:justify-between sm:items-start w-full gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Hello {user?.name} !!!</h1>
-            <p className="text-gray-500">Welcome Back !</p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Hello {user?.name?.split(' ')[0] || 'User'} !!!</h1>
+            <p className="text-blue-200">Welcome Back !</p>
           </div>
-          <div className="flex items-center space-x-4">
-            <div className="relative">
-              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            <div className="relative flex-1 sm:flex-none">
+              <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300 w-4 h-4" />
               <input
                 type="text"
                 placeholder="Search..."
-                className="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full sm:w-auto pl-10 pr-4 py-2 bg-white bg-opacity-20 border border-blue-300/40 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-200 text-white placeholder-blue-200 text-sm"
               />
             </div>
-            <FaBell className="text-gray-600 hover:text-gray-800 cursor-pointer" />
-            <div className="flex items-center space-x-3">
-              <div className="text-right">
-                <div className="font-semibold text-gray-900">{user?.name}</div>
-                <div className="text-sm text-gray-500">{user?.email}</div>
+            <FaBell className="text-blue-200 hover:text-white cursor-pointer w-5 h-5" />
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <div className="text-right hidden sm:block">
+                <div className="font-semibold text-white text-sm">{user?.name}</div>
+                <div className="text-xs text-blue-200">{user?.email}</div>
               </div>
-              <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white bg-opacity-30 rounded-full flex items-center justify-center text-white font-semibold text-sm border border-white/50">
                 {getInitials(user?.name)}
               </div>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left Column */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-6 lg:space-y-8">
             {/* Statistics Cards */}
             <div>
-              <h2 className="text-xl font-semibold mb-6 text-gray-800">Statistic</h2>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-6 text-white">
-                  <div className="flex items-center justify-between mb-4">
-                    <FaTasks className="text-2xl opacity-80" />
+              <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-gray-800">Statistics</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 sm:p-6 text-white">
+                  <div className="flex items-center justify-between mb-3 sm:mb-4">
+                    <FaTasks className="text-xl sm:text-2xl opacity-80" />
                     <span className="text-xs bg-white bg-opacity-20 px-2 py-1 rounded-full">
                       Total
                     </span>
                   </div>
-                  <div className="text-2xl font-bold mb-1">{total}</div>
-                  <h3 className="font-semibold text-sm">All Tasks</h3>
+                  <div className="text-xl sm:text-2xl font-bold mb-1">{total}</div>
+                  <h3 className="font-semibold text-xs sm:text-sm">All Tasks</h3>
                 </div>
 
-                <div className="bg-white border border-gray-200 rounded-xl p-6 text-gray-800">
-                  <div className="flex items-center justify-between mb-4">
-                    <FaCheckCircle className="text-2xl text-green-500" />
+                <div className="bg-white border border-gray-200 rounded-xl p-4 sm:p-6 text-gray-800">
+                  <div className="flex items-center justify-between mb-3 sm:mb-4">
+                    <FaCheckCircle className="text-xl sm:text-2xl text-green-500" />
                     <span className="text-xs bg-gray-100 px-2 py-1 rounded-full">
-                      {completed} Tasks
+                      {completed}
                     </span>
                   </div>
-                  <h3 className="font-semibold text-sm">Completed</h3>
+                  <div className="text-xl sm:text-2xl font-bold mb-1">{completed}</div>
+                  <h3 className="font-semibold text-xs sm:text-sm">Completed</h3>
                 </div>
 
-                <div className="bg-white border border-gray-200 rounded-xl p-6 text-gray-800">
-                  <div className="flex items-center justify-between mb-4">
-                    <FaSpinner className="text-2xl text-blue-500" />
+                <div className="bg-white border border-gray-200 rounded-xl p-4 sm:p-6 text-gray-800">
+                  <div className="flex items-center justify-between mb-3 sm:mb-4">
+                    <FaSpinner className="text-xl sm:text-2xl text-blue-500" />
                     <span className="text-xs bg-gray-100 px-2 py-1 rounded-full">
-                      {ongoing} Tasks
+                      {ongoing}
                     </span>
                   </div>
-                  <h3 className="font-semibold text-sm">In Progress</h3>
+                  <div className="text-xl sm:text-2xl font-bold mb-1">{ongoing}</div>
+                  <h3 className="font-semibold text-xs sm:text-sm">In Progress</h3>
                 </div>
 
-                <div className="bg-white border border-gray-200 rounded-xl p-6 text-gray-800">
-                  <div className="flex items-center justify-between mb-4">
-                    <FaClock className="text-2xl text-orange-500" />
+                <div className="bg-white border border-gray-200 rounded-xl p-4 sm:p-6 text-gray-800">
+                  <div className="flex items-center justify-between mb-3 sm:mb-4">
+                    <FaClock className="text-xl sm:text-2xl text-orange-500" />
                     <span className="text-xs bg-gray-100 px-2 py-1 rounded-full">
-                      {pending} Tasks
+                      {pending}
                     </span>
                   </div>
-                  <h3 className="font-semibold text-sm">Pending</h3>
+                  <div className="text-xl sm:text-2xl font-bold mb-1">{pending}</div>
+                  <h3 className="font-semibold text-xs sm:text-sm">Pending</h3>
                 </div>
               </div>
             </div>
 
             {/* Project Progress */}
-            <div className="bg-white rounded-xl p-6 shadow-sm">
-              <h2 className="text-xl font-semibold mb-6 text-gray-800">Project</h2>
-              <div className="space-y-6">
+            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm">
+              <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-gray-800">Projects</h2>
+              <div className="space-y-4 sm:space-y-6">
                 {tasks.slice(0, 3).map((task) => {
                   const progressPercentage = getProgressPercentage(task);
                   const progressColor = getProgressColor(task);
                   const daysLeft = getDaysLeft(task.deadline);
 
                   return (
-                    <div key={task._id} className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                          <FaTasks className="text-blue-600" />
+                    <div key={task._id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      <div className="flex items-center space-x-3 sm:space-x-4 flex-1">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                          <FaTasks className="text-blue-600 w-4 h-4 sm:w-5 sm:h-5" />
                         </div>
-                        <div>
-                          <h3 className="font-semibold text-gray-900">{task.title}</h3>
-                          <p className="text-sm text-gray-600">{task.description?.substring(0, 50)}...</p>
-                          <div className="flex items-center mt-2">
-                            <div className="flex -space-x-2 mr-3">
-                              <div className="w-6 h-6 bg-blue-500 rounded-full border-2 border-white flex items-center justify-center text-xs text-white">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold text-gray-900 text-sm sm:text-base truncate">{task.title}</h3>
+                          <p className="text-xs sm:text-sm text-gray-600 truncate">{task.description?.substring(0, 40)}...</p>
+                          <div className="flex items-center mt-1 sm:mt-2">
+                            <div className="flex -space-x-1 sm:-space-x-2 mr-2 sm:mr-3">
+                              <div className="w-5 h-5 sm:w-6 sm:h-6 bg-blue-500 rounded-full border-2 border-white flex items-center justify-center text-xs text-white">
                                 {getInitials(user?.name)}
                               </div>
                             </div>
                             <span className={`text-xs ${daysLeft < 0 ? 'text-red-500' : daysLeft <= 3 ? 'text-orange-500' : 'text-gray-500'}`}>
-                              {daysLeft < 0 ? `${Math.abs(daysLeft)} days overdue` :
+                              {daysLeft < 0 ? `${Math.abs(daysLeft)}d overdue` :
                                 daysLeft === 0 ? 'Due today' :
-                                  `${daysLeft} days left`}
+                                  `${daysLeft}d left`}
                             </span>
                           </div>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <div className="text-2xl font-bold text-gray-900">{progressPercentage}%</div>
-                        <div className="w-20 h-2 bg-gray-200 rounded-full mt-2">
+                      <div className="flex items-center justify-between sm:flex-col sm:items-end sm:text-right">
+                        <div className="text-lg sm:text-2xl font-bold text-gray-900">{progressPercentage}%</div>
+                        <div className="w-16 sm:w-20 h-2 bg-gray-200 rounded-full mt-1 sm:mt-2">
                           <div className={`h-full ${progressColor} rounded-full transition-all duration-300`} style={{ width: `${progressPercentage}%` }}></div>
                         </div>
                       </div>
@@ -293,9 +308,9 @@ export default function InternDashboard() {
             </div>
 
             {/* Task Today */}
-            <div className="bg-white rounded-xl p-6 shadow-sm">
-              <h2 className="text-xl font-semibold mb-6 text-gray-800">Task Today</h2>
-              <div className="space-y-4">
+            <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm">
+              <h2 className="text-lg sm:text-xl font-semibold mb-4 sm:mb-6 text-gray-800">Today's Tasks</h2>
+              <div className="space-y-3 sm:space-y-4">
                 {todayTasks.length === 0 ? (
                   <div className="text-center py-8 text-gray-500">
                     <FaTasks className="text-4xl mx-auto mb-4 opacity-50" />
@@ -303,27 +318,27 @@ export default function InternDashboard() {
                   </div>
                 ) : (
                   todayTasks.map((task) => (
-                    <div key={task._id} className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-xl hover:shadow-md transition-all duration-200">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex flex-col items-center justify-center text-white shadow-lg">
-                          <div className="text-xs font-bold">Start From</div>
+                    <div key={task._id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-xl hover:shadow-md transition-all duration-200 gap-3 sm:gap-4">
+                      <div className="flex items-center space-x-3 sm:space-x-4 flex-1">
+                        <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex flex-col items-center justify-center text-white shadow-lg flex-shrink-0">
+                          <div className="text-xs font-bold">Start</div>
                           <div className="text-xs font-semibold">
                             {formatTime(task.deadline)}
                           </div>
                         </div>
-                        <div>
-                          <h3 className="font-semibold text-gray-900 text-lg">{task.title}</h3>
-                          <p className="text-sm text-gray-600 mt-1">
-                            {task.description?.substring(0, 60)}...
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-semibold text-gray-900 text-sm sm:text-lg truncate">{task.title}</h3>
+                          <p className="text-xs sm:text-sm text-gray-600 mt-1 line-clamp-2">
+                            {task.description?.substring(0, 50)}...
                           </p>
-                          <div className="flex items-center mt-2 space-x-2">
-                            <span className="text-xs text-gray-500">📍 {task.assignedBy?.name || 'Admin'}</span>
-                            <span className="text-xs text-gray-400">•</span>
-                            <span className="text-xs text-gray-500">💬 0 comments</span>
+                          <div className="flex items-center mt-1 sm:mt-2 space-x-1 sm:space-x-2 text-xs">
+                            <span className="text-gray-500">📍 {task.assignedBy?.name || 'Admin'}</span>
+                            <span className="text-gray-400 hidden sm:inline">•</span>
+                            <span className="text-gray-500 hidden sm:inline">💬 0 comments</span>
                           </div>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-3">
+                      <div className="flex items-center justify-end sm:justify-center">
                         <button className="text-xs text-blue-600 bg-blue-100 hover:bg-blue-200 px-3 py-2 rounded-full font-medium transition-colors">
                           Reminder
                         </button>
@@ -336,7 +351,7 @@ export default function InternDashboard() {
           </div>
 
           {/* Right Sidebar - Combined Section */}
-          <div className="bg-white rounded-xl p-6 shadow-sm">
+          <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm">
             {/* Overall Progress */}
             <div className="mb-8">
               <h2 className="text-lg font-semibold mb-6 text-gray-800">Overall Progress</h2>

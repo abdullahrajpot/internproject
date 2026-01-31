@@ -83,10 +83,11 @@ export default function Sidebar({ isOpen, isCollapsed, isMobile, onClose }) {
 
   return (
     <aside
-      className={`dashboard-sidebar  bg-gradient-to-br from-slate-800 via-slate-900 to-slate-900 text-white min-h-screen flex flex-col shadow-2xl transition-all duration-300 ease-in-out z-50 ${isMobile
-        ? `fixed top-0 left-0 h-full ${isOpen ? 'translate-x-0' : '-translate-x-full'}`
-        : 'relative'
-        }`}
+      className={`dashboard-sidebar bg-gradient-to-br from-slate-800 via-slate-900 to-slate-900 text-white flex flex-col shadow-2xl transition-all duration-300 ease-in-out z-50 ${
+        isMobile
+          ? `fixed top-0 left-0 h-full ${isOpen ? 'translate-x-0' : '-translate-x-full'}`
+          : 'fixed top-0 left-0 h-full'
+      }`}
       style={{
         width: isMobile ? '280px' : (isCollapsed ? '80px' : '280px'),
         minWidth: isMobile ? '280px' : (isCollapsed ? '80px' : '280px')
@@ -158,7 +159,12 @@ export default function Sidebar({ isOpen, isCollapsed, isMobile, onClose }) {
       </div>
 
       {/* Navigation Menu */}
-      <nav className={`flex-1 ${isCollapsed && !isMobile ? 'px-3' : 'px-4'} py-5 transition-all duration-300 overflow-y-auto`}>
+      <nav className={`flex-1 ${isCollapsed && !isMobile ? 'px-3' : 'px-4'} py-5 transition-all duration-300 overflow-y-auto`}
+        style={{
+          scrollbarWidth: 'thin',
+          scrollbarColor: '#475569 #1e293b'
+        }}
+      >
         <div className="space-y-2">
           {menuItems.map((item, index) => (
             <Link
