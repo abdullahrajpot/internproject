@@ -34,6 +34,7 @@ try {
   const progressRoutes = require('./routes/Progress');
   const resourceRoutes = require('./routes/Resource');
   const notificationRoutes = require('./routes/Notification');
+  const analyticsRoutes = require('./routes/Analytics');
 
   console.log('All routes imported successfully');
 
@@ -48,6 +49,7 @@ try {
   app.use('/api/admin-progress', progressRoutes);
   app.use('/api/resources', resourceRoutes);
   app.use('/api/notifications', notificationRoutes);
+  app.use('/api/analytics', analyticsRoutes);
 
   console.log('Routes mounted successfully!');
   console.log('Available routes:');
@@ -59,6 +61,7 @@ try {
   console.log('- /api/admin-progress');
   console.log('- /api/resources');
   console.log('- /api/notifications');
+  console.log('- /api/analytics');
 
 } catch (error) {
   console.error('❌ Error importing or mounting routes:', error);
@@ -82,7 +85,9 @@ app.use('*', (req, res) => {
       '/api/courses',
       '/api/progress',
       '/api/admin-progress',
-      '/api/resources'
+      '/api/resources',
+      '/api/notifications',
+      '/api/analytics'
     ]
   });
 });

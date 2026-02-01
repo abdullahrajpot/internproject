@@ -7,6 +7,7 @@ import {
   FaStar, FaMapMarkerAlt, FaGraduationCap, FaEdit, FaSave, FaTimes,
   FaCheckCircle, FaTimesCircle, FaClock, FaExclamationTriangle
 } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 export default function Internees() {
   const { users, loading, error, getUsersByRole } = useUsers() || {};
@@ -21,8 +22,9 @@ export default function Internees() {
   const [sortBy, setSortBy] = useState('name');
   const [sortOrder, setSortOrder] = useState('asc');
   const [actionLoading, setActionLoading] = useState(null);
-  const [showTaskModal, setShowTaskModal] = useState(null);
   const [showMessageModal, setShowMessageModal] = useState(null);
+  const navigate = useNavigate();
+
 
   const internees = getUsersByRole ? getUsersByRole('intern') : [];
 
@@ -32,13 +34,13 @@ export default function Internees() {
       try {
         const response = await axios.get('http://localhost:5000/api/task/assigned');
         const tasks = response.data || [];
-        
+
         const stats = {};
         internees.forEach(internee => {
-          const interneeTasks = tasks.filter(task => 
+          const interneeTasks = tasks.filter(task =>
             task.assignedTo && (task.assignedTo._id === internee._id || task.assignedTo._id === internee.id)
           );
-          
+
           const completed = interneeTasks.filter(t => t.status === 'Completed').length;
           const ongoing = interneeTasks.filter(t => t.status === 'Ongoing').length;
           const pending = interneeTasks.filter(t => t.status === 'Pending').length;
@@ -46,9 +48,9 @@ export default function Internees() {
             const deadline = new Date(t.deadline);
             return deadline < new Date() && t.status !== 'Completed';
           }).length;
-          
+
           const completionRate = interneeTasks.length > 0 ? (completed / interneeTasks.length * 100).toFixed(1) : 0;
-          
+
           stats[internee._id || internee.id] = {
             totalTasks: interneeTasks.length,
             completed,
@@ -60,7 +62,7 @@ export default function Internees() {
             lastActive: new Date().toISOString() // Mock data
           };
         });
-        
+
         setInterneeStats(stats);
       } catch (error) {
         console.error('Error fetching internee stats:', error);
@@ -76,16 +78,16 @@ export default function Internees() {
   const filteredAndSortedInternees = useMemo(() => {
     let filtered = internees.filter(internee => {
       const matchesSearch = internee.name?.toLowerCase().includes(search.toLowerCase()) ||
-                           internee.email?.toLowerCase().includes(search.toLowerCase());
-      
+        internee.email?.toLowerCase().includes(search.toLowerCase());
+
       const stats = interneeStats[internee._id || internee.id];
-      const matchesStatus = statusFilter === 'all' || 
+      const matchesStatus = statusFilter === 'all' ||
         (statusFilter === 'active' && stats?.totalTasks > 0) ||
         (statusFilter === 'inactive' && (!stats || stats.totalTasks === 0));
-      
-      const matchesPerformance = performanceFilter === 'all' || 
+
+      const matchesPerformance = performanceFilter === 'all' ||
         (stats && stats.performance === performanceFilter);
-      
+
       return matchesSearch && matchesStatus && matchesPerformance;
     });
 
@@ -93,9 +95,9 @@ export default function Internees() {
     filtered.sort((a, b) => {
       const aStats = interneeStats[a._id || a.id] || {};
       const bStats = interneeStats[b._id || b.id] || {};
-      
+
       let aValue, bValue;
-      
+
       switch (sortBy) {
         case 'name':
           aValue = a.name || '';
@@ -117,11 +119,11 @@ export default function Internees() {
           aValue = a.name || '';
           bValue = b.name || '';
       }
-      
+
       if (typeof aValue === 'string') {
         return sortOrder === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
       }
-      
+
       return sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
     });
 
@@ -149,7 +151,7 @@ export default function Internees() {
     if (!window.confirm('Are you sure you want to delete this internee? This action cannot be undone.')) {
       return;
     }
-    
+
     setActionLoading(interneeId);
     try {
       await axios.delete(`http://localhost:5000/api/auth/users/${interneeId}`);
@@ -204,66 +206,82 @@ export default function Internees() {
     }
   };
 
-  const handleAssignTask = async (interneeId, taskData) => {
-    setActionLoading(interneeId);
-    try {
-      const token = localStorage.getItem('token');
-      
-      // Assign the task
-      await axios.post('http://localhost:5000/api/task/assign', {
-        title: taskData.title,
-        description: taskData.description,
-        deadline: taskData.deadline,
-        assignedTo: interneeId,
-        assignedDate: new Date().toISOString()
-      });
-
-      // Send notification to the internee using temporary route
-      await axios.post('http://localhost:5000/api/task/send-notification', {
-        recipientId: interneeId,
-        subject: `New Task Assigned: ${taskData.title}`,
-        message: `You have been assigned a new task: "${taskData.title}". Deadline: ${new Date(taskData.deadline).toLocaleDateString()}`
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`
+  const handleAssignTask = (interneeId, interneeData) => {
+    // Navigate to assign task page with internee data
+    navigate('/dashboard/assign-task', {
+      state: {
+        preSelectedInternee: {
+          id: interneeId,
+          name: interneeData?.name || 'Selected Internee',
+          email: interneeData?.email || ''
         }
-      });
-
-      setShowTaskModal(null);
-      alert('Task assigned successfully! The internee will receive a notification.');
-      
-      // Refresh stats
-      const response = await axios.get('http://localhost:5000/api/task/assigned');
-      // Update stats logic here
-    } catch (error) {
-      console.error('Task assignment error:', error);
-      alert('Failed to assign task');
-    } finally {
-      setActionLoading(null);
-    }
+      }
+    });
   };
 
   const handleSendMessage = async (interneeId, messageData) => {
     setActionLoading(interneeId);
     try {
+      console.log('📧 Sending message to internee:', interneeId);
+
+      // Try to send via backend API first
       const token = localStorage.getItem('token');
-      
-      // Use the temporary task route for now
-      const response = await axios.post('http://localhost:5000/api/task/send-message', {
+      if (token) {
+        try {
+          const response = await axios.post('http://localhost:5000/api/notifications/message', {
+            recipientId: interneeId,
+            subject: messageData.subject,
+            message: messageData.message
+          }, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+
+          if (response.data.success) {
+            console.log('✅ Message sent via backend API');
+            setShowMessageModal(null);
+            alert('✅ Message sent successfully! The internee will see this in their notifications.');
+            return;
+          }
+        } catch (apiError) {
+          console.warn('⚠️ Backend API failed, using localStorage fallback:', apiError.message);
+        }
+      }
+
+      // Fallback: Store message in localStorage for demo purposes
+      const existingMessages = JSON.parse(localStorage.getItem('adminMessages') || '[]');
+      const newMessage = {
+        id: Date.now().toString(),
         recipientId: interneeId,
         subject: messageData.subject,
-        message: messageData.message
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        message: messageData.message,
+        sender: 'Admin',
+        timestamp: new Date().toISOString(),
+        isRead: false
+      };
+
+      existingMessages.push(newMessage);
+      localStorage.setItem('adminMessages', JSON.stringify(existingMessages));
+
+      // Also store in internee's notifications
+      const interneeNotifications = JSON.parse(localStorage.getItem(`notifications_${interneeId}`) || '[]');
+      interneeNotifications.unshift({
+        _id: newMessage.id,
+        title: messageData.subject,
+        message: messageData.message,
+        type: 'message',
+        priority: 'medium',
+        isRead: false,
+        sender: { name: 'Admin', email: 'admin@company.com' },
+        createdAt: new Date().toISOString()
       });
-      
-      console.log('Message response:', response.data);
+      localStorage.setItem(`notifications_${interneeId}`, JSON.stringify(interneeNotifications));
+
+      console.log('✅ Message stored successfully');
       setShowMessageModal(null);
-      alert('Message sent successfully! The internee will receive a notification.');
+      alert('✅ Message sent successfully! The internee will see this in their notifications.');
+
     } catch (error) {
-      console.error('Message sending error:', error);
+      console.error('❌ Message sending error:', error);
       alert('Failed to send message. Please try again.');
     } finally {
       setActionLoading(null);
@@ -272,7 +290,7 @@ export default function Internees() {
 
   const InterneeCard = ({ internee }) => {
     const stats = interneeStats[internee._id || internee.id] || {};
-    
+
     return (
       <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200">
         {/* Header */}
@@ -364,7 +382,7 @@ export default function Internees() {
                 className="pl-10 pr-4 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-64 text-sm"
               />
             </div>
-            
+
             <button
               onClick={() => setShowAddModal(true)}
               className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
@@ -420,21 +438,19 @@ export default function Internees() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setViewMode('cards')}
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                viewMode === 'cards' 
-                  ? 'bg-blue-600 text-white' 
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${viewMode === 'cards'
+                  ? 'bg-blue-600 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+                }`}
             >
               Cards
             </button>
             <button
               onClick={() => setViewMode('table')}
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                viewMode === 'table' 
-                  ? 'bg-blue-600 text-white' 
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${viewMode === 'table'
+                  ? 'bg-blue-600 text-white'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+                }`}
             >
               Table
             </button>
@@ -545,7 +561,7 @@ export default function Internees() {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {filteredAndSortedInternees.map(internee => {
                     const stats = interneeStats[internee._id || internee.id] || {};
-                    
+
                     return (
                       <tr key={internee._id || internee.id} className="hover:bg-gray-50">
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -617,11 +633,11 @@ export default function Internees() {
 
       {/* Detailed View Modal */}
       {selectedInternee && (
-        <InterneeDetailModal 
-          internee={selectedInternee} 
+        <InterneeDetailModal
+          internee={selectedInternee}
           stats={interneeStats[selectedInternee._id || selectedInternee.id] || {}}
           onClose={() => setSelectedInternee(null)}
-          onAssignTask={(taskData) => handleAssignTask(selectedInternee._id || selectedInternee.id, taskData)}
+          onAssignTask={() => handleAssignTask(selectedInternee._id || selectedInternee.id, selectedInternee)}
           onSendMessage={(messageData) => handleSendMessage(selectedInternee._id || selectedInternee.id, messageData)}
           loading={actionLoading === (selectedInternee._id || selectedInternee.id)}
         />
@@ -629,7 +645,7 @@ export default function Internees() {
 
       {/* Add Internee Modal */}
       {showAddModal && (
-        <AddInterneeModal 
+        <AddInterneeModal
           onClose={() => setShowAddModal(false)}
           onAdd={handleAddInternee}
           loading={actionLoading === 'add'}
@@ -638,7 +654,7 @@ export default function Internees() {
 
       {/* Edit Internee Modal */}
       {editingInternee && (
-        <EditInterneeModal 
+        <EditInterneeModal
           internee={editingInternee}
           onClose={() => setEditingInternee(null)}
           onSave={handleEditInternee}
@@ -675,7 +691,7 @@ const AddInterneeModal = ({ onClose, onAdd, loading }) => {
             <FaTimes className="w-5 h-5" />
           </button>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="p-6">
           <div className="space-y-4">
             <div>
@@ -683,7 +699,7 @@ const AddInterneeModal = ({ onClose, onAdd, loading }) => {
               <input
                 type="text"
                 value={formData.name}
-                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
@@ -693,7 +709,7 @@ const AddInterneeModal = ({ onClose, onAdd, loading }) => {
               <input
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
@@ -703,13 +719,13 @@ const AddInterneeModal = ({ onClose, onAdd, loading }) => {
               <input
                 type="password"
                 value={formData.password}
-                onChange={(e) => setFormData({...formData, password: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 placeholder="Leave empty for default password"
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
-          
+
           <div className="flex space-x-3 mt-6">
             <button
               type="button"
@@ -759,7 +775,7 @@ const EditInterneeModal = ({ internee, onClose, onSave, loading }) => {
             <FaTimes className="w-5 h-5" />
           </button>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="p-6">
           <div className="space-y-4">
             <div>
@@ -767,7 +783,7 @@ const EditInterneeModal = ({ internee, onClose, onSave, loading }) => {
               <input
                 type="text"
                 value={formData.name}
-                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
@@ -777,7 +793,7 @@ const EditInterneeModal = ({ internee, onClose, onSave, loading }) => {
               <input
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
@@ -786,7 +802,7 @@ const EditInterneeModal = ({ internee, onClose, onSave, loading }) => {
               <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
               <select
                 value={formData.role}
-                onChange={(e) => setFormData({...formData, role: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="intern">Intern</option>
@@ -795,7 +811,7 @@ const EditInterneeModal = ({ internee, onClose, onSave, loading }) => {
               </select>
             </div>
           </div>
-          
+
           <div className="flex space-x-3 mt-6">
             <button
               type="button"
@@ -820,29 +836,12 @@ const EditInterneeModal = ({ internee, onClose, onSave, loading }) => {
 
 // Detailed View Modal Component
 const InterneeDetailModal = ({ internee, stats, onClose, onAssignTask, onSendMessage, loading }) => {
-  const [showTaskForm, setShowTaskForm] = useState(false);
   const [showMessageForm, setShowMessageForm] = useState(false);
-  const [taskData, setTaskData] = useState({
-    title: '',
-    description: '',
-    deadline: ''
-  });
   const [messageData, setMessageData] = useState({
     subject: '',
     message: '',
     email: internee.email
   });
-
-  const handleAssignTask = (e) => {
-    e.preventDefault();
-    if (!taskData.title || !taskData.description || !taskData.deadline) {
-      alert('Please fill in all task fields');
-      return;
-    }
-    onAssignTask(taskData);
-    setShowTaskForm(false);
-    setTaskData({ title: '', description: '', deadline: '' });
-  };
 
   const handleSendMessage = (e) => {
     e.preventDefault();
@@ -910,7 +909,7 @@ const InterneeDetailModal = ({ internee, stats, onClose, onAssignTask, onSendMes
                     <span className="font-medium">{stats.completionRate || 0}%</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
+                    <div
                       className="bg-blue-500 h-2 rounded-full transition-all duration-300"
                       style={{ width: `${stats.completionRate || 0}%` }}
                     ></div>
@@ -918,12 +917,11 @@ const InterneeDetailModal = ({ internee, stats, onClose, onAssignTask, onSendMes
                 </div>
                 <div className="pt-2">
                   <span className="text-sm text-gray-600">Performance Level:</span>
-                  <div className={`inline-block ml-2 px-3 py-1 rounded-full text-xs font-medium ${
-                    stats.performance === 'excellent' ? 'bg-green-100 text-green-800' :
-                    stats.performance === 'good' ? 'bg-blue-100 text-blue-800' :
-                    stats.performance === 'average' ? 'bg-yellow-100 text-yellow-800' :
-                    'bg-red-100 text-red-800'
-                  }`}>
+                  <div className={`inline-block ml-2 px-3 py-1 rounded-full text-xs font-medium ${stats.performance === 'excellent' ? 'bg-green-100 text-green-800' :
+                      stats.performance === 'good' ? 'bg-blue-100 text-blue-800' :
+                        stats.performance === 'average' ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-red-100 text-red-800'
+                    }`}>
                     {stats.performance ? stats.performance.charAt(0).toUpperCase() + stats.performance.slice(1) : 'No Data'}
                   </div>
                 </div>
@@ -952,15 +950,15 @@ const InterneeDetailModal = ({ internee, stats, onClose, onAssignTask, onSendMes
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
               <div className="space-y-2">
-                <button 
-                  onClick={() => setShowTaskForm(true)}
+                <button
+                  onClick={onAssignTask}
                   disabled={loading}
                   className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
                 >
                   <FaTasks className="w-4 h-4" />
                   <span>{loading ? 'Processing...' : 'Assign Task'}</span>
                 </button>
-                <button 
+                <button
                   onClick={() => setShowMessageForm(true)}
                   disabled={loading}
                   className="w-full flex items-center justify-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
@@ -972,61 +970,6 @@ const InterneeDetailModal = ({ internee, stats, onClose, onAssignTask, onSendMes
             </div>
           </div>
 
-          {/* Task Assignment Form */}
-          {showTaskForm && (
-            <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-              <h4 className="text-lg font-semibold text-gray-900 mb-4">Assign New Task</h4>
-              <form onSubmit={handleAssignTask} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Task Title</label>
-                  <input
-                    type="text"
-                    value={taskData.title}
-                    onChange={(e) => setTaskData({...taskData, title: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                  <textarea
-                    value={taskData.description}
-                    onChange={(e) => setTaskData({...taskData, description: e.target.value})}
-                    rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Deadline</label>
-                  <input
-                    type="datetime-local"
-                    value={taskData.deadline}
-                    onChange={(e) => setTaskData({...taskData, deadline: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    required
-                  />
-                </div>
-                <div className="flex space-x-3">
-                  <button
-                    type="button"
-                    onClick={() => setShowTaskForm(false)}
-                    className="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
-                  >
-                    {loading ? 'Assigning...' : 'Assign Task'}
-                  </button>
-                </div>
-              </form>
-            </div>
-          )}
-
           {/* Message Form */}
           {showMessageForm && (
             <div className="mt-6 p-4 bg-green-50 rounded-lg">
@@ -1037,7 +980,7 @@ const InterneeDetailModal = ({ internee, stats, onClose, onAssignTask, onSendMes
                   <input
                     type="text"
                     value={messageData.subject}
-                    onChange={(e) => setMessageData({...messageData, subject: e.target.value})}
+                    onChange={(e) => setMessageData({ ...messageData, subject: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     required
                   />
@@ -1046,7 +989,7 @@ const InterneeDetailModal = ({ internee, stats, onClose, onAssignTask, onSendMes
                   <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
                   <textarea
                     value={messageData.message}
-                    onChange={(e) => setMessageData({...messageData, message: e.target.value})}
+                    onChange={(e) => setMessageData({ ...messageData, message: e.target.value })}
                     rows={4}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     required

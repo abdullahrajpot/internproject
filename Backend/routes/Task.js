@@ -249,17 +249,29 @@ router.get('/admin-progress', async (req, res) => {
   }
 });
 
-// TEMPORARY: Add notification routes here since the separate Notification.js might not be loading
+// Test route to verify server is working
+router.get('/test-message', (req, res) => {
+  console.log('✅ Test message route working!');
+  res.json({ 
+    success: true, 
+    message: 'Message system is working!',
+    timestamp: new Date().toISOString()
+  });
+});
+
+// TEMPORARY: Add notification routes here (NO AUTH for testing)
 router.post('/send-notification', async (req, res) => {
   try {
     console.log('✅ Send notification route hit!');
+    console.log('Request body:', req.body);
     const { recipientId, subject, message } = req.body;
     
     // For now, just return success - we'll implement full notification later
     res.json({ 
       success: true, 
       message: 'Notification sent successfully (mock)',
-      data: { recipientId, subject, message }
+      data: { recipientId, subject, message },
+      timestamp: new Date().toISOString()
     });
   } catch (error) {
     console.error('Send notification error:', error);
@@ -270,13 +282,15 @@ router.post('/send-notification', async (req, res) => {
 router.post('/send-message', async (req, res) => {
   try {
     console.log('✅ Send message route hit!');
+    console.log('Request body:', req.body);
     const { recipientId, subject, message } = req.body;
     
     // For now, just return success - we'll implement full notification later
     res.json({ 
       success: true, 
       message: 'Message sent successfully (mock)',
-      data: { recipientId, subject, message }
+      data: { recipientId, subject, message },
+      timestamp: new Date().toISOString()
     });
   } catch (error) {
     console.error('Send message error:', error);

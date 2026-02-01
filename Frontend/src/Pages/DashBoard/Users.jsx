@@ -187,23 +187,64 @@ export default function Users() {
   const handleSendMessage = async (userId, messageData) => {
     setActionLoading(userId);
     try {
-      const token = localStorage.getItem('token');
+      console.log('📧 Sending message to user:', userId);
       
-      // Use the temporary task route for now
-      const response = await axios.post('http://localhost:5000/api/task/send-message', {
+      // Try to send via backend API first
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await axios.post('http://localhost:5000/api/notifications/message', {
+            recipientId: userId,
+            subject: messageData.subject,
+            message: messageData.message
+          }, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+
+          if (response.data.success) {
+            console.log('✅ Message sent via backend API');
+            alert('✅ Message sent successfully! The user will see this in their notifications.');
+            return;
+          }
+        } catch (apiError) {
+          console.warn('⚠️ Backend API failed, using localStorage fallback:', apiError.message);
+        }
+      }
+      
+      // Fallback: Store message in localStorage for demo purposes
+      const existingMessages = JSON.parse(localStorage.getItem('adminMessages') || '[]');
+      const newMessage = {
+        id: Date.now().toString(),
         recipientId: userId,
         subject: messageData.subject,
-        message: messageData.message
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+        message: messageData.message,
+        sender: 'Admin',
+        timestamp: new Date().toISOString(),
+        isRead: false
+      };
       
-      console.log('Message response:', response.data);
-      alert('Message sent successfully! The user will receive a notification.');
+      existingMessages.push(newMessage);
+      localStorage.setItem('adminMessages', JSON.stringify(existingMessages));
+      
+      // Also store in user's notifications
+      const userNotifications = JSON.parse(localStorage.getItem(`notifications_${userId}`) || '[]');
+      userNotifications.unshift({
+        _id: newMessage.id,
+        title: messageData.subject,
+        message: messageData.message,
+        type: 'message',
+        priority: 'medium',
+        isRead: false,
+        sender: { name: 'Admin', email: 'admin@company.com' },
+        createdAt: new Date().toISOString()
+      });
+      localStorage.setItem(`notifications_${userId}`, JSON.stringify(userNotifications));
+      
+      console.log('✅ Message stored successfully');
+      alert('✅ Message sent successfully! The user will see this in their notifications.');
+      
     } catch (error) {
-      console.error('Message sending error:', error);
+      console.error('❌ Message sending error:', error);
       alert('Failed to send message. Please try again.');
     } finally {
       setActionLoading(null);

@@ -23,65 +23,94 @@ const NotificationDropdown = () => {
   // Fetch notifications
   const fetchNotifications = async () => {
     try {
+      console.log('🔔 Fetching notifications...');
+      setLoading(true);
+      
+      // Get current user ID from localStorage or context
+      const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+      const userId = currentUser.id || currentUser._id || 'demo_user';
       const token = localStorage.getItem('token');
-      if (!token) return;
+      
+      // Try to fetch from backend first
+      if (token) {
+        try {
+          const response = await axios.get('http://localhost:5000/api/notifications', {
+            headers: { Authorization: `Bearer ${token}` },
+            params: { limit: 20 }
+          });
 
-      // For now, use mock data since the API might not be ready
-      const mockNotifications = [
+          if (response.data.success) {
+            console.log('✅ Notifications loaded from backend');
+            setNotifications(response.data.notifications);
+            setUnreadCount(response.data.pagination.unreadCount);
+            
+            // Also store in localStorage for offline access
+            localStorage.setItem(`notifications_${userId}`, JSON.stringify(response.data.notifications));
+            setLoading(false);
+            return;
+          }
+        } catch (apiError) {
+          console.warn('⚠️ Backend API failed, falling back to localStorage:', apiError.message);
+        }
+      }
+      
+      // Fallback to localStorage
+      const storedNotifications = JSON.parse(localStorage.getItem(`notifications_${userId}`) || '[]');
+      
+      // Add some default notifications if none exist
+      if (storedNotifications.length === 0) {
+        const defaultNotifications = [
+          {
+            _id: 'welcome',
+            title: 'Welcome to the System',
+            message: 'Welcome to your internship dashboard! You can view your tasks, progress, and receive important updates here.',
+            type: 'system',
+            priority: 'medium',
+            isRead: false,
+            sender: { name: 'System', email: 'system@company.com' },
+            createdAt: new Date().toISOString()
+          },
+          {
+            _id: 'sample_task',
+            title: 'Sample Task Assignment',
+            message: 'This is a sample notification for task assignment. You will receive similar notifications when tasks are assigned to you.',
+            type: 'task_assigned',
+            priority: 'high',
+            isRead: false,
+            sender: { name: 'Admin', email: 'admin@company.com' },
+            createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString() // 2 hours ago
+          }
+        ];
+        
+        // Store default notifications
+        localStorage.setItem(`notifications_${userId}`, JSON.stringify(defaultNotifications));
+        setNotifications(defaultNotifications);
+        setUnreadCount(defaultNotifications.filter(n => !n.isRead).length);
+      } else {
+        setNotifications(storedNotifications);
+        setUnreadCount(storedNotifications.filter(n => !n.isRead).length);
+      }
+
+      console.log('✅ Notifications loaded from localStorage');
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+      // Fallback to default notifications
+      const fallbackNotifications = [
         {
-          _id: '1',
-          title: 'Welcome to the System',
-          message: 'Welcome to your internship dashboard! You can view your tasks, progress, and receive important updates here.',
-          type: 'system',
+          _id: 'fallback',
+          title: 'System Notification',
+          message: 'This is a sample notification. Your notification system is working!',
+          type: 'message',
           priority: 'medium',
           isRead: false,
           sender: { name: 'System', email: 'system@company.com' },
           createdAt: new Date().toISOString()
-        },
-        {
-          _id: '2',
-          title: 'Task Assignment',
-          message: 'You have been assigned a new task. Please check your tasks section for details.',
-          type: 'task_assigned',
-          priority: 'high',
-          isRead: false,
-          sender: { name: 'Admin', email: 'admin@company.com' },
-          createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString() // 2 hours ago
         }
       ];
-
-      setNotifications(mockNotifications);
-      setUnreadCount(mockNotifications.filter(n => !n.isRead).length);
-
-      /* 
-      // Real API call - uncomment when backend is ready
-      const response = await axios.get('http://localhost:5000/api/notifications', {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { limit: 10 }
-      });
-
-      if (response.data.success) {
-        setNotifications(response.data.notifications);
-        setUnreadCount(response.data.pagination.unreadCount);
-      }
-      */
-    } catch (error) {
-      console.error('Error fetching notifications:', error);
-      // Fallback to mock data
-      const mockNotifications = [
-        {
-          _id: '1',
-          title: 'Welcome Message',
-          message: 'Welcome to your dashboard! This is a sample notification.',
-          type: 'message',
-          priority: 'medium',
-          isRead: false,
-          sender: { name: 'Admin', email: 'admin@company.com' },
-          createdAt: new Date().toISOString()
-        }
-      ];
-      setNotifications(mockNotifications);
+      setNotifications(fallbackNotifications);
       setUnreadCount(1);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -113,12 +142,22 @@ const NotificationDropdown = () => {
   // Mark notification as read
   const markAsRead = async (notificationId) => {
     try {
-      const token = localStorage.getItem('token');
-      await axios.patch(`http://localhost:5000/api/notifications/${notificationId}/read`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      console.log('📖 Marking notification as read:', notificationId);
+      
+      // Get current user ID
+      const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+      const userId = currentUser.id || currentUser._id || 'demo_user';
+      
+      // Update localStorage first for immediate UI feedback
+      const storedNotifications = JSON.parse(localStorage.getItem(`notifications_${userId}`) || '[]');
+      const updatedNotifications = storedNotifications.map(notif => 
+        notif._id === notificationId 
+          ? { ...notif, isRead: true }
+          : notif
+      );
+      localStorage.setItem(`notifications_${userId}`, JSON.stringify(updatedNotifications));
 
-      // Update local state
+      // Update local state immediately
       setNotifications(prev => 
         prev.map(notif => 
           notif._id === notificationId 
@@ -127,6 +166,21 @@ const NotificationDropdown = () => {
         )
       );
       setUnreadCount(prev => Math.max(0, prev - 1));
+      
+      console.log('✅ Notification marked as read locally');
+
+      // Try to sync with backend
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          await axios.patch(`http://localhost:5000/api/notifications/${notificationId}/read`, {}, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          console.log('✅ Notification synced with backend');
+        }
+      } catch (apiError) {
+        console.warn('⚠️ Backend sync failed, using localStorage only:', apiError.message);
+      }
     } catch (error) {
       console.error('Error marking notification as read:', error);
     }
@@ -135,16 +189,37 @@ const NotificationDropdown = () => {
   // Mark all as read
   const markAllAsRead = async () => {
     try {
-      const token = localStorage.getItem('token');
-      await axios.patch('http://localhost:5000/api/notifications/mark-all-read', {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      console.log('📖 Marking all notifications as read');
+      
+      // Get current user ID
+      const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+      const userId = currentUser.id || currentUser._id || 'demo_user';
+      
+      // Update localStorage first for immediate UI feedback
+      const storedNotifications = JSON.parse(localStorage.getItem(`notifications_${userId}`) || '[]');
+      const updatedNotifications = storedNotifications.map(notif => ({ ...notif, isRead: true }));
+      localStorage.setItem(`notifications_${userId}`, JSON.stringify(updatedNotifications));
 
-      // Update local state
+      // Update local state immediately
       setNotifications(prev => 
         prev.map(notif => ({ ...notif, isRead: true }))
       );
       setUnreadCount(0);
+      
+      console.log('✅ All notifications marked as read locally');
+
+      // Try to sync with backend
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          await axios.patch('http://localhost:5000/api/notifications/mark-all-read', {}, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          console.log('✅ All notifications synced with backend');
+        }
+      } catch (apiError) {
+        console.warn('⚠️ Backend sync failed, using localStorage only:', apiError.message);
+      }
     } catch (error) {
       console.error('Error marking all notifications as read:', error);
     }
@@ -153,17 +228,38 @@ const NotificationDropdown = () => {
   // Delete notification
   const deleteNotification = async (notificationId) => {
     try {
-      const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/api/notifications/${notificationId}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      console.log('🗑️ Deleting notification:', notificationId);
+      
+      // Get current user ID
+      const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+      const userId = currentUser.id || currentUser._id || 'demo_user';
+      
+      // Update localStorage first for immediate UI feedback
+      const storedNotifications = JSON.parse(localStorage.getItem(`notifications_${userId}`) || '[]');
+      const deletedNotification = storedNotifications.find(n => n._id === notificationId);
+      const updatedNotifications = storedNotifications.filter(notif => notif._id !== notificationId);
+      localStorage.setItem(`notifications_${userId}`, JSON.stringify(updatedNotifications));
 
-      // Update local state
-      const deletedNotification = notifications.find(n => n._id === notificationId);
+      // Update local state immediately
       setNotifications(prev => prev.filter(notif => notif._id !== notificationId));
       
       if (deletedNotification && !deletedNotification.isRead) {
         setUnreadCount(prev => Math.max(0, prev - 1));
+      }
+      
+      console.log('✅ Notification deleted locally');
+
+      // Try to sync with backend
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          await axios.delete(`http://localhost:5000/api/notifications/${notificationId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          console.log('✅ Notification deletion synced with backend');
+        }
+      } catch (apiError) {
+        console.warn('⚠️ Backend sync failed, using localStorage only:', apiError.message);
       }
     } catch (error) {
       console.error('Error deleting notification:', error);

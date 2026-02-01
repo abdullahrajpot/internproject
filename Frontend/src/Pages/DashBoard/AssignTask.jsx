@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../Contexts/AuthContext';
 import { useUsers } from '../../Contexts/UserContext';
@@ -7,14 +8,19 @@ import { FaTasks, FaTrash, FaFileAlt, FaUser, FaCalendarAlt, FaPlus, FaClock } f
 export default function AssignTask() {
   const { user } = useAuth();
   const { users, loading, error: userError, getUsersByRole } = useUsers() || {};
+  const location = useLocation();
   const internees = getUsersByRole ? getUsersByRole('intern') : [];
+  
+  // Get pre-selected internee from navigation state
+  const preSelectedInternee = location.state?.preSelectedInternee;
+  
   const [form, setForm] = useState({
     title: '',
     description: '',
     deadline: '',
     assignedDate: new Date().toISOString().slice(0, 10),
     file: null,
-    internId: '',
+    internId: preSelectedInternee?.id || '',
   });
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
@@ -90,6 +96,11 @@ export default function AssignTask() {
         <div className="flex items-center gap-3 mb-6">
           <FaPlus className="text-green-600 text-2xl" />
           <h1 className="text-2xl font-bold text-gray-900">Assign Task to Intern</h1>
+          {preSelectedInternee && (
+            <div className="ml-auto bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+              Pre-selected: {preSelectedInternee.name}
+            </div>
+          )}
         </div>
         {success && <div className="mb-4 text-green-600 font-semibold">{success}</div>}
         {(error || userError) && <div className="mb-4 text-red-600 font-semibold">{error || userError}</div>}
@@ -188,10 +199,16 @@ export default function AssignTask() {
                 {internees.map(intern => (
                   <option key={intern.id || intern._id} value={intern.id || intern._id}>
                     {intern.name} ({intern.email})
+                    {preSelectedInternee && (intern.id === preSelectedInternee.id || intern._id === preSelectedInternee.id) && ' - Pre-selected'}
                   </option>
                 ))}
               </select>
             </div>
+            {preSelectedInternee && (
+              <p className="text-sm text-blue-600 mt-1">
+                ℹ️ This internee was pre-selected from the internees page. You can change the selection if needed.
+              </p>
+            )}
           </div>
           <div className="md:col-span-2 flex justify-end">
             <button type="submit" className="bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-2 rounded-lg font-semibold shadow hover:from-green-600 hover:to-green-700 transition flex items-center gap-2">
