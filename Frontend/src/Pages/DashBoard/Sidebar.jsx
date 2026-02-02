@@ -1,5 +1,16 @@
 import { Link, useLocation } from 'react-router-dom';
-import { FaTimes, FaHome, FaUsers, FaUserGraduate, FaChartLine, FaTasks, FaSignOutAlt } from 'react-icons/fa';
+import { 
+  FaTimes, 
+  FaHome, 
+  FaUsers, 
+  FaUserGraduate, 
+  FaChartLine, 
+  FaTasks, 
+  FaSignOutAlt,
+  FaChartBar,
+  FaEnvelope,
+  FaCog
+} from 'react-icons/fa';
 
 const links = [
   { to: '/dashboard', label: 'Home', icon: FaHome },
@@ -7,6 +18,9 @@ const links = [
   { to: '/dashboard/internees', label: 'Internees', icon: FaUserGraduate },
   { to: '/dashboard/progress', label: 'Progress', icon: FaChartLine },
   { to: '/dashboard/assign-task', label: 'Assign Task', icon: FaTasks },
+  { to: '/dashboard/analytics', label: 'Analytics', icon: FaChartBar },
+  { to: '/dashboard/communications', label: 'Communications', icon: FaEnvelope },
+  { to: '/dashboard/settings', label: 'Settings', icon: FaCog },
 ];
 
 export default function Sidebar({ onClose }) {

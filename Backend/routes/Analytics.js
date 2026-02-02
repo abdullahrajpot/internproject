@@ -1,18 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const analyticsController = require('../controllers/analyticsController');
-const { protect } = require('../middleware/auth');
+const { protect, authorize } = require('../middleware/auth');
+const { getDashboardAnalytics, getTaskTrends, getNotifications } = require('../controllers/analyticsController');
 
-// Get dashboard analytics
-router.get('/dashboard', protect, analyticsController.getDashboardAnalytics);
-
-// Get task trends
-router.get('/task-trends', protect, analyticsController.getTaskTrends);
-
-// Get user growth
-router.get('/user-growth', protect, analyticsController.getUserGrowth);
-
-// Get notifications
-router.get('/notifications', protect, analyticsController.getSystemNotifications);
+router.route('/dashboard').get(protect, authorize('admin'), getDashboardAnalytics);
+router.route('/task-trends').get(protect, authorize('admin'), getTaskTrends);
+router.route('/notifications').get(protect, authorize('admin'), getNotifications);
 
 module.exports = router;

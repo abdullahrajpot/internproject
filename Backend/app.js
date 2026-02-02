@@ -34,7 +34,8 @@ try {
   const progressRoutes = require('./routes/Progress');
   const resourceRoutes = require('./routes/Resource');
   const notificationRoutes = require('./routes/Notification');
-  const analyticsRoutes = require('./routes/Analytics');
+  const communicationRoutes = require('./routes/Communication');
+  const settingRoutes = require('./routes/Setting');
 
   console.log('All routes imported successfully');
 
@@ -48,8 +49,10 @@ try {
   app.use('/api/progress', userProgressRoutes);
   app.use('/api/admin-progress', progressRoutes);
   app.use('/api/resources', resourceRoutes);
-  app.use('/api/notifications', notificationRoutes);
   app.use('/api/analytics', analyticsRoutes);
+  app.use('/api/notifications', notificationRoutes);
+  app.use('/api/communications', communicationRoutes);
+  app.use('/api/settings', settingRoutes);
 
   console.log('Routes mounted successfully!');
   console.log('Available routes:');
@@ -87,7 +90,9 @@ app.use('*', (req, res) => {
       '/api/admin-progress',
       '/api/resources',
       '/api/notifications',
-      '/api/analytics'
+      '/api/analytics',
+      '/api/communications',
+      '/api/settings'
     ]
   });
 });

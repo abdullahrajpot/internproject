@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useUsers } from '../../Contexts/UserContext';
 import {
   FaUsers,
@@ -31,11 +31,9 @@ import {
 } from 'recharts';
 import { Link, useNavigate } from 'react-router-dom';
 
-const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
-
 export default function DashboardHome() {
   const navigate = useNavigate();
-  const { users, getUsersByRole, loading: usersLoading } = useUsers() || {};
+  const { users, getUsersByRole } = useUsers() || {};
   const [tasks, setTasks] = useState([]);
   const [tasksLoading, setTasksLoading] = useState(true);
   const [recentActivity, setRecentActivity] = useState([]);
@@ -247,7 +245,7 @@ export default function DashboardHome() {
   const interneeGrowth = analytics.users?.growth?.internees || 0;
   const taskGrowth = analytics.tasks?.growth || 0;
   const completionRate = analytics.tasks?.completionRate || 0;
-  const completionGrowth = analytics.tasks?.completionGrowth || 0;
+  const completionGrowth = analytics.tasks?.completionGrowth || analytics.tasks?.growth || 0;
 
   return (
     <div className="min-h-screen bg-gray-50">

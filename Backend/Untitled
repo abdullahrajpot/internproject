@@ -1,0 +1,1 @@
+ErrorBoundary.jsx:2 Uncaught SyntaxError: The requested module '/node_modules/.vite/deps/react-icons_fa.js?v=728cb0eb' does not provide an export named 'FaRefresh' (at ErrorBoundary.jsx:2:33)
