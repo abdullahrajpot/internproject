@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Header from './components/Header';
 import './index.css';
 import Footer from './components/Footer';
+import BackendStatus from './components/BackendStatus';
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
         <Outlet />
       </main>
       <Footer/>
+      <BackendStatus />
     </>
   );
 };

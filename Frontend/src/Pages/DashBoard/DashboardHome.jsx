@@ -15,7 +15,6 @@ import {
   FaDownload,
   FaFilter
 } from 'react-icons/fa';
-import axios from 'axios';
 import {
   PieChart,
   Pie,
@@ -30,6 +29,7 @@ import {
   AreaChart
 } from 'recharts';
 import { Link, useNavigate } from 'react-router-dom';
+import { fetchUsers, fetchTasks, fetchAnalytics, fetchTaskTrends, fetchNotifications } from '../../utils/api';
 
 export default function DashboardHome() {
   const navigate = useNavigate();
@@ -57,58 +57,40 @@ export default function DashboardHome() {
     setAnalyticsLoading(true);
 
     try {
-      const token = localStorage.getItem('token');
-      const headers = token ? { Authorization: `Bearer ${token}` } : {};
-
       // Try to fetch analytics data from backend
-      try {
-        const analyticsResponse = await axios.get('http://localhost:5000/api/analytics/dashboard', { headers });
-        if (analyticsResponse.data.success) {
-          setAnalytics(analyticsResponse.data.data);
-        } else {
-          throw new Error('Analytics API returned unsuccessful response');
-        }
-      } catch (error) {
-        console.log('Analytics API not available, using fallback data');
+      const analyticsResult = await fetchAnalytics();
+      if (analyticsResult.success) {
+        setAnalytics(analyticsResult.data.data);
+      } else {
         generateFallbackAnalytics();
       }
 
       // Try to fetch task trends
-      try {
-        const trendsResponse = await axios.get('http://localhost:5000/api/analytics/task-trends', { headers });
-        if (trendsResponse.data.success) {
-          setTaskTrends(trendsResponse.data.data);
-        } else {
-          throw new Error('Task trends API returned unsuccessful response');
-        }
-      } catch (error) {
-        console.log('Task trends API not available, generating sample data');
+      const trendsResult = await fetchTaskTrends();
+      if (trendsResult.success) {
+        setTaskTrends(trendsResult.data.data);
+      } else {
         generateSampleTaskTrends();
       }
 
       // Try to fetch system notifications
-      try {
-        const notificationsResponse = await axios.get('http://localhost:5000/api/analytics/notifications', { headers });
-        if (notificationsResponse.data.success) {
-          setNotifications(notificationsResponse.data.data);
-        } else {
-          throw new Error('Notifications API returned unsuccessful response');
-        }
-      } catch (error) {
-        console.log('Notifications API not available, generating sample data');
+      const notificationsResult = await fetchNotifications();
+      if (notificationsResult.success) {
+        setNotifications(notificationsResult.data.data);
+      } else {
         generateSampleNotifications();
       }
 
       // Fetch tasks for recent activity
-      try {
-        const tasksResponse = await axios.get('http://localhost:5000/api/task/assigned', { headers });
-        setTasks(tasksResponse.data || []);
-      } catch (error) {
-        console.log('Tasks API not available, using empty array');
+      const tasksResult = await fetchTasks();
+      if (tasksResult.success) {
+        setTasks(tasksResult.data || []);
+      } else {
         setTasks([]);
       }
 
     } catch (error) {
+      // Only log actual errors, not expected API unavailability
       console.error('❌ Error fetching dashboard data:', error);
       generateFallbackAnalytics();
       generateSampleTaskTrends();

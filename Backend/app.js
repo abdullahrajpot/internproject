@@ -15,90 +15,59 @@ mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log("MongoDB connected"))
-.catch(err => console.error(err));
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.error(err));
 
 // Sample route
 app.get("/", (req, res) => {
-  res.send("Backend is working!");
+  res.json({
+    message: "Backend is working!",
+    timestamp: new Date().toISOString(),
+    routes: [
+      '/api/auth/users',
+      '/api/task/assigned',
+      '/api/analytics/dashboard',
+      '/api/analytics/task-trends',
+      '/api/analytics/notifications',
+      '/api/analytics/internees',
+      '/api/analytics/courses',
+      '/api/analytics/performance-trends',
+      '/api/analytics/task-distribution'
+    ]
+  });
+});
+
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.json({
+    status: "OK",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
 });
 
 // Import routes
-console.log('Importing routes...');
-try {
-  const authRoutes = require('./routes/Auth');
-  const taskRoutes = require('./routes/Task');
-  const internProfileRoutes = require('./routes/InternProfile');
-  const courseRoutes = require('./routes/Course');
-  const userProgressRoutes = require('./routes/UserProgress');
-  const progressRoutes = require('./routes/Progress');
-  const resourceRoutes = require('./routes/Resource');
-  const notificationRoutes = require('./routes/Notification');
-  const communicationRoutes = require('./routes/Communication');
-  const settingRoutes = require('./routes/Setting');
+const authRoutes = require('./routes/Auth');
+const taskRoutes = require('./routes/Task');
+const internProfileRoutes = require('./routes/InternProfile');
+const courseRoutes = require('./routes/Course');
+const userProgressRoutes = require('./routes/UserProgress');
+const analyticsRoutes = require('./routes/Analytics');
+const notificationRoutes = require('./routes/Notification');
 
-  console.log('All routes imported successfully');
-
-  console.log('Mounting routes...');
-
-  // Mount routes correctly
-  app.use('/api/auth', authRoutes);
-  app.use('/api/task', taskRoutes);
-  app.use('/api/intern-profile', internProfileRoutes);
-  app.use('/api/courses', courseRoutes);
-  app.use('/api/progress', userProgressRoutes);
-  app.use('/api/admin-progress', progressRoutes);
-  app.use('/api/resources', resourceRoutes);
-  app.use('/api/analytics', analyticsRoutes);
-  app.use('/api/notifications', notificationRoutes);
-  app.use('/api/communications', communicationRoutes);
-  app.use('/api/settings', settingRoutes);
-
-  console.log('Routes mounted successfully!');
-  console.log('Available routes:');
-  console.log('- /api/auth');
-  console.log('- /api/task');
-  console.log('- /api/intern-profile');
-  console.log('- /api/courses');
-  console.log('- /api/progress');
-  console.log('- /api/admin-progress');
-  console.log('- /api/resources');
-  console.log('- /api/notifications');
-  console.log('- /api/analytics');
-
-} catch (error) {
-  console.error('❌ Error importing or mounting routes:', error);
-}
+// Mount routes correctly - the route file already has '/register'
+app.use('/api/auth', authRoutes);
+app.use('/api/task', taskRoutes);
+app.use('/api/intern-profile', internProfileRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/progress', userProgressRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 //download file
 const path = require('path');
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Catch-all route for debugging
-app.use('*', (req, res) => {
-  console.log(`❌ Route not found: ${req.method} ${req.originalUrl}`);
-  res.status(404).json({
-    error: 'Route not found',
-    method: req.method,
-    url: req.originalUrl,
-    availableRoutes: [
-      '/api/auth',
-      '/api/task', 
-      '/api/intern-profile',
-      '/api/courses',
-      '/api/progress',
-      '/api/admin-progress',
-      '/api/resources',
-      '/api/notifications',
-      '/api/analytics',
-      '/api/communications',
-      '/api/settings'
-    ]
-  });
-});
-
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📊 Admin Progress API: http://localhost:${PORT}/api/admin-progress`);
-  console.log(`🧪 Test endpoint: http://localhost:${PORT}/api/admin-progress/test`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });

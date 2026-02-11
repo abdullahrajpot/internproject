@@ -27,7 +27,7 @@ const getDateFilter = (timeFilter) => {
 // @access  Admin
 exports.getDashboardAnalytics = async (req, res) => {
   try {
-    const timeFilter = req.query.timeFilter || 'all'; // Default to all time
+    const timeFilter = req.query.timeFilter || 'all';
     const startDate = getDateFilter(timeFilter);
 
     // User Analytics
@@ -103,7 +103,7 @@ exports.getTaskTrends = async (req, res) => {
 
       const assigned = await Task.countDocuments({ assignedDate: { $gte: startOfDay, $lte: endOfDay } });
       const completed = await Task.countDocuments({ status: 'Completed', assignedDate: { $gte: startOfDay, $lte: endOfDay } });
-      const pending = assigned - completed; // Simplified calculation for trends
+      const pending = assigned - completed;
 
       trends.push({
         date: startOfDay.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
@@ -125,7 +125,6 @@ exports.getTaskTrends = async (req, res) => {
 exports.getNotifications = async (req, res) => {
   try {
     const notifications = [];
-    // Example: Add notifications for overdue tasks
     const overdueTasks = await Task.find({ deadline: { $lt: new Date() }, status: { $ne: 'Completed' } }).populate('assignedTo', 'name');
     overdueTasks.forEach(task => {
       notifications.push({
@@ -137,7 +136,6 @@ exports.getNotifications = async (req, res) => {
       });
     });
 
-    // Example: Add a success notification for recent intern registration (if any in last 24h)
     const recentInterns = await User.find({ role: 'intern', dateCreated: { $gte: new Date(new Date().setDate(new Date().getDate() - 1)) } });
     recentInterns.forEach(intern => {
         notifications.push({
@@ -149,12 +147,219 @@ exports.getNotifications = async (req, res) => {
         });
     });
 
-    // Sort notifications by time (most recent first)
     notifications.sort((a, b) => new Date(b.time) - new Date(a.time));
 
     res.status(200).json({ success: true, data: notifications });
   } catch (error) {
     console.error('Error fetching notifications:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Get comprehensive internee analytics
+// @route   GET /api/analytics/internees
+// @access  Admin
+exports.getInterneeAnalytics = async (req, res) => {
+  try {
+    const internees = await User.find({ role: 'intern' }).select('name email dateCreated');
+    const interneeAnalytics = [];
+
+    for (const internee of internees) {
+      // Get task statistics
+      const totalTasks = await Task.countDocuments({ assignedTo: internee._id });
+      const completedTasks = await Task.countDocuments({ assignedTo: internee._id, status: 'Completed' });
+      const pendingTasks = await Task.countDocuments({ assignedTo: internee._id, status: 'Pending' });
+      const ongoingTasks = await Task.countDocuments({ assignedTo: internee._id, status: 'Ongoing' });
+      const overdueTasks = await Task.countDocuments({ 
+        assignedTo: internee._id, 
+        deadline: { $lt: new Date() }, 
+        status: { $ne: 'Completed' } 
+      });
+
+      // Get course progress
+      const userProgress = await UserProgress.findOne({ userId: internee._id });
+      const coursesEnrolled = userProgress?.totalCoursesEnrolled || 0;
+      const coursesCompleted = userProgress?.totalCoursesCompleted || 0;
+      const roadmapsEnrolled = userProgress?.totalRoadmapsEnrolled || 0;
+      const roadmapsCompleted = userProgress?.totalRoadmapsCompleted || 0;
+      const totalTimeSpent = userProgress?.totalTimeSpent || 0;
+
+      // Calculate completion rate
+      const taskCompletionRate = totalTasks > 0 ? ((completedTasks / totalTasks) * 100).toFixed(2) : 0;
+      const courseCompletionRate = coursesEnrolled > 0 ? ((coursesCompleted / coursesEnrolled) * 100).toFixed(2) : 0;
+
+      // Calculate overall progress score (weighted average)
+      const overallProgress = totalTasks > 0 || coursesEnrolled > 0
+        ? (((parseFloat(taskCompletionRate) * totalTasks) + (parseFloat(courseCompletionRate) * coursesEnrolled)) / 
+           (totalTasks + coursesEnrolled)).toFixed(2)
+        : 0;
+
+      interneeAnalytics.push({
+        id: internee._id,
+        name: internee.name,
+        email: internee.email,
+        joinedDate: internee.dateCreated,
+        tasks: {
+          total: totalTasks,
+          completed: completedTasks,
+          pending: pendingTasks,
+          ongoing: ongoingTasks,
+          overdue: overdueTasks,
+          completionRate: parseFloat(taskCompletionRate)
+        },
+        courses: {
+          enrolled: coursesEnrolled,
+          completed: coursesCompleted,
+          completionRate: parseFloat(courseCompletionRate)
+        },
+        roadmaps: {
+          enrolled: roadmapsEnrolled,
+          completed: roadmapsCompleted
+        },
+        timeSpent: totalTimeSpent,
+        overallProgress: parseFloat(overallProgress),
+        status: overdueTasks > 0 ? 'needs-attention' : totalTasks === completedTasks && totalTasks > 0 ? 'excellent' : 'on-track'
+      });
+    }
+
+    // Sort by overall progress (descending)
+    interneeAnalytics.sort((a, b) => b.overallProgress - a.overallProgress);
+
+    res.status(200).json({ success: true, data: interneeAnalytics });
+  } catch (error) {
+    console.error('Error fetching internee analytics:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Get course completion analytics
+// @route   GET /api/analytics/courses
+// @access  Admin
+exports.getCourseAnalytics = async (req, res) => {
+  try {
+    const allProgress = await UserProgress.find().populate('userId', 'name email role');
+    
+    // Aggregate course statistics
+    const courseStats = {};
+    
+    allProgress.forEach(progress => {
+      if (progress.userId && progress.userId.role === 'intern') {
+        progress.courses.forEach(course => {
+          if (!courseStats[course.courseId]) {
+            courseStats[course.courseId] = {
+              courseId: course.courseId,
+              title: course.title,
+              category: course.category,
+              difficulty: course.difficulty,
+              totalEnrolled: 0,
+              totalCompleted: 0,
+              averageProgress: 0,
+              totalTimeSpent: 0,
+              enrollments: []
+            };
+          }
+          
+          courseStats[course.courseId].totalEnrolled++;
+          if (course.completed) {
+            courseStats[course.courseId].totalCompleted++;
+          }
+          courseStats[course.courseId].averageProgress += course.progressPercentage;
+          courseStats[course.courseId].totalTimeSpent += course.timeSpent;
+          courseStats[course.courseId].enrollments.push({
+            userName: progress.userId.name,
+            progress: course.progressPercentage,
+            completed: course.completed
+          });
+        });
+      }
+    });
+
+    // Calculate averages
+    const courseAnalytics = Object.values(courseStats).map(course => ({
+      ...course,
+      averageProgress: course.totalEnrolled > 0 
+        ? (course.averageProgress / course.totalEnrolled).toFixed(2) 
+        : 0,
+      completionRate: course.totalEnrolled > 0 
+        ? ((course.totalCompleted / course.totalEnrolled) * 100).toFixed(2) 
+        : 0
+    }));
+
+    res.status(200).json({ success: true, data: courseAnalytics });
+  } catch (error) {
+    console.error('Error fetching course analytics:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Get performance trends over time
+// @route   GET /api/analytics/performance-trends
+// @access  Admin
+exports.getPerformanceTrends = async (req, res) => {
+  try {
+    const trends = [];
+    
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      const startOfDay = new Date(date.setHours(0, 0, 0, 0));
+      const endOfDay = new Date(date.setHours(23, 59, 59, 999));
+
+      // Tasks completed on this day
+      const tasksCompleted = await Task.countDocuments({ 
+        status: 'Completed',
+        assignedDate: { $gte: startOfDay, $lte: endOfDay }
+      });
+
+      // New internees joined
+      const newInternees = await User.countDocuments({
+        role: 'intern',
+        dateCreated: { $gte: startOfDay, $lte: endOfDay }
+      });
+
+      // Active internees (those with tasks or progress updates)
+      const activeInternees = await Task.distinct('assignedTo', {
+        assignedDate: { $lte: endOfDay }
+      });
+
+      trends.push({
+        date: startOfDay.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        tasksCompleted,
+        newInternees,
+        activeInternees: activeInternees.length
+      });
+    }
+
+    res.status(200).json({ success: true, data: trends });
+  } catch (error) {
+    console.error('Error fetching performance trends:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Get task distribution by status
+// @route   GET /api/analytics/task-distribution
+// @access  Admin
+exports.getTaskDistribution = async (req, res) => {
+  try {
+    const completed = await Task.countDocuments({ status: 'Completed' });
+    const ongoing = await Task.countDocuments({ status: 'Ongoing' });
+    const pending = await Task.countDocuments({ status: 'Pending' });
+    const overdue = await Task.countDocuments({ 
+      deadline: { $lt: new Date() }, 
+      status: { $ne: 'Completed' } 
+    });
+
+    const distribution = [
+      { name: 'Completed', value: completed, color: '#10B981' },
+      { name: 'Ongoing', value: ongoing, color: '#3B82F6' },
+      { name: 'Pending', value: pending, color: '#F59E0B' },
+      { name: 'Overdue', value: overdue, color: '#EF4444' }
+    ];
+
+    res.status(200).json({ success: true, data: distribution });
+  } catch (error) {
+    console.error('Error fetching task distribution:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 };

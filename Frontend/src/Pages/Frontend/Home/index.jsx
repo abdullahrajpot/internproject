@@ -471,7 +471,7 @@ export default function HeroSection() {
       </section>
 
       {/* Float Animation Keyframes */}
-      <style jsx global>{`
+      <style>{`
         @keyframes float {
           0%, 100% { transform: translateY(0) scale(1); }
           50% { transform: translateY(-20px) scale(1.05); }
