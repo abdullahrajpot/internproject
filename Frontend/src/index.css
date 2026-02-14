@@ -2,6 +2,7 @@
 
 body, html {
   overflow-x: hidden;   /* clip anything that spills out */
+  --primary-color: #3B82F6;
 }
 /* Custom Animations for Internship Page */
 @keyframes fade-in-up {

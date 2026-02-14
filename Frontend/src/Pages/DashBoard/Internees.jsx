@@ -7,10 +7,12 @@ import {
   FaStar, FaMapMarkerAlt, FaGraduationCap, FaEdit, FaSave, FaTimes,
   FaCheckCircle, FaTimesCircle, FaClock, FaExclamationTriangle
 } from 'react-icons/fa';
+import { useSettings } from '../../Contexts/SettingsContext';
 import { useNavigate } from 'react-router-dom';
 
 export default function Internees() {
   const { users, loading, error, getUsersByRole } = useUsers() || {};
+  const { formatDate } = useSettings();
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [performanceFilter, setPerformanceFilter] = useState('all');
@@ -439,8 +441,8 @@ export default function Internees() {
             <button
               onClick={() => setViewMode('cards')}
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${viewMode === 'cards'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
             >
               Cards
@@ -448,8 +450,8 @@ export default function Internees() {
             <button
               onClick={() => setViewMode('table')}
               className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${viewMode === 'table'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
             >
               Table
@@ -640,6 +642,7 @@ export default function Internees() {
           onAssignTask={() => handleAssignTask(selectedInternee._id || selectedInternee.id, selectedInternee)}
           onSendMessage={(messageData) => handleSendMessage(selectedInternee._id || selectedInternee.id, messageData)}
           loading={actionLoading === (selectedInternee._id || selectedInternee.id)}
+          formatDate={formatDate}
         />
       )}
 
@@ -835,7 +838,7 @@ const EditInterneeModal = ({ internee, onClose, onSave, loading }) => {
 };
 
 // Detailed View Modal Component
-const InterneeDetailModal = ({ internee, stats, onClose, onAssignTask, onSendMessage, loading }) => {
+const InterneeDetailModal = ({ internee, stats, onClose, onAssignTask, onSendMessage, loading, formatDate }) => {
   const [showMessageForm, setShowMessageForm] = useState(false);
   const [messageData, setMessageData] = useState({
     subject: '',
@@ -918,9 +921,9 @@ const InterneeDetailModal = ({ internee, stats, onClose, onAssignTask, onSendMes
                 <div className="pt-2">
                   <span className="text-sm text-gray-600">Performance Level:</span>
                   <div className={`inline-block ml-2 px-3 py-1 rounded-full text-xs font-medium ${stats.performance === 'excellent' ? 'bg-green-100 text-green-800' :
-                      stats.performance === 'good' ? 'bg-blue-100 text-blue-800' :
-                        stats.performance === 'average' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-red-100 text-red-800'
+                    stats.performance === 'good' ? 'bg-blue-100 text-blue-800' :
+                      stats.performance === 'average' ? 'bg-yellow-100 text-yellow-800' :
+                        'bg-red-100 text-red-800'
                     }`}>
                     {stats.performance ? stats.performance.charAt(0).toUpperCase() + stats.performance.slice(1) : 'No Data'}
                   </div>
@@ -941,7 +944,7 @@ const InterneeDetailModal = ({ internee, stats, onClose, onAssignTask, onSendMes
                 <div className="flex items-center space-x-2">
                   <FaCalendarAlt className="text-gray-400" />
                   <span className="text-sm text-gray-600">
-                    Joined: {new Date(internee.createdAt || internee.dateCreated || Date.now()).toLocaleDateString()}
+                    Joined: {formatDate(internee.createdAt || internee.dateCreated || Date.now())}
                   </span>
                 </div>
               </div>

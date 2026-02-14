@@ -2,15 +2,18 @@ import Sidebar from './Sidebar';
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import { useSettings } from '../../Contexts/SettingsContext';
 
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { settings } = useSettings();
+  const siteName = settings.general?.siteName || 'Admin Dashboard';
 
   return (
     <div className="flex min-h-screen bg-gray-100">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-40 bg-black bg-opacity-50 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
@@ -34,7 +37,7 @@ export default function DashboardLayout() {
           >
             <FaBars className="w-5 h-5" />
           </button>
-          <h1 className="text-lg font-semibold text-gray-900">Admin Dashboard</h1>
+          <h1 className="text-lg font-semibold text-gray-900">{siteName}</h1>
           <div className="w-9"></div> {/* Spacer for centering */}
         </div>
 

@@ -7,9 +7,11 @@ import {
   FaEdit, FaSave, FaTimes, FaEnvelope, FaCalendarAlt, FaCrown, FaUserTie,
   FaSort, FaSortUp, FaSortDown, FaBan, FaUnlock, FaKey
 } from 'react-icons/fa';
+import { useSettings } from '../../Contexts/SettingsContext';
 
 export default function Users() {
   const { users, loading, error, getUsersByRole } = useUsers() || {};
+  const { formatDate } = useSettings();
   const [search, setSearch] = useState('');
   const [roleFilter, setRoleFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState('all');
@@ -32,13 +34,13 @@ export default function Users() {
       try {
         const response = await axios.get('http://localhost:5000/api/task/assigned');
         const tasks = response.data || [];
-        
+
         const stats = {};
         (users || []).forEach(user => {
-          const userTasks = tasks.filter(task => 
+          const userTasks = tasks.filter(task =>
             task.assignedTo && (task.assignedTo._id === user._id || task.assignedTo._id === user.id)
           );
-          
+
           stats[user._id || user.id] = {
             totalTasks: userTasks.length,
             completedTasks: userTasks.filter(t => t.status === 'Completed').length,
@@ -47,7 +49,7 @@ export default function Users() {
             joinDate: user.createdAt || user.dateCreated || new Date().toISOString()
           };
         });
-        
+
         setUserStats(stats);
       } catch (error) {
         console.error('Error fetching user stats:', error);
@@ -63,15 +65,15 @@ export default function Users() {
   const filteredAndSortedUsers = useMemo(() => {
     let filtered = (users || []).filter(user => {
       const matchesSearch = user.name?.toLowerCase().includes(search.toLowerCase()) ||
-                           user.email?.toLowerCase().includes(search.toLowerCase());
-      
+        user.email?.toLowerCase().includes(search.toLowerCase());
+
       const matchesRole = roleFilter === 'all' || user.role === roleFilter;
-      
+
       const stats = userStats[user._id || user.id];
-      const matchesStatus = statusFilter === 'all' || 
+      const matchesStatus = statusFilter === 'all' ||
         (statusFilter === 'active' && stats?.isActive) ||
         (statusFilter === 'inactive' && !stats?.isActive);
-      
+
       return matchesSearch && matchesRole && matchesStatus;
     });
 
@@ -79,9 +81,9 @@ export default function Users() {
     filtered.sort((a, b) => {
       const aStats = userStats[a._id || a.id] || {};
       const bStats = userStats[b._id || b.id] || {};
-      
+
       let aValue, bValue;
-      
+
       switch (sortBy) {
         case 'name':
           aValue = a.name || '';
@@ -111,11 +113,11 @@ export default function Users() {
           aValue = a.name || '';
           bValue = b.name || '';
       }
-      
+
       if (typeof aValue === 'string') {
         return sortOrder === 'asc' ? aValue.localeCompare(bValue) : bValue.localeCompare(aValue);
       }
-      
+
       return sortOrder === 'asc' ? aValue - bValue : bValue - aValue;
     });
 
@@ -144,7 +146,7 @@ export default function Users() {
       alert('Please select users first');
       return;
     }
-    
+
     setConfirmAction({
       type: action,
       users: bulkActions,
@@ -154,7 +156,7 @@ export default function Users() {
 
   const executeBulkAction = async () => {
     if (!confirmAction) return;
-    
+
     setActionLoading('bulk');
     try {
       const promises = confirmAction.users.map(userId => {
@@ -169,7 +171,7 @@ export default function Users() {
             return Promise.resolve();
         }
       });
-      
+
       await Promise.all(promises);
       setBulkActions([]);
       setConfirmAction(null);
@@ -188,7 +190,7 @@ export default function Users() {
     setActionLoading(userId);
     try {
       console.log('📧 Sending message to user:', userId);
-      
+
       // Try to send via backend API first
       const token = localStorage.getItem('token');
       if (token) {
@@ -210,7 +212,7 @@ export default function Users() {
           console.warn('⚠️ Backend API failed, using localStorage fallback:', apiError.message);
         }
       }
-      
+
       // Fallback: Store message in localStorage for demo purposes
       const existingMessages = JSON.parse(localStorage.getItem('adminMessages') || '[]');
       const newMessage = {
@@ -222,10 +224,10 @@ export default function Users() {
         timestamp: new Date().toISOString(),
         isRead: false
       };
-      
+
       existingMessages.push(newMessage);
       localStorage.setItem('adminMessages', JSON.stringify(existingMessages));
-      
+
       // Also store in user's notifications
       const userNotifications = JSON.parse(localStorage.getItem(`notifications_${userId}`) || '[]');
       userNotifications.unshift({
@@ -239,10 +241,10 @@ export default function Users() {
         createdAt: new Date().toISOString()
       });
       localStorage.setItem(`notifications_${userId}`, JSON.stringify(userNotifications));
-      
+
       console.log('✅ Message stored successfully');
       alert('✅ Message sent successfully! The user will see this in their notifications.');
-      
+
     } catch (error) {
       console.error('❌ Message sending error:', error);
       alert('Failed to send message. Please try again.');
@@ -312,7 +314,7 @@ export default function Users() {
 
   const UserCard = ({ user }) => {
     const stats = userStats[user._id || user.id] || {};
-    
+
     return (
       <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200 hover:shadow-md transition-all duration-200">
         {/* Header */}
@@ -357,7 +359,7 @@ export default function Users() {
           </div>
           <div className="text-center p-3 bg-gray-50 rounded-lg">
             <div className="text-lg font-bold text-gray-900">
-              {stats.lastLogin ? new Date(stats.lastLogin).toLocaleDateString() : 'Never'}
+              {stats.lastLogin ? formatDate(stats.lastLogin) : 'Never'}
             </div>
             <div className="text-xs text-gray-600">Last Login</div>
           </div>
@@ -412,7 +414,7 @@ export default function Users() {
                 className="pl-10 pr-4 py-2 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-64 text-sm"
               />
             </div>
-            
+
             <button
               onClick={() => setShowAddModal(true)}
               className="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm"
@@ -470,21 +472,19 @@ export default function Users() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setViewMode('table')}
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                viewMode === 'table' 
-                  ? 'bg-blue-600 text-white' 
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${viewMode === 'table'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
             >
               Table
             </button>
             <button
               onClick={() => setViewMode('cards')}
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                viewMode === 'cards' 
-                  ? 'bg-blue-600 text-white' 
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-              }`}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${viewMode === 'cards'
+                ? 'bg-blue-600 text-white'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
             >
               Cards
             </button>
@@ -642,7 +642,7 @@ export default function Users() {
                   {filteredAndSortedUsers.map(user => {
                     const stats = userStats[user._id || user.id] || {};
                     const userId = user._id || user.id;
-                    
+
                     return (
                       <tr key={userId} className="hover:bg-gray-50">
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -687,7 +687,7 @@ export default function Users() {
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          {stats.lastLogin ? new Date(stats.lastLogin).toLocaleDateString() : 'Never'}
+                          {stats.lastLogin ? formatDate(stats.lastLogin) : 'Never'}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                           <div className="flex space-x-2">
@@ -754,8 +754,8 @@ export default function Users() {
 
       {/* User Detail Modal */}
       {selectedUser && (
-        <UserDetailModal 
-          user={selectedUser} 
+        <UserDetailModal
+          user={selectedUser}
           stats={userStats[selectedUser._id || selectedUser.id] || {}}
           onClose={() => setSelectedUser(null)}
           onSendMessage={handleSendMessage}
@@ -763,6 +763,7 @@ export default function Users() {
           onEditUser={handleEditUser}
           onToggleStatus={handleToggleUserStatus}
           loading={actionLoading === (selectedUser._id || selectedUser.id)}
+          formatDate={formatDate}
         />
       )}
 
@@ -816,14 +817,14 @@ const PasswordResetModal = ({ user, onClose, onReset, loading }) => {
             <FaTimes className="w-5 h-5" />
           </button>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="p-6">
           <div className="mb-4">
             <p className="text-sm text-gray-600 mb-4">
               Resetting password for: <strong>{user.name}</strong>
             </p>
           </div>
-          
+
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
@@ -848,7 +849,7 @@ const PasswordResetModal = ({ user, onClose, onReset, loading }) => {
               />
             </div>
           </div>
-          
+
           <div className="flex space-x-3 mt-6">
             <button
               type="button"
@@ -898,7 +899,7 @@ const EditUserModal = ({ user, onClose, onSave, loading }) => {
             <FaTimes className="w-5 h-5" />
           </button>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="p-6">
           <div className="space-y-4">
             <div>
@@ -906,7 +907,7 @@ const EditUserModal = ({ user, onClose, onSave, loading }) => {
               <input
                 type="text"
                 value={formData.name}
-                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
@@ -916,7 +917,7 @@ const EditUserModal = ({ user, onClose, onSave, loading }) => {
               <input
                 type="email"
                 value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
@@ -925,7 +926,7 @@ const EditUserModal = ({ user, onClose, onSave, loading }) => {
               <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
               <select
                 value={formData.role}
-                onChange={(e) => setFormData({...formData, role: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="user">User</option>
@@ -934,7 +935,7 @@ const EditUserModal = ({ user, onClose, onSave, loading }) => {
               </select>
             </div>
           </div>
-          
+
           <div className="flex space-x-3 mt-6">
             <button
               type="button"
@@ -958,7 +959,7 @@ const EditUserModal = ({ user, onClose, onSave, loading }) => {
 };
 
 // User Detail Modal Component
-const UserDetailModal = ({ user, stats, onClose, onSendMessage, onResetPassword, onEditUser, onToggleStatus, loading }) => {
+const UserDetailModal = ({ user, stats, onClose, onSendMessage, onResetPassword, onEditUser, onToggleStatus, loading, formatDate }) => {
   const [showMessageForm, setShowMessageForm] = useState(false);
   const [messageData, setMessageData] = useState({
     subject: '',
@@ -990,11 +991,10 @@ const UserDetailModal = ({ user, stats, onClose, onSendMessage, onResetPassword,
               <h2 className="text-2xl font-bold text-gray-900">{user.name}</h2>
               <p className="text-gray-600">{user.email}</p>
               <div className="flex items-center mt-1">
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                  user.role === 'admin' ? 'bg-red-100 text-red-800' :
+                <span className={`px-2 py-1 rounded-full text-xs font-medium ${user.role === 'admin' ? 'bg-red-100 text-red-800' :
                   user.role === 'intern' ? 'bg-blue-100 text-blue-800' :
-                  'bg-gray-100 text-gray-800'
-                }`}>
+                    'bg-gray-100 text-gray-800'
+                  }`}>
                   {user.role?.charAt(0).toUpperCase() + user.role?.slice(1)}
                 </span>
                 <span className={`ml-2 px-2 py-1 rounded-full text-xs font-medium ${stats.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
@@ -1029,13 +1029,13 @@ const UserDetailModal = ({ user, stats, onClose, onSendMessage, onResetPassword,
                 <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                   <span className="text-sm text-gray-600">Join Date</span>
                   <span className="font-semibold text-gray-900">
-                    {new Date(stats.joinDate || Date.now()).toLocaleDateString()}
+                    {formatDate(stats.joinDate || Date.now())}
                   </span>
                 </div>
                 <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                   <span className="text-sm text-gray-600">Last Login</span>
                   <span className="font-semibold text-gray-900">
-                    {stats.lastLogin ? new Date(stats.lastLogin).toLocaleDateString() : 'Never'}
+                    {stats.lastLogin ? formatDate(stats.lastLogin) : 'Never'}
                   </span>
                 </div>
               </div>
@@ -1045,7 +1045,7 @@ const UserDetailModal = ({ user, stats, onClose, onSendMessage, onResetPassword,
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
               <div className="space-y-3">
-                <button 
+                <button
                   onClick={() => setShowMessageForm(true)}
                   disabled={loading}
                   className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
@@ -1053,7 +1053,7 @@ const UserDetailModal = ({ user, stats, onClose, onSendMessage, onResetPassword,
                   <FaEnvelope className="w-4 h-4" />
                   <span>{loading ? 'Processing...' : 'Send Message'}</span>
                 </button>
-                <button 
+                <button
                   onClick={() => onResetPassword(user._id || user.id, 'newPassword123')}
                   disabled={loading}
                   className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
@@ -1061,7 +1061,7 @@ const UserDetailModal = ({ user, stats, onClose, onSendMessage, onResetPassword,
                   <FaKey className="w-4 h-4" />
                   <span>{loading ? 'Processing...' : 'Reset Password'}</span>
                 </button>
-                <button 
+                <button
                   onClick={() => onEditUser(user)}
                   disabled={loading}
                   className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors disabled:opacity-50"
@@ -1069,7 +1069,7 @@ const UserDetailModal = ({ user, stats, onClose, onSendMessage, onResetPassword,
                   <FaEdit className="w-4 h-4" />
                   <span>{loading ? 'Processing...' : 'Edit Profile'}</span>
                 </button>
-                <button 
+                <button
                   onClick={() => onToggleStatus(user._id || user.id, stats.isActive)}
                   disabled={loading}
                   className="w-full flex items-center justify-center space-x-2 px-4 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50"
@@ -1091,7 +1091,7 @@ const UserDetailModal = ({ user, stats, onClose, onSendMessage, onResetPassword,
                   <input
                     type="text"
                     value={messageData.subject}
-                    onChange={(e) => setMessageData({...messageData, subject: e.target.value})}
+                    onChange={(e) => setMessageData({ ...messageData, subject: e.target.value })}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required
                   />
@@ -1100,7 +1100,7 @@ const UserDetailModal = ({ user, stats, onClose, onSendMessage, onResetPassword,
                   <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
                   <textarea
                     value={messageData.message}
-                    onChange={(e) => setMessageData({...messageData, message: e.target.value})}
+                    onChange={(e) => setMessageData({ ...messageData, message: e.target.value })}
                     rows={4}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     required

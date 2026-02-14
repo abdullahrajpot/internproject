@@ -18,11 +18,14 @@ import {
   FaCheck,
   FaTimes
 } from 'react-icons/fa';
+import { fetchSettings, updateSettings } from '../../utils/api';
 import { LoadingButton } from '../../components/LoadingStates';
+import { useSettings } from '../../Contexts/SettingsContext';
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState('general');
   const [loading, setLoading] = useState(false);
+  const { refreshSettings } = useSettings();
   const [saveStatus, setSaveStatus] = useState(null);
   const [settings, setSettings] = useState({
     general: {
@@ -79,37 +82,37 @@ export default function Settings() {
 
   const loadSettings = async () => {
     try {
-      // Try to load from API
-      const response = await fetch('/api/settings');
-      if (response.ok) {
-        const data = await response.json();
-        setSettings(prev => ({ ...prev, ...data }));
+      const res = await fetchSettings();
+      if (res.success && res.data && res.data.data) {
+        setSettings(prev => ({ ...prev, ...res.data.data }));
       }
     } catch (error) {
-      console.log('Using default settings');
+      console.error('Error loading settings:', error);
     }
   };
 
   const handleSave = async (section = null) => {
     setLoading(true);
     setSaveStatus(null);
-    
+
     try {
       const dataToSave = section ? { [section]: settings[section] } : settings;
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Here you would make actual API call
-      // await fetch('/api/settings', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(dataToSave)
-      // });
-      
-      setSaveStatus('success');
+
+      const res = await updateSettings(dataToSave);
+
+      if (res.success) {
+        setSaveStatus('success');
+        if (res.data) {
+          setSettings(prev => ({ ...prev, ...res.data.data }));
+          // Refresh global settings context
+          refreshSettings();
+        }
+      } else {
+        setSaveStatus('error');
+      }
       setTimeout(() => setSaveStatus(null), 3000);
     } catch (error) {
+      console.error('Error saving settings:', error);
       setSaveStatus('error');
       setTimeout(() => setSaveStatus(null), 3000);
     } finally {
@@ -154,7 +157,7 @@ export default function Settings() {
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
       </div>
-      
+
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">Site Description</label>
         <textarea
@@ -164,7 +167,7 @@ export default function Settings() {
           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Timezone</label>
@@ -180,7 +183,7 @@ export default function Settings() {
             <option value="America/Los_Angeles">Pacific Time</option>
           </select>
         </div>
-        
+
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Date Format</label>
           <select
@@ -240,7 +243,7 @@ export default function Settings() {
           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Session Timeout (minutes)</label>
@@ -251,7 +254,7 @@ export default function Settings() {
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
-        
+
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Password Expiry (days)</label>
           <input
@@ -262,7 +265,7 @@ export default function Settings() {
           />
         </div>
       </div>
-      
+
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">IP Whitelist (comma-separated)</label>
         <textarea
@@ -289,7 +292,7 @@ export default function Settings() {
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
-        
+
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">SMTP Port</label>
           <input
@@ -300,7 +303,7 @@ export default function Settings() {
           />
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">SMTP Username</label>
@@ -311,7 +314,7 @@ export default function Settings() {
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
-        
+
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">SMTP Password</label>
           <input
@@ -322,7 +325,7 @@ export default function Settings() {
           />
         </div>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">From Email</label>
@@ -334,7 +337,7 @@ export default function Settings() {
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
         </div>
-        
+
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">From Name</label>
           <input
@@ -362,7 +365,7 @@ export default function Settings() {
           <option value="auto">Auto</option>
         </select>
       </div>
-      
+
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">Primary Color</label>
         <div className="flex items-center gap-3">
@@ -380,7 +383,7 @@ export default function Settings() {
           />
         </div>
       </div>
-      
+
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">Custom CSS</label>
         <textarea
@@ -411,7 +414,7 @@ export default function Settings() {
           <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
         </label>
       </div>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Backup Frequency</label>
@@ -426,7 +429,7 @@ export default function Settings() {
             <option value="monthly">Monthly</option>
           </select>
         </div>
-        
+
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Max File Size (MB)</label>
           <input
@@ -437,7 +440,7 @@ export default function Settings() {
           />
         </div>
       </div>
-      
+
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">Allowed File Types</label>
         <input
@@ -484,13 +487,12 @@ export default function Settings() {
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Settings</h1>
             <p className="text-gray-600 mt-1">Manage your system configuration and preferences</p>
           </div>
-          
+
           {saveStatus && (
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
-              saveStatus === 'success' 
-                ? 'bg-green-100 text-green-800' 
-                : 'bg-red-100 text-red-800'
-            }`}>
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${saveStatus === 'success'
+              ? 'bg-green-100 text-green-800'
+              : 'bg-red-100 text-red-800'
+              }`}>
               {saveStatus === 'success' ? <FaCheck /> : <FaTimes />}
               {saveStatus === 'success' ? 'Settings saved!' : 'Failed to save settings'}
             </div>
@@ -510,11 +512,10 @@ export default function Settings() {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`w-full flex items-center gap-3 px-3 py-2 text-left rounded-lg transition-colors ${
-                        activeTab === tab.id
-                          ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                          : 'text-gray-700 hover:bg-gray-50'
-                      }`}
+                      className={`w-full flex items-center gap-3 px-3 py-2 text-left rounded-lg transition-colors ${activeTab === tab.id
+                        ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                        : 'text-gray-700 hover:bg-gray-50'
+                        }`}
                     >
                       <Icon className="w-4 h-4" />
                       {tab.label}
@@ -552,7 +553,7 @@ export default function Settings() {
                   </div>
                 </div>
               </div>
-              
+
               <div className="p-6">
                 {renderTabContent()}
               </div>

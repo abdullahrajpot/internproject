@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
+import { useSettings } from '../../Contexts/SettingsContext';
 import { useUsers } from '../../Contexts/UserContext';
 import {
   FaUsers,
@@ -34,6 +35,7 @@ import { fetchUsers, fetchTasks, fetchAnalytics, fetchTaskTrends, fetchNotificat
 export default function DashboardHome() {
   const navigate = useNavigate();
   const { users, getUsersByRole } = useUsers() || {};
+  const { formatDate } = useSettings();
   const [tasks, setTasks] = useState([]);
   const [tasksLoading, setTasksLoading] = useState(true);
   const [recentActivity, setRecentActivity] = useState([]);
@@ -490,7 +492,7 @@ export default function DashboardHome() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-gray-900 truncate">{item.text}</p>
-                      <p className="text-xs text-gray-500">{item.date ? new Date(item.date).toLocaleDateString() : 'Recently'}</p>
+                      <p className="text-xs text-gray-500">{item.date ? formatDate(item.date) : 'Recently'}</p>
                     </div>
                     {item.priority === 'high' && (
                       <div className="flex-shrink-0">

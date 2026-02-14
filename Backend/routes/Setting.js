@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+console.log('--- Setting Routes Loaded ---');
 const { protect, authorize } = require('../middleware/auth');
 const { getSettings, updateSettings } = require('../controllers/settingController');
 

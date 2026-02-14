@@ -6,6 +6,7 @@ import Tasks from './Tasks';
 import Calendar from './Calender';
 import Profile from './Profile';
 import Reports from './Reports';
+import Communications from '../DashBoard/Communications';
 export default function InternDashboardRoutes() {
   return (
     <Routes>
@@ -16,6 +17,7 @@ export default function InternDashboardRoutes() {
         <Route path="Reports" element={<Reports />} />
         <Route path="calender" element={<Calendar />} />
         <Route path="Profile" element={<Profile />} />
+        <Route path="messages" element={<Communications />} />
 
       </Route>
     </Routes>

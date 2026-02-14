@@ -4,6 +4,7 @@ const Setting = require('../models/Setting');
 // @route   GET /api/settings
 // @access  Admin
 exports.getSettings = async (req, res) => {
+  console.log('--- getSettings Controller Called ---');
   try {
     let settings = await Setting.findOne();
 
@@ -23,6 +24,7 @@ exports.getSettings = async (req, res) => {
 // @route   PUT /api/settings
 // @access  Admin
 exports.updateSettings = async (req, res) => {
+  console.log('--- updateSettings Controller Called ---');
   try {
     let settings = await Setting.findOne();
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'http://localhost:5100/api';
 
 // Create axios instance with default config
 const api = axios.create({
@@ -59,15 +59,30 @@ export const fetchCourseAnalytics = () => apiCall('/analytics/courses');
 export const fetchPerformanceTrends = () => apiCall('/analytics/performance-trends');
 export const fetchTaskDistribution = () => apiCall('/analytics/task-distribution');
 
+// Communication API calls
+export const sendMessage = (data) => apiCall('/communications/send', { method: 'POST', data });
+export const fetchMessages = () => apiCall('/communications/messages');
+export const fetchConversation = (userId) => apiCall(`/communications/conversation/${userId}`);
+export const fetchConversations = () => apiCall('/communications/conversations');
+export const fetchAnnouncements = () => apiCall('/communications/announcements');
+export const createAnnouncement = (data) => apiCall('/communications/announcements', { method: 'POST', data });
+export const markMessageAsRead = (messageId) => apiCall(`/communications/${messageId}/read`, { method: 'PUT' });
+export const fetchUnreadCount = () => apiCall('/communications/unread-count');
+export const deleteMessage = (messageId) => apiCall(`/communications/${messageId}`, { method: 'DELETE' });
+
+// Setting API calls
+export const fetchSettings = () => apiCall('/settings');
+export const updateSettings = (data) => apiCall('/settings', { method: 'PUT', data });
+
 // Check if backend is running
 export const checkBackendHealth = async () => {
   try {
-    const response = await axios.get('http://localhost:5000/health', { timeout: 5000 });
+    const response = await axios.get('http://localhost:5100/health', { timeout: 5000 });
     return { success: true, message: response.data };
   } catch (error) {
     // Try the main endpoint as fallback
     try {
-      const response = await axios.get('http://localhost:5000/', { timeout: 5000 });
+      const response = await axios.get('http://localhost:5100/', { timeout: 5000 });
       return { success: true, message: response.data };
     } catch (fallbackError) {
       return {

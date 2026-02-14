@@ -16,6 +16,11 @@ const communicationSchema = new mongoose.Schema({
     enum: ['admin', 'intern', 'user', 'all'],
     required: true, // Define who the message is intended for (specific role or all)
   },
+  type: {
+    type: String,
+    enum: ['message', 'announcement'],
+    default: 'message'
+  },
   subject: {
     type: String,
     required: true,
@@ -24,6 +29,12 @@ const communicationSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  attachments: [{
+    url: String,
+    name: String,
+    fileType: String,
+    size: Number
+  }],
   isRead: {
     type: Boolean,
     default: false,
